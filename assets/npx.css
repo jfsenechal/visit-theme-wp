@@ -33,7 +33,7 @@ li.nav-top-xl {
 }
 
 figcaption {
-  @apply bg-caractere bg-opacity-60 text-white p-4;
+  @apply bg-caractere opacity-60 text-white p-4;
 }
 
 .divcontact{
