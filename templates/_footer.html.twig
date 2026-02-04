@@ -1,0 +1,53 @@
+<footer data-template="{{ showTemplate() }}"
+        class="flex flex-col justify-between bg-caractere p-5 pb-20 font-montserrat-light text-white xl:grid xl:grid-cols-4 xl:pb-5"
+>
+    <div class="flex flex-wrap gap-2 md:w-56 lg:64">
+        <a href="/{{ locale }}" class="hover:scale-125 transition-all duration-700">
+            <img src="{{ template_uri() }}/assets/tartine/visit_logo.png"
+                 alt="logo visit" class="w22-20 h-12"/>
+        </a>
+        <a href="https://www.marche.be" class="hover:scale-125 transition-all duration-700"
+           title="template">
+            <img src="{{ template_uri() }}/assets/tartine/marche_logo.png"
+                 alt="logo ville" class="w22-20 h-12"/>
+        </a>
+        <a href="https://visitwallonia.be/" class="hover:scale-125 transition-all duration-700"
+           title="template">
+            <img src="{{ template_uri() }}/assets/tartine/VISITWalloniaBlanc.png"
+                 alt="logo visit wallonia" class="w22-20 h-12"/>
+        </a>
+    </div>
+    <div class="border-l border-l-white/50 px-3">
+        <h4 class="font-montserrat-semi-bold">{{ 'menu.name'|trans }}</h4>
+        <ul class="grid grid-cols-2 p-2 text-sm leading-6 xl:grid-cols-1">
+            <li class="px-2">
+                <a href="{{ items.idees.url }}">{{ items.idees.name }}</a>
+            </li>
+            <li class="px-2">
+                <a href="{{ items.inspirations.url }}">{{ items.inspirations.name }}</a>
+            </li>
+            <li class="px-2">
+                <a href="{{ items.sorganiser.name }}">{{ items.sorganiser.name }}</a>
+            </li>
+            <li class="px-2">
+                <a href="{{ items.agenda.url }}">{{ items.agenda.name }}</a>
+            </li>
+            <li class="px-2">
+                <a href="{{ items.pratique.url }}">{{ items.pratique.name }}</a>
+            </li>
+        </ul>
+    </div>
+    {% include '@VisitTail/footer/_shortcut.html.twig' %}
+    <div class="border-l border-l-white/50 px-3">
+        <h4 class="font-montserrat-semi-bold">{{ 'menu.contact'|trans }}</h4>
+        <div class="mb-2 text-sm leading-6">
+            {{ 'office.name'|trans }}<br/>
+            <a href="tel:+3284326946">+32(0)84 32 69 46</a><br/>
+            {{ 'hours.week'|trans }} {{ 'hours.week_time'|trans }}<br/>
+            {{ 'hours.friday'|trans }} {{ 'hours.friday_time'|trans }}<br/>
+        </div>
+        {% include '@VisitTail/header/_icones_social.html.twig' %}
+    </div>
+    {% include '@VisitTail/footer/_copyright.html.twig' %}
+</footer>
+{% include '@VisitTail/footer/_analytics.html.twig' %}

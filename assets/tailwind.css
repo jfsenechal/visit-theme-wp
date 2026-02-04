@@ -1,0 +1,151 @@
+@import "tailwindcss";
+@import "./npx.css";
+
+@source "../templates/**/*.{html,twig}";
+
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/typography";
+
+@theme {
+    /* Font families */
+    --font-montserrat: Montserrat, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-montserrat-medium: montserrat-medium, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-montserrat-thin: montserrat-thin, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-montserrat-light: montserrat-light, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-montserrat-extra-light: montserrat-extra-light, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-montserrat-regular: montserrat-regular, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-montserrat-bold: montserrat-bold, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-montserrat-semi-bold: montserrat-semi-bold, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-montserrat-extra-bold: montserrat-extra-bold, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+    /* Custom colors */
+    --color-cta-light: #fd8383;
+    --color-cta-dark: #487F89;
+    --color-cta-hover: #FD83838C;
+    --color-cta-green: #16BA99;
+    --color-patrimony: #AAB7D8;
+    --color-walk: #64966F;
+    --color-art: #F5CC73;
+    --color-delicacy: #EFBFB1;
+    --color-party: #EFD7CD;
+    --color-home: #E8DACB;
+    --color-caractere: #636061;
+    --color-borderjf: #dee2e6;
+    --color-pastel: #e7dacb;
+    --color-grey-dark: #636061;
+    --color-grey-basic: #808080;
+    --color-bglighter: #ededec;
+    --color-body: #212529;
+    --color-carto-main: #354254;
+    --color-carto-pink: #bd2d86;
+    --color-carto-gray300: #6b7e9b;
+    --color-carto-gray200: #a8b2c1;
+    --color-carto-gray100: #e6e3e3;
+    --color-carto-green: #bdc900;
+
+    /* Box shadows */
+    --shadow-topNav: 0 -3px 0 0 #fd8383 inset;
+
+    /* Flex */
+    --flex-full: 100% 1 1;
+
+    /* Object position */
+    --object-position-top-center: top center;
+    --object-position-center-center: center center;
+    --object-position-bottom-center: bottom center;
+
+    /* Keyframes */
+    --animate-shimmer: shimmer 6s infinite ease-in-out;
+    --animate-bouncejf: bouncejf 2s linear;
+    --animate-leftjf: leftjf 2s linear;
+
+    @keyframes shimmer {
+        0% {
+            background-position: left;
+        }
+        50% {
+            background-position: right;
+        }
+        100% {
+            background-position: left;
+        }
+    }
+
+    @keyframes leftjf {
+        0% {
+            transform: translateX(-4rem);
+        }
+        50% {
+            transform: translateX(-2rem);
+        }
+        100% {
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes bouncejf {
+        0% {
+            transform: translateY(-4rem);
+        }
+        50% {
+            transform: translateY(0);
+        }
+        100% {
+            transform: translateY(0);
+        }
+    }
+}
+
+@layer base {
+    html {
+        @apply scroll-pt-3 scroll-smooth font-montserrat-regular text-base;
+        /* see https://www.getrevue.co/profile/shrutibalasa/issues/did-you-know-about-scroll-padding-easy-solution-to-fixed-header-problem-1325973 */
+    }
+
+    body {
+        @apply antialiased text-gray-800;
+    }
+
+    img, video, iframe {
+        @apply object-cover max-w-full object-top-center;
+        block-size: auto;
+        /*max-inline-size: 100%;*/
+        /* see https://web.dev/learn/design/responsive-images/ */
+    }
+}
+
+@layer components {
+    #app {
+        @apply grid min-h-screen;
+        grid-template-rows: auto 1fr auto;
+    }
+}
+
+@utility bg-home-color {
+    background: linear-gradient(90deg, rgba(77, 77, 77, 0.35), rgba(231, 218, 203, 0.35));
+}
+
+@utility underlinePink {
+    @apply bg-gradient-to-r from-pink-500
+    to-purple-500 bg-[length:0px_3px] bg-left-bottom
+    bg-no-repeat
+    transition-[background-size]
+    duration-500
+    hover:bg-[length:100%_3px];
+}
+
+@utility underlineGrey {
+    @apply bg-gradient-to-r from-pink-500
+    to-purple-500 bg-[length:0px_3px] bg-left-bottom
+    bg-no-repeat
+    transition-[background-size]
+    duration-500
+    hover:bg-[length:100%_3px];
+}
+
+@utility fillPink {
+    @apply text-caractere
+    ease-in-out transition-all
+    duration-500
+    hover:text-pink-500;
+}
