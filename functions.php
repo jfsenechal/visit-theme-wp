@@ -12,7 +12,7 @@ use VisitMarche\ThemeWp\Inc\AssetsLoader;
 if (WP_DEBUG === false) {
     HtmlErrorRenderer::setTemplate(get_template_directory().'/error500.php');
 } else {
-   // Debug::enable();
+   //Debug::enable();
 }
 /**
  * Initialisation du thème

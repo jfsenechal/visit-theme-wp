@@ -2,45 +2,20 @@
 
 namespace VisitMarche\ThemeWp\Lib;
 
-use AcMarche\Pivot\DependencyInjection\PivotContainer;
-use AcMarche\Pivot\Utils\LocalSwitcherPivot;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
 use Symfony\Component\Translation\Translator;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LocaleHelper
 {
-    private static ?LocalSwitcherPivot $localeSwitcher = null;
-
-    private static function init()
-    {
-        if (!self::$localeSwitcher) {
-            self::$localeSwitcher = PivotContainer::getLocalSwitcherPivot();
-        }
-    }
-
     public static function getSelectedLanguage(): string
     {
         $current_lang = apply_filters('wpml_current_language', null);
         if (!$current_lang) {
             $current_lang = 'fr';
         }
-        self::setCurrentLanguageSf($current_lang);
 
         return $current_lang;
-    }
-
-    public static function getCurrentLanguageSf(): string
-    {
-        self::init();
-
-        return self::$localeSwitcher->getLocale();
-    }
-
-    public static function setCurrentLanguageSf(string $locale): void
-    {
-        self::init();
-        self::$localeSwitcher->setLocale($locale);
     }
 
     public static function iniTranslator(): TranslatorInterface
