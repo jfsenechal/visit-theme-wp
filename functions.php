@@ -4,17 +4,7 @@ namespace VisitMarche\ThemeWp;
 
 use Symfony\Component\ErrorHandler\Debug;
 use Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer;
-use VisitMarche\ThemeTail\Inc\AdminBar;
-use VisitMarche\ThemeTail\Inc\AdminPage;
-use VisitMarche\ThemeTail\Inc\Ajax;
-use VisitMarche\ThemeTail\Inc\ApiRoutes;
-use VisitMarche\ThemeTail\Inc\AssetsLoad;
-use VisitMarche\ThemeTail\Inc\OpenGraph;
-use VisitMarche\ThemeTail\Inc\SecurityConfig;
-use VisitMarche\ThemeTail\Inc\Seo;
-use VisitMarche\ThemeTail\Inc\SetupTheme;
-use VisitMarche\ThemeTail\Inc\ShortCodes;
-use VisitMarche\ThemeTail\Lib\RouterPivot;
+use VisitMarche\ThemeWp\Inc\AssetsLoader;
 
 /**
  * Template sf
@@ -22,7 +12,7 @@ use VisitMarche\ThemeTail\Lib\RouterPivot;
 if (WP_DEBUG === false) {
     HtmlErrorRenderer::setTemplate(get_template_directory().'/error500.php');
 } else {
-    Debug::enable();
+   // Debug::enable();
 }
 /**
  * Initialisation du thème
@@ -31,7 +21,7 @@ if (WP_DEBUG === false) {
 /**
  * Chargement css, js
  */
-//new AssetsLoad();
+new AssetsLoader();
 /**
  * Un peu de sécurité
  */

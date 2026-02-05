@@ -1,19 +1,19 @@
-<footer data-template="{{ showTemplate() }}"
+<footer 
         class="flex flex-col justify-between bg-caractere p-5 pb-20 font-montserrat-light text-white xl:grid xl:grid-cols-4 xl:pb-5"
 >
     <div class="flex flex-wrap gap-2 md:w-56 lg:64">
         <a href="/{{ locale }}" class="hover:scale-125 transition-all duration-700">
-            <img src="{{ template_uri() }}/assets/tartine/visit_logo.png"
+            <img src="{{ template_uri() }}/assets/images/visit_logo.png"
                  alt="logo visit" class="w22-20 h-12"/>
         </a>
         <a href="https://www.marche.be" class="hover:scale-125 transition-all duration-700"
            title="template">
-            <img src="{{ template_uri() }}/assets/tartine/marche_logo.png"
+            <img src="{{ template_uri() }}/assets/images/marche_logo.png"
                  alt="logo ville" class="w22-20 h-12"/>
         </a>
         <a href="https://visitwallonia.be/" class="hover:scale-125 transition-all duration-700"
            title="template">
-            <img src="{{ template_uri() }}/assets/tartine/VISITWalloniaBlanc.png"
+            <img src="{{ template_uri() }}/assets/images/VISITWalloniaBlanc.png"
                  alt="logo visit wallonia" class="w22-20 h-12"/>
         </a>
     </div>
@@ -37,7 +37,7 @@
             </li>
         </ul>
     </div>
-    {% include '@VisitTail/footer/_shortcut.html.twig' %}
+    {% include '@Visit/footer/_shortcut.html.twig' %}
     <div class="border-l border-l-white/50 px-3">
         <h4 class="font-montserrat-semi-bold">{{ 'menu.contact'|trans }}</h4>
         <div class="mb-2 text-sm leading-6">
@@ -46,8 +46,8 @@
             {{ 'hours.week'|trans }} {{ 'hours.week_time'|trans }}<br/>
             {{ 'hours.friday'|trans }} {{ 'hours.friday_time'|trans }}<br/>
         </div>
-        {% include '@VisitTail/header/_icones_social.html.twig' %}
+        {% include '@Visit/header/_icones_social.html.twig' %}
     </div>
-    {% include '@VisitTail/footer/_copyright.html.twig' %}
+    {% include '@Visit/footer/_copyright.html.twig' %}
 </footer>
-{% include '@VisitTail/footer/_analytics.html.twig' %}
+{% include '@Visit/footer/_analytics.html.twig' %}

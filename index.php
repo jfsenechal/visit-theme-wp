@@ -1,10 +1,12 @@
 <?php
-namespace VisitMarche\ThemeWp;
 
-use VisitMarche\ThemeTail\Lib\Twig;
+namespace VisitMarche\ThemeWp;
 
 get_header();
 
-
-
+?>
+    <div class="container">
+        hello
+    </div>
+    <?php
 get_footer();
