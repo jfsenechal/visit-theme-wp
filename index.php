@@ -2,17 +2,15 @@
 
 namespace VisitMarche\ThemeWp;
 
-use AcMarche\PivotAi\Kernel;
-use AcMarche\PivotAi\Service\PivotClient;
+use VisitMarche\ThemeWp\Lib\PivotRepository;
 
 get_header();
-$kernel = new Kernel($_ENV['APP_ENV'], WP_DEBUG);
-$kernel->boot();
 
-$pivotClient = $kernel->getContainer()->get(PivotClient::class);
-$response = $pivotClient->fetchOffersByCriteria();
-
-dd($response);
+$pivotRepository = new PivotRepository();
+$offers = $pivotRepository->loadEvents();
+foreach ($offers as $offer) {
+    dd($offer);
+}
 
 
 ?>
