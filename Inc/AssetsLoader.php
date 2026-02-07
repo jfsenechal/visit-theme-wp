@@ -11,7 +11,7 @@ class AssetsLoader
     {
         add_action('wp_enqueue_scripts', [$this,'remove_unnecessary_core_styles'], 9999);
         add_action('wp_enqueue_scripts', fn() => $this->mainAssets());
-        //add_filter('script_loader_tag', [$this, 'add_defer_attribute'], 10, 2);
+        add_filter('script_loader_tag', [$this, 'add_defer_attribute'], 10, 2);
     }
 
     public function mainAssets(): void
@@ -32,7 +32,7 @@ class AssetsLoader
         );
 
         wp_enqueue_script(
-            'alpine-js',
+            'visit-alpine-js',
             '//unpkg.com/alpinejs',
             [],
             false,
@@ -43,7 +43,7 @@ class AssetsLoader
     function add_defer_attribute($tag, $handle): string
     {
         // Add defer to Alpine.js and component scripts
-        if (in_array($handle, ['marchebe-alpine', 'marchebe-header-nav', 'marchebe-category-show'])) {
+        if (in_array($handle, ['visit-alpine-js'])) {
             return str_replace(' src', ' defer src', $tag);
         }
 
