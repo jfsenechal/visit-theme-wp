@@ -2,8 +2,8 @@
     <ul class="grid grid-cols-5 items-center font-montserrat-semi-bold justify-evenly bg-caractere xl:bg-transparent text-white xl:flex xl:items-start xl:gap-6 xl:font-montserrat-semi-bold"
         id="navigationTop"
         x-data="menuMobile">
-        {% include '@VisitTail/header/mobile/_nav_icon_home_mobile.html.twig' %}
-        {% include '@VisitTail/header/mobile/_nav_icon_search_mobile.html.twig' %}
+        {% include '@Visit/header/mobile/_nav_icon_home_mobile.html.twig' %}
+        {% include '@Visit/header/mobile/_nav_icon_search_mobile.html.twig' %}
         <li
                 class="xl:hidden btn-vivre">
             <label for="checkboxMenu" class="xl:hidden icon-menu-mobile cursor-pointer">
@@ -16,9 +16,9 @@
                 </button>
                 <span class="text-menu-mobile">{{ 'menu.name'|trans }}</span>
             </label>
-            {% include '@VisitTail/header/mobile/_nav_items_mobile.html.twig' %}
+            {% include '@Visit/header/mobile/_nav_items_mobile.html.twig' %}
         </li>
-        {% include '@VisitTail/header/mobile/_nav_shortcut_mobile.html.twig' %}
-        {% include '@VisitTail/header/xl/_nav_items_xl.html.twig' %}
+        {% include '@Visit/header/mobile/_nav_shortcut_mobile.html.twig' %}
+        {% include '@Visit/header/xl/_nav_items_xl.html.twig' %}
     </ul>
 </nav>

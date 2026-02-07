@@ -1,10 +1,10 @@
-{% include '@VisitTail/article/_header_article.html.twig' %}
-{% include '@VisitTail/article/_cadre.html.twig' %}
+{% include '@Visit/article/_header_article.html.twig' %}
+{% include '@Visit/article/_cadre.html.twig' %}
 
 <main class="container px-4 mt-2 xl:mt-4 mx-auto mb-8"
       x-data="refreshOffres" x-init="initOffres({{ category.cat_ID }},'{{ locale }}')">
-    {% include '@VisitTail/category/_filtres.html.twig' %}
-    {% include '@VisitTail/category/_events_alpine.html.twig' %}
+    {% include '@Visit/category/_filtres.html.twig' %}
+    {% include '@Visit/category/_events_alpine.html.twig' %}
     <noscript>
         <ul class="pt-6 grid grid-cols-1 gap-2 xl:gap-4 xl:grid-cols-3">
             {% for item in events %}
