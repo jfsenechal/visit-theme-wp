@@ -2,9 +2,9 @@
 
 namespace VisitMarche\ThemeWp\Lib;
 
+use AcMarche\PivotAi\Api\PivotClient;
 use AcMarche\PivotAi\Entity\Pivot\Offer;
 use AcMarche\PivotAi\Enums\TypeOffreEnum;
-use AcMarche\PivotAi\Service\PivotClient;
 
 readonly class PivotRepository
 {
