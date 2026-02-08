@@ -2,6 +2,7 @@
 /**
  * Template Name: Agenda
  */
+
 namespace VisitMarche\ThemeWp;
 
 use VisitMarche\ThemeWp\Inc\Theme;
@@ -16,7 +17,10 @@ $events = $pivotRepository->loadEvents();
 $category = get_category(Theme::CATEGORY_PATRIMOINES);
 $image = '';
 $filtres = [];
-dd($events[0]);
+foreach ($events as $event) {
+    dump($event->getClosestUpcomingDate()?->endDate->format('Y-m-d'));
+}
+dd(123);
 Twig::rendPage(
     '@Visit/agenda.html.twig',
     [
@@ -30,5 +34,5 @@ Twig::rendPage(
         'icone' => null,
     ]
 );
-
+//lm
 get_footer();
