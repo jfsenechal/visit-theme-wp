@@ -10,13 +10,13 @@
             <li class="flex flex-row gap-2">
                 {% if dateEvent.isSingleDay() %}
                     {% if dateEvent.startDate %}
-                        <span>{{ dateEvent.startDate.date|format_date('full') }}</span>
+                        <span>{{ dateEvent.startDate|format_date('full') }}</span>
                     {% endif %}
                 {% else %}
                     {% if dateEvent.dateRange %}
                         <span>{{ dateEvent.dateRange }}</span>
                     {% else %}
-                        Du {{ dateEvent.startDate.date|format_date('full') }}  au {{ dateEvent.endDate.date|format_date('full') }}
+                        Du {{ dateEvent.startDate|format_date('full') }}  au {{ dateEvent.endDate|format_date('full') }}
                     {% endif %}
                 {% endif %}
 

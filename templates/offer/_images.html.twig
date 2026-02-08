@@ -3,7 +3,7 @@
         <div class="swiper-wrapper">
             {% for media in offer.images %}
                 <div class="swiper-slide">
-                    <img src="{{ media }}" alt="orange tree" loading="lazy"/>
+                    <img src="{{ media.url }}" alt="{{ media.name ?? offer.nom }}" loading="lazy"/>
                 </div>
             {% endfor %}
         </div>
@@ -20,5 +20,5 @@
         });
     </script>
 {% elseif offer.images|length > 0 %}
-    <img src="{{ offer.images[0] }}" alt="orange tree" loading="lazy"/>
+    <img src="{{ offer.images[0].url }}" alt="{{ offer.images[0].name ?? offer.nom }}" loading="lazy"/>
 {% endif %}

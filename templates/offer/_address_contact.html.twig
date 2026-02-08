@@ -17,7 +17,7 @@
         </address>
     </div>
 
-    {% if offer.tels|length > 0 %}
+    {% if offer.communication and offer.communication.phones|length > 0 %}
         <div class="divcontact">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor"
@@ -27,14 +27,14 @@
             </svg>
             <div class="flex flex-col">
                 <span class="">Téléphone(s)</span>
-                {% for tel in offer.tels %}
+                {% for tel in offer.communication.phones %}
                     <a href="tel:{{ tel }}" class="">{{ tel }}</a>
                 {% endfor %}
             </div>
         </div>
     {% endif %}
 
-    {% if offer.emails|length > 0 %}
+    {% if offer.communication and offer.communication.emails|length > 0 %}
         <div class="divcontact">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor"
@@ -44,14 +44,14 @@
             </svg>
             <div class="flex flex-col">
                 <span class="">Emails</span>
-                {% for email in offer.emails %}
+                {% for email in offer.communication.emails %}
                     <a href="mailto:{{ email }}" class="">{{ email }}</a>
                 {% endfor %}
             </div>
         </div>
     {% endif %}
 
-    {% if offer.webs|length > 0 %}
+    {% if offer.communication and offer.communication.website %}
         <div class="divcontact">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor"
@@ -61,11 +61,9 @@
             </svg>
             <div class="flex flex-col">
                 <span class="">Site web</span>
-                {% for web in offer.webs %}
-                    <a href="{{ web.value }}" target="_blank"
-                       class="">{{ web.value }}
-                    </a>
-                {% endfor %}
+                <a href="{{ offer.communication.website }}" target="_blank"
+                   class="">{{ offer.communication.website }}
+                </a>
             </div>
         </div>
     {% endif %}
