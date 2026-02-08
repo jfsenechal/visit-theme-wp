@@ -18,9 +18,9 @@ $category = get_category(Theme::CATEGORY_PATRIMOINES);
 $image = '';
 $filtres = [];
 foreach ($events as $event) {
-    dump($event->getClosestUpcomingDate()?->endDate->format('Y-m-d'));
+//    dump($event->getClosestUpcomingDate()?->endDate->format('Y-m-d'));
 }
-dd(123);
+
 Twig::rendPage(
     '@Visit/agenda.html.twig',
     [
