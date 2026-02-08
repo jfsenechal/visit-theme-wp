@@ -17,9 +17,6 @@ $events = $pivotRepository->loadEvents();
 $category = get_category(Theme::CATEGORY_PATRIMOINES);
 $image = '';
 $filtres = [];
-foreach ($events as $event) {
-//    dump($event->getClosestUpcomingDate()?->endDate->format('Y-m-d'));
-}
 
 Twig::rendPage(
     '@Visit/agenda.html.twig',

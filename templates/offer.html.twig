@@ -4,13 +4,13 @@
     <article
             class="grid grid-cols-1 xl:grid-cols-[60%_40%] items-start mt-2 xl:mt-4 mx-auto px-4">
         <div class="p-4 prose lg:prose-xl">
-            <h1 class="font-bold text-2xl text-caractere">{{ offre.name }}</h1>
-            {% include '@Visit/offre/_dates.html.twig' %}
-            {% include '@Visit/offre/_address_contact.html.twig' %}
-            {% include '@Visit/offre/_descriptions.html.twig' %}
-            {% include '@Visit/offre/_specifications.html.twig' %}
+            <h1 class="font-bold text-2xl text-caractere">{{ offer.name }}</h1>
+            {% include '@Visit/offer/_dates.html.twig' %}
+            {% include '@Visit/offer/_address_contact.html.twig' %}
+            {% include '@Visit/offer/_descriptions.html.twig' %}
+            {% include '@Visit/offer/_specifications.html.twig' %}
             {% include '@Visit/article/_classements.html.twig' %}
-            {% include '@Visit/offre/_gpx_details.html.twig' %}
+            {% include '@Visit/offer/_gpx_details.html.twig' %}
         </div>
         <aside class="p-4">
             {% include '@Visit/article/_share.html.twig' %}
@@ -18,9 +18,9 @@
             {% include '@Visit/article/_see_also.html.twig' %}
         </aside>
     </article>
-    {% include '@Visit/offre/_images.html.twig' %}
+    {% include '@Visit/offer/_images.html.twig' %}
     {% include '@Visit/map/_carte.html.twig' %}
     {% include '@Visit/map/_graph.html.twig' %}
     {% include '@Visit/map/_pois.html.twig' %}
-    {% include '@Visit/offre/_gpx_appli.html.twig' %}
+    {% include '@Visit/offer/_gpx_appli.html.twig' %}
 </main>

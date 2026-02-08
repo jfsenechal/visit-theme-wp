@@ -1,5 +1,5 @@
 <div class="grid grid-cols-1 xl:grid-cols-[20rem_1fr] gap-2">
-    {% for classement in offre.classements %}
+    {% for classement in offer.classements %}
         {% if classement.data|pivot_check_display %}
             <span class="font-montserrat-semi-bold text-cta-dark">
                 {{ classement.urnDefinition.labelByLanguage(locale) }}

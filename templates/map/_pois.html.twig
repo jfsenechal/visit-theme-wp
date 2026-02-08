@@ -1,9 +1,9 @@
-{% if offre.pois|length >0 %}
+{% if offer.pois|length >0 %}
     <h3 class="font-montserrat-semi-bold text-cta-light text-md border-bottom">
         {{ 'article.pois'|trans }}
     </h3>
     <ul class="pt-6 grid grid-cols-1 gap-2 xl:grid-cols-3 mb-6">
-        {% for item in offre.pois %}
+        {% for item in offer.pois %}
             <li class=" rounded-lg shadow-lg">
                 <a href="{{ item.url }}" class="group grid grid-cols-1 xl:grid-cols-2 overflow-hidden xl:block">
                     <img src="{{ item.image }}"

@@ -6,16 +6,16 @@
                 <source
                         src="{{ video }}"
                         type="video/mp4"
-                        poster="{{ image }}"
+                        poster="{{ image.url }}"
                 />
                 <img class="w-full h-full object-cover object-center absolute mix-blend-overlay"
                         {% if imagePosition is defined %} style="{{ 'object-position :'~ imagePosition }}" {% endif %}
-                     src="{{ image ?? '' }}" alt=""/>
+                     src="{{ image.url ?? '' }}" alt=""/>
             </video>
         {% else %}
             <img class="w-full h-full object-cover object-center absolute mix-blend-overlay"
                     {% if imagePosition is defined %} style="{{ 'object-position :'~ imagePosition }}" {% endif %}
-                 src="{{ image ?? '' }}" alt=""/>
+                 src="{{ image.url ?? '' }}" alt=""/>
         {% endif %}
 
         <div class="flex flex-col px-6 absolute left-0 bottom-4">

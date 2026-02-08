@@ -93,6 +93,7 @@ class Twig
             fn(): string => get_template_directory_uri()
         );
     }
+
     /**
      * For sharing pages
      */
@@ -125,6 +126,16 @@ class Twig
         } catch (LoaderError|RuntimeError|SyntaxError $e) {
             echo $e->getMessage();
         }
+    }
+
+    public static function rend404Page(): string
+    {
+        echo '404';
+    }
+
+    public static function rend500Page(string $getMessage): string
+    {
+        echo '500';
     }
 
 }

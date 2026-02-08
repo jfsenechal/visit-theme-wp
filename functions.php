@@ -4,6 +4,7 @@ namespace VisitMarche\ThemeWp;
 
 use Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer;
 use VisitMarche\ThemeWp\Inc\AssetsLoader;
+use VisitMarche\ThemeWp\Inc\RouterPivot;
 use VisitMarche\ThemeWp\Lib\Frankenphp;
 
 /**
@@ -36,7 +37,7 @@ new AssetsLoader();
 /**
  * Ajout de routage pour pivot
  */
-//new RouterPivot();
+new RouterPivot();
 /**
  * Balises pour le référencement
  */

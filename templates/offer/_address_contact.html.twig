@@ -10,14 +10,14 @@
         </svg>
         <address class="flex flex-col">
             <span class="">Adresse</span>
-            <span class="">{{ offre.adresse1.rue }}</span>
+            <span class="">{{ offer.adresse1.rue }}</span>
             <span class="">
-          {{ offre.adresse1.cp }} {{ offre.adresse1.localite[0].value }}
+          {{ offer.adresse1.cp }} {{ offer.adresse1.localite[0].value }}
         </span>
         </address>
     </div>
 
-    {% if offre.tels|length > 0 %}
+    {% if offer.tels|length > 0 %}
         <div class="divcontact">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor"
@@ -27,14 +27,14 @@
             </svg>
             <div class="flex flex-col">
                 <span class="">Téléphone(s)</span>
-                {% for tel in offre.tels %}
+                {% for tel in offer.tels %}
                     <a href="tel:{{ tel }}" class="">{{ tel }}</a>
                 {% endfor %}
             </div>
         </div>
     {% endif %}
 
-    {% if offre.emails|length > 0 %}
+    {% if offer.emails|length > 0 %}
         <div class="divcontact">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor"
@@ -44,14 +44,14 @@
             </svg>
             <div class="flex flex-col">
                 <span class="">Emails</span>
-                {% for email in offre.emails %}
+                {% for email in offer.emails %}
                     <a href="mailto:{{ email }}" class="">{{ email }}</a>
                 {% endfor %}
             </div>
         </div>
     {% endif %}
 
-    {% if offre.webs|length > 0 %}
+    {% if offer.webs|length > 0 %}
         <div class="divcontact">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor"
@@ -61,7 +61,7 @@
             </svg>
             <div class="flex flex-col">
                 <span class="">Site web</span>
-                {% for web in offre.webs %}
+                {% for web in offer.webs %}
                     <a href="{{ web.value }}" target="_blank"
                        class="">{{ web.value }}
                     </a>

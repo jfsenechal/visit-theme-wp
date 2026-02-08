@@ -1,5 +1,5 @@
 
-{% for description in offre.descriptionsByLanguage(locale) %}
+{% for description in offer.descriptionsByLanguage(locale) %}
     {% if description.urn == 'urn:fld:descmarket' %}
         {{ description.value|raw }}
     {% endif %}

@@ -1,7 +1,7 @@
-{% if offre.images|length > 1 %}
+{% if offer.images|length > 1 %}
     <div class="swiper mySwiper">
         <div class="swiper-wrapper">
-            {% for media in offre.images %}
+            {% for media in offer.images %}
                 <div class="swiper-slide">
                     <img src="{{ media }}" alt="orange tree" loading="lazy"/>
                 </div>
@@ -19,6 +19,6 @@
             },
         });
     </script>
-{% elseif offre.images|length > 0 %}
-    <img src="{{ offre.images[0] }}" alt="orange tree" loading="lazy"/>
+{% elseif offer.images|length > 0 %}
+    <img src="{{ offer.images[0] }}" alt="orange tree" loading="lazy"/>
 {% endif %}
