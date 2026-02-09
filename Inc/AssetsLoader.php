@@ -23,7 +23,7 @@ class AssetsLoader
 
         wp_enqueue_style(
             'visitmarche-css',
-            get_template_directory_uri().'/assets/visit.css',
+            get_template_directory_uri().'/assets/css/visit.css',
         );
 
         wp_enqueue_style(
