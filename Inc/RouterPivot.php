@@ -84,7 +84,7 @@ class RouterPivot
 
     public static function getRouteOfferToPivotSite(string $codeCgt): string
     {
-        return 'https://pivotgest.tourismewallonie.be/PivotGest-4.0.0/detail.xhtml?codeCgt='.$codeCgt;
+        return $_ENV['PIVOT_GEST_URI'].'./detail.xhtml?codeCgt='.$codeCgt;
     }
 
     public function addOfferRoute(): void
