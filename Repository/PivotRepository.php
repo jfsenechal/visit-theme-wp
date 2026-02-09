@@ -1,12 +1,13 @@
 <?php
 
-namespace VisitMarche\ThemeWp\Lib;
+namespace VisitMarche\ThemeWp\Repository;
 
 use AcMarche\PivotAi\Api\PivotClient;
 use AcMarche\PivotAi\Entity\Pivot\Offer;
 use AcMarche\PivotAi\Enums\TypeOffreEnum;
 use VisitMarche\ThemeWp\Inc\RouterPivot;
 use VisitMarche\ThemeWp\Inc\Theme;
+use VisitMarche\ThemeWp\Lib\Di;
 
 readonly class PivotRepository
 {

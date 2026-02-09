@@ -2,7 +2,7 @@
 
 namespace VisitMarche\ThemeWp;
 
-use VisitMarche\ThemeWp\Lib\PivotRepository;
+use VisitMarche\ThemeWp\Repository\PivotRepository;
 
 get_header();
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace VisitMarche\ThemeWp\Lib;
+namespace VisitMarche\ThemeWp\Repository;
 
 use WP_Term;
 

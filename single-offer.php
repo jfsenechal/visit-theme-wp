@@ -3,8 +3,8 @@
 namespace VisitMarche\ThemeWp;
 
 use VisitMarche\ThemeWp\Inc\RouterPivot;
-use VisitMarche\ThemeWp\Lib\PivotRepository;
 use VisitMarche\ThemeWp\Lib\Twig;
+use VisitMarche\ThemeWp\Repository\PivotRepository;
 
 get_header();
 
