@@ -4,15 +4,6 @@
       x-data="refreshOffres" x-init="initOffres({{ category.cat_ID }},'{{ locale }}')">
     {% include '@Visit/category/_filtres.html.twig' %}
     {% if countArticles > 0 %}
-        {% if filterSelected == null %}
-            {% include '@Visit/category/_offres_alpine.html.twig' %}
-        {% endif %}
-        {% if filterSelected == null %} <noscript>  {% endif %}
         {% include '@Visit/category/_offres.html.twig' %}
-        {% if filterSelected == null %}  </noscript> {% endif %}
-    {% else %}
-        {% if children|length == 0 %}
-            <p class="px-4 mt-2">Aucun article trouvé</p>
-        {% endif %}
     {% endif %}
 </main>

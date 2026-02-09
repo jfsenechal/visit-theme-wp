@@ -29,8 +29,11 @@ class WpRepository
         return $children;
     }
 
-    public function findArticlesAndOffersByWpCategory(mixed $cat_ID, $filterSelected, $filterSelectedType): array
-    {
+    public function findArticlesAndOffersByWpCategory(
+        mixed $cat_ID,
+        $filterSelected = null,
+        $filterSelectedType = null
+    ): array {
         $data = [];
         $posts = $this->findArticlesByCategory($cat_ID);
 

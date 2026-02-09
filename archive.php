@@ -14,8 +14,9 @@ $categoryName = single_cat_title('', false);
 $wpRepository = new WpRepository();
 $children = $wpRepository->getChildrenOfCategory($cat_ID);
 
+
 try {
-    $offres = $wpRepository->findArticlesAndOffersByWpCategory($category->cat_ID, $filterSelected, $filterSelectedType);
+    $offres = $wpRepository->findArticlesAndOffersByWpCategory($category->cat_ID);
 } catch (\Exception $e) {
     $offres = [];
 }
@@ -25,20 +26,20 @@ Twig::rendPage(
     [
         'name' => $categoryName,
         'excerpt' => $category->description,
-        'image' => $image,
-        'video' => $video,
-        'bgCat' => $bgcat,
-        'icone' => $icone,
+        'image' => '',
+        'video' => null,
+        'bgCat' => '',
+        'icone' => '',
         'category' => $category,
-        'urlBack' => $urlBack,
+        'urlBack' => '',
         'children' => $children,
-        'filters' => $filtres,
-        'filterSelected' => $filterSelected,
-        'filterType' => $filterSelectedType,
-        'nameBack' => $nameBack,
+        'filters' => $children,
+        'filterSelected' => null,
+        'filterType' => null,
+        'nameBack' => '',
         'categoryName' => $categoryName,
         'offres' => $offres,
-        'bgcat' => $bgcat,
+        'bgcat' => '',
         'countArticles' => count($offres),
     ]
 );

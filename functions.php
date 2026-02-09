@@ -3,6 +3,10 @@
 namespace VisitMarche\ThemeWp;
 
 use Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer;
+use VisitMarche\ThemeWp\Inc\AdminBar;
+use VisitMarche\ThemeWp\Inc\AdminPages;
+use VisitMarche\ThemeWp\Inc\Ajax;
+use VisitMarche\ThemeWp\Inc\ApiRoutes;
 use VisitMarche\ThemeWp\Inc\AssetsLoader;
 use VisitMarche\ThemeWp\Inc\RouterPivot;
 use VisitMarche\ThemeWp\Inc\SetupTheme;
@@ -34,7 +38,7 @@ new AssetsLoader();
 /**
  * Enregistrement des routes api
  */
-//new ApiRoutes();
+new ApiRoutes();
 /**
  * Ajout de routage pour pivot
  */
@@ -54,15 +58,15 @@ new RouterPivot();
 /**
  * Admin pages
  */
-//new AdminPage();
+new AdminPages();
 /**
  * Add buttons to admin bar
  */
-//new AdminBar();
+new AdminBar();
 /**
  * Ajax for admin
  */
-//new Ajax();
+new Ajax();
 /**
  * Gpx viewer
  */

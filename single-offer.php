@@ -2,7 +2,9 @@
 
 namespace VisitMarche\ThemeWp;
 
+use VisitMarche\ThemeWp\Enums\LanguageEnum;
 use VisitMarche\ThemeWp\Inc\RouterPivot;
+use VisitMarche\ThemeWp\Lib\OpenAi;
 use VisitMarche\ThemeWp\Lib\Twig;
 use VisitMarche\ThemeWp\Repository\PivotRepository;
 
@@ -33,6 +35,11 @@ if (!$offer) {
 
     return;
 }
+
+$translator = OpenAi::create();
+dump($offer->nom);
+$result = $translator->translate($offer->nom, LanguageEnum::ENGLISH);
+dd($result);
 
 $latitude = $offer->address()->latitude ?? null;
 $longitude = $offer->address()->longitude ?? null;
