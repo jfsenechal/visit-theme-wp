@@ -29,14 +29,14 @@ class WpRepository
     public function getAllOffersShorts(): array
     {
         $pivotClient = Di::getInstance()->get(PivotClient::class);
-        $offerResponse = $pivotClient->fetchOffersByCriteria(PivotClient::CONTENT_LEVEL_MINIMAL);
+        $offerResponse = $pivotClient->fetchOffersByCriteria();
 
         $offres = [];
         foreach ($offerResponse->getOffers() as $offer) {
             $std = new \stdClass();
             $std->codeCgt = $offer->codeCgt;
             $std->name = $offer->nom;
-            $std->type = $offer->typeOffre?->label[0]?->value ?? '';
+            $std->type = ($offer->typeOffre && $offer->typeOffre->label) ? ($offer->typeOffre->label[0]->value ?? '') : '';
             $offres[] = $std;
         }
 
