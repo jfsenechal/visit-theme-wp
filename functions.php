@@ -5,6 +5,7 @@ namespace VisitMarche\ThemeWp;
 use Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer;
 use VisitMarche\ThemeWp\Inc\AssetsLoader;
 use VisitMarche\ThemeWp\Inc\RouterPivot;
+use VisitMarche\ThemeWp\Inc\SetupTheme;
 use VisitMarche\ThemeWp\Lib\Frankenphp;
 
 /**
@@ -21,7 +22,7 @@ if (WP_DEBUG) {
 /**
  * Initialisation du thème
  */
-//new SetupTheme();
+new SetupTheme();
 /**
  * Chargement css, js
  */

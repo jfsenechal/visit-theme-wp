@@ -49,6 +49,7 @@ class AssetsLoader
 
         return $tag;
     }
+
     function remove_unnecessary_core_styles(): void
     {
         // Remove Classic Theme Styles (Often redundant/opinionated CSS)

@@ -25,8 +25,6 @@ class RouterPivot
 
     public static function getUrlSite(): string
     {
-        global $wp;
-
         return home_url();
     }
 
