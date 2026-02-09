@@ -10,9 +10,9 @@ class Menu
     /**
      * @return \WP_Term[]
      */
-    public function getIcones(): array
+    public function getIcons(): array
     {
-            $icones = [
+            $icons = [
                 'arts' => get_category_by_slug('arts'),
                 'balades' => get_category_by_slug('balades'),
                 'fetes' => get_category_by_slug('fetes'),
@@ -20,13 +20,13 @@ class Menu
                 'patrimoine' => get_category_by_slug('patrimoine'),
             ];
 
-            foreach ($icones as $key => $icone) {
+            foreach ($icons as $key => $icone) {
                 $icone->url = get_category_link($icone);
                 $icone->colorHover = $this->hoverColor($key);
                 $icone->imageWhite = IconeEnum::iconeWhite($icone->slug);
             }
 
-            return $icones;
+            return $icons;
     }
 
     private function hoverColor(string $key): string

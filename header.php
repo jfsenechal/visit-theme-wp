@@ -24,7 +24,7 @@ wp_body_open();
 
 $menu = new Menu();
 $items = $menu->getMenuTop();
-$icons = $menu->getIcones();
+$icons = $menu->getIcons();
 Twig::rendPage(
     '@Visit/header/_header.html.twig',
     [

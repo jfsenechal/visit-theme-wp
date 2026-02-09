@@ -7,7 +7,7 @@ use VisitMarche\ThemeWp\Lib\Twig;
 
 $menu = new Menu();
 $items = $menu->getMenuTop();
-$icones = $menu->getIcones();
+$icones = $menu->getIcons();
 Twig::rendPage(
     '@Visit/_footer.html.twig',
     [
