@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VisitMarche\ThemeWp\Lib;
 
+use AcMarche\PivotAi\Api\ContentLevel;
 use AcMarche\PivotAi\Api\PivotClient;
 
 class WpRepository
@@ -29,20 +30,20 @@ class WpRepository
     public function getAllOffersShorts(): array
     {
         $pivotClient = Di::getInstance()->get(PivotClient::class);
-        $offerResponse = $pivotClient->fetchOffersByCriteria(PivotClient::CONTENT_LEVEL_MINIMAL);
+        $offerResponse = $pivotClient->fetchOffersByCriteria(ContentLevel::Minimal);
 
-        $offres = [];
+        $offers = [];
         foreach ($offerResponse->getOffers() as $offer) {
             $std = new \stdClass();
             $std->codeCgt = $offer->codeCgt;
             $std->name = $offer->nom;
             $std->type = ($offer->typeOffre && $offer->typeOffre->label) ? ($offer->typeOffre->label[0]->value ?? '') : '';
-            $offres[] = $std;
+            $offers[] = $std;
         }
 
-        usort($offres, fn(\stdClass $a, \stdClass $b) => strcasecmp($a->name ?? '', $b->name ?? ''));
+        usort($offers, fn(\stdClass $a, \stdClass $b) => strcasecmp($a->name ?? '', $b->name ?? ''));
 
-        return $offres;
+        return $offers;
     }
 
     /**
@@ -50,12 +51,12 @@ class WpRepository
      */
     public function findShortsByNameOrCode(string $search): array
     {
-        $offres = array_filter($this->getAllOffersShorts(), function (\stdClass $offre) use ($search) {
+        $offers = array_filter($this->getAllOffersShorts(), function (\stdClass $offre) use ($search) {
             return preg_match('#' . preg_quote($search, '#') . '#i', $offre->name ?? '')
                 || preg_match('#' . preg_quote($search, '#') . '#i', $offre->codeCgt ?? '');
         });
 
-        return array_values($offres);
+        return array_values($offers);
     }
 
     /**
