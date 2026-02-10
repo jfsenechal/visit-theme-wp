@@ -29,7 +29,7 @@ class WpRepository
     public function getAllOffersShorts(): array
     {
         $pivotClient = Di::getInstance()->get(PivotClient::class);
-        $offerResponse = $pivotClient->fetchOffersByCriteria();
+        $offerResponse = $pivotClient->fetchOffersByCriteria(PivotClient::CONTENT_LEVEL_MINIMAL);
 
         $offres = [];
         foreach ($offerResponse->getOffers() as $offer) {
