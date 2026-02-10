@@ -36,6 +36,7 @@ class WpRepository
     ): array {
         $data = [];
         $posts = $this->findArticlesByCategory($cat_ID);
+        $offers = [];//todo
 
         return $data;
     }
