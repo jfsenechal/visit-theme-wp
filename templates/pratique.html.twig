@@ -1,9 +1,0 @@
-{% include '@Visit/article/_header_article.html.twig' %}
-{% include '@Visit/article/_cadre.html.twig' %}
-<main class="container px-4 mt-2 xl:mt-4 mx-auto mb-8">
-    {% if countArticles > 0 %}
-           {% include '@Visit/category/_posts.html.twig' %}
-    {% else %}
-        <p class="px-4 mt-2">Aucun article trouvé</p>
-    {% endif %}
-</main>
