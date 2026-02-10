@@ -16,9 +16,9 @@ $children = $wpRepository->getChildrenOfCategory($cat_ID);
 
 
 try {
-    $offres = $wpRepository->findArticlesAndOffersByWpCategory($category->cat_ID);
+    $offers = $wpRepository->findArticlesAndOffersByWpCategory($category->cat_ID);
 } catch (\Exception $e) {
-    $offres = [];
+    $offers = [];
 }
 
 Twig::rendPage(
@@ -38,9 +38,9 @@ Twig::rendPage(
         'filterType' => null,
         'nameBack' => '',
         'categoryName' => $categoryName,
-        'offres' => $offres,
+        'offers' => $offers,
         'bgcat' => '',
-        'countArticles' => count($offres),
+        'countArticles' => count($offers),
     ]
 );
 get_footer();
