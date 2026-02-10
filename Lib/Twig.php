@@ -11,6 +11,7 @@ use Twig\Extension\DebugExtension;
 use Twig\Extra\Intl\IntlExtension;
 use Twig\Extra\String\StringExtension;
 use Twig\Loader\FilesystemLoader;
+use Twig\TwigFilter;
 use Twig\TwigFunction;
 use WP;
 
@@ -55,6 +56,7 @@ class Twig
         $twig->addFunction(self::templateUri());
         $twig->addExtension(new StringExtension());
         $twig->addExtension(new IntlExtension());
+        $twig->addFilter(self::removeHtml());
         $twig->addGlobal('template_directory', get_template_directory());
 
         return $twig;
@@ -130,12 +132,28 @@ class Twig
 
     public static function rend404Page(): string
     {
-        echo '404';
+        return '404';
     }
 
     public static function rend500Page(string $getMessage): string
     {
-        echo '500';
+        return '500';
     }
 
+    private static function removeHtml(): TwigFilter
+    {
+        return new TwigFilter(
+            'remove_html',
+            function (?string $text): ?string {
+                if (!$text) {
+                    return $text;
+                }
+
+                return strip_tags($text);
+            },
+            [
+                'is_safe' => ['html'],
+            ]
+        );
+    }
 }
