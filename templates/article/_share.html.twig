@@ -1,6 +1,6 @@
 <section class="mb-6">
     <h4 class="font-montserrat-medium text-caractere text-md">{{ 'article.share'|trans}}</h4>
-    <div class="mt-4 flex h-8" x-data="share" x-init="currentUrl='{{ currentUrl() }}'">
+    <div class="mt-4 flex h-8" x-init="currentUrl='{{ currentUrl() }}'">
         <a
                 class="mx-1 inline-flex h-6 w-6 items-center justify-center rounded-full bg-caractere text-white hover:bg-cta-light"
                 href="http://www.facebook.com/sharer.php?u={{ currentUrl() }}"

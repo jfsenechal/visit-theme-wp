@@ -6,6 +6,8 @@ class AssetsLoader
 {
     const leaflet_js = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
     const leaflet_css = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+    const swiper_js = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js';
+    const swiper_css = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css';
 
     public function __construct()
     {
@@ -29,6 +31,19 @@ class AssetsLoader
         wp_enqueue_style(
             'tabler-icons-css',
             'https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css',
+        );
+
+        wp_enqueue_style(
+            'swiper-css',
+            self::swiper_css,
+        );
+
+        wp_enqueue_script(
+            'swiper-js',
+            self::swiper_js,
+            [],
+            false,
+            false
         );
 
         wp_enqueue_script(

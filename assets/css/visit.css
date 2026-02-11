@@ -1328,6 +1328,9 @@
   .bg-caractere {
     background-color: var(--color-caractere);
   }
+  .bg-carto-main {
+    background-color: var(--color-carto-main);
+  }
   .bg-carto-pink {
     background-color: var(--color-carto-pink);
   }
@@ -1538,6 +1541,9 @@
   }
   .text-cta-dark {
     color: var(--color-cta-dark);
+  }
+  .text-cta-light {
+    color: var(--color-cta-light);
   }
   .text-gray-300 {
     color: var(--color-gray-300);
