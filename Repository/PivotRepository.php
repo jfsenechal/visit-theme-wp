@@ -45,9 +45,9 @@ readonly class PivotRepository
         return $data;
     }
 
-    public function loadOffer(string $codeCgt): ?Offer
+    public function loadOffer(string $codeCgt, ?ContentLevel $contentLevel = null): ?Offer
     {
-        return $this->pivotClient->loadOffer($codeCgt);
+        return $this->pivotClient->loadOffer($codeCgt, $contentLevel);
     }
 
     /**
