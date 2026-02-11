@@ -1,10 +1,16 @@
-<header
-         id="mainheader">
-    <a href="/{{locale}}">
-        <img alt="logo"
-             src="{{ template_uri() }}/assets/images/visit_logo.png"/>
-    </a>
-    {% include '@Visit/header/_navigation.html.twig' %}
-    {% include '@Visit/header/_languages_select.html.twig' %}
-    {% include '@Visit/header/_icones_social.html.twig' %}
+<header class="bg-white shadow-md sticky top-0 z-50" id="mainheader">
+    <div class="mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-20">
+            <a href="/{{ locale }}" class="shrink-0">
+                <img alt="Visit Marche"
+                     src="{{ template_uri() }}/assets/images/VisitLogoBlack.png"
+                     class="h-16"/>
+            </a>
+            {% include '@Visit/header/_navigation.html.twig' %}
+            <div class="flex items-center gap-4">
+                {% include '@Visit/header/_languages_select.html.twig' %}
+                {% include '@Visit/header/_icones_social.html.twig' %}
+            </div>
+        </div>
+    </div>
 </header>
