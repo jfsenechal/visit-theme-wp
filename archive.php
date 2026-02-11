@@ -17,7 +17,7 @@ $children = $wpRepository->getChildrenOfCategory($cat_ID);
 
 
 try {
-    $offers = $wpRepository->findArticlesAndOffersByWpCategory($category->cat_ID);
+    $offers = $wpRepository->findArticlesAndOffersByWpCategory($category->cat_ID, true);
 } catch (\Exception $e) {
     $offers = [];
 }

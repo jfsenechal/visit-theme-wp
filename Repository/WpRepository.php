@@ -50,20 +50,42 @@ class WpRepository
     /**
      * @return CommonItem[]
      */
-    public function findArticlesAndOffersByWpCategory(int $cat_ID): array
+    public function findArticlesAndOffersByWpCategory(int $cat_ID, bool $includeChildren = false): array
     {
-        $items = [];
-        foreach ($this->findArticlesByCategory($cat_ID) as $post) {
-            $items[] = CommonItem::createFromPost($post);
+        $categoryIds = [$cat_ID];
+
+        if ($includeChildren) {
+            foreach ($this->getChildrenOfCategory($cat_ID) as $child) {
+                $categoryIds[] = $child->term_id;
+            }
         }
 
-        $codesCgt = WpRepository::getMetaPivotCodesCgtOffers($cat_ID);
-        if ($codesCgt !== []) {
+        $items = [];
+        $allCodesCgt = [];
+        $seenIds = [];
+
+        foreach ($categoryIds as $categoryId) {
+            foreach ($this->findArticlesByCategory($categoryId) as $post) {
+                $item = CommonItem::createFromPost($post);
+                if (!isset($seenIds[$item->id])) {
+                    $seenIds[$item->id] = true;
+                    $items[] = $item;
+                }
+            }
+
+            $codesCgt = WpRepository::getMetaPivotCodesCgtOffers($categoryId);
+            array_push($allCodesCgt, ...$codesCgt);
+        }
+
+        $allCodesCgt = array_unique($allCodesCgt);
+
+        if ($allCodesCgt !== []) {
             $pivotClient = Di::getInstance()->get(PivotClient::class);
             $offerResponse = $pivotClient->fetchOffersByCriteria();
 
             foreach ($offerResponse->getOffers() as $offer) {
-                if (in_array($offer->codeCgt, $codesCgt, true)) {
+                if (in_array($offer->codeCgt, $allCodesCgt, true) && !isset($seenIds[$offer->codeCgt])) {
+                    $seenIds[$offer->codeCgt] = true;
                     $items[] = CommonItem::createFromOffer($offer);
                 }
             }
@@ -73,7 +95,6 @@ class WpRepository
 
         return $items;
     }
-
 
     public function findArticlesByCategory(int $catId): array
     {
