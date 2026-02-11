@@ -32,9 +32,17 @@ class AssetsLoader
         );
 
         wp_enqueue_script(
+            'visit-category-filter',
+            get_template_directory_uri().'/assets/js/category-filter.js',
+            [],
+            false,
+            false
+        );
+
+        wp_enqueue_script(
             'visit-alpine-js',
             '//unpkg.com/alpinejs',
-            [],
+            ['visit-category-filter'],
             false,
             false
         );
@@ -43,7 +51,7 @@ class AssetsLoader
     function add_defer_attribute($tag, $handle): string
     {
         // Add defer to Alpine.js and component scripts
-        if (in_array($handle, ['visit-alpine-js'])) {
+        if (in_array($handle, ['visit-category-filter', 'visit-alpine-js'])) {
             return str_replace(' src', ' defer src', $tag);
         }
 

@@ -2,6 +2,7 @@
 
 namespace VisitMarche\TheWo;
 
+use VisitMarche\ThemeWp\Inc\RouterPivot;
 use VisitMarche\ThemeWp\Lib\Twig;
 use VisitMarche\ThemeWp\Repository\WpRepository;
 
@@ -21,6 +22,22 @@ try {
     $offers = [];
 }
 
+RouterPivot::setLinkOnCommonItems($offers, $category->cat_ID, 'fr');
+
+try {
+    $offersJson = json_encode(array_map(fn($item) => [
+        'id' => $item->id,
+        'type' => $item->type,
+        'name' => $item->name,
+        'image' => $item->image,
+        'description' => strip_tags($item->description),
+        'url' => $item->url,
+        'tags' => array_map(fn($tag) => ['name' => $tag->name], $item->tags),
+    ], $offers), JSON_THROW_ON_ERROR);
+} catch (\JsonException $e) {
+    $offersJson = null;
+}
+
 Twig::rendPage(
     '@Visit/category.html.twig',
     [
@@ -29,7 +46,7 @@ Twig::rendPage(
         'image' => '',
         'video' => null,
         'bgCat' => '',
-        'icone' => '',
+        'icon' => '',
         'category' => $category,
         'urlBack' => '',
         'children' => $children,
@@ -38,7 +55,9 @@ Twig::rendPage(
         'filterType' => null,
         'nameBack' => '',
         'categoryName' => $categoryName,
-        'offers' => $offers,
+        'offersJson' => $offersJson,
+        'parentCategoryId' => $category->cat_ID,
+        'parentCategoryUrl' => get_category_link($category),
         'bgcat' => '',
         'countArticles' => count($offers),
     ]
