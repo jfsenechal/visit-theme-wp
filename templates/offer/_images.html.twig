@@ -4,7 +4,7 @@
             {% for media in offer.images %}
                 <div class="swiper-slide">
                     <img src="{{ media.url }}" alt="{{ media.name ?? offer.nom }}"
-                         class="w-full h-80 xl:h-[28rem] object-cover" loading="lazy"/>
+                         class="w-full h-80 xl:h-112 object-cover" loading="lazy"/>
                 </div>
             {% endfor %}
         </div>
@@ -22,6 +22,6 @@
 {% elseif offer.images|length > 0 %}
     <div class="mt-6 rounded-lg overflow-hidden">
         <img src="{{ offer.images[0].url }}" alt="{{ offer.images[0].name ?? offer.nom }}"
-             class="w-full h-80 xl:h-[28rem] object-cover" loading="lazy"/>
+             class="w-full h-80 xl:h-112 object-cover" loading="lazy"/>
     </div>
 {% endif %}

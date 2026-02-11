@@ -1920,6 +1920,11 @@
       height: calc(var(--spacing) * 52);
     }
   }
+  .xl\:h-112 {
+    @media (width >= 80rem) {
+      height: calc(var(--spacing) * 112);
+    }
+  }
   .xl\:h-\[28rem\] {
     @media (width >= 80rem) {
       height: 28rem;
