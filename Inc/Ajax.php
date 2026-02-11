@@ -16,15 +16,9 @@ class Ajax
 
     private function actionAddOffer(): void
     {
-        if (!check_ajax_referer('pivot_offers_nonce', '_ajax_nonce', false)) {
-            wp_send_json_error('Invalid nonce', 403);
-        }
+        $this->checkPermission();
 
-        if (!current_user_can('edit_posts')) {
-            wp_send_json_error('Insufficient permissions', 403);
-        }
-
-        $categoryId = (int) ($_POST['categoryId'] ?? 0);
+        $categoryId = (int)($_POST['categoryId'] ?? 0);
         $codeCgt = sanitize_text_field($_POST['codeCgt'] ?? '');
         $codesCgt = [];
 
@@ -41,15 +35,10 @@ class Ajax
 
     private function actionDeleteOffer(): void
     {
-        if (!check_ajax_referer('pivot_offers_nonce', '_ajax_nonce', false)) {
-            wp_send_json_error('Invalid nonce', 403);
-        }
 
-        if (!current_user_can('edit_posts')) {
-            wp_send_json_error('Insufficient permissions', 403);
-        }
+        $this->checkPermission();
 
-        $categoryId = (int) ($_POST['categoryId'] ?? 0);
+        $categoryId = (int)($_POST['categoryId'] ?? 0);
         $codeCgt = sanitize_text_field($_POST['codeCgt'] ?? '');
         $codesCgt = [];
 
@@ -64,5 +53,16 @@ class Ajax
         }
 
         wp_send_json($codesCgt);
+    }
+
+    private function checkPermission(): void
+    {
+        if (!check_ajax_referer('pivot_offers_nonce', '_ajax_nonce', false)) {
+            wp_send_json_error('Invalid nonce', 403);
+        }
+
+        if (!current_user_can('edit_posts')) {
+            wp_send_json_error('Insufficient permissions', 403);
+        }
     }
 }
