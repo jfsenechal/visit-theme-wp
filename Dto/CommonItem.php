@@ -63,6 +63,19 @@ class CommonItem
         return $item;
     }
 
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'type' => $this->type,
+            'name' => $this->name,
+            'image' => $this->image,
+            'description' => strip_tags($this->description),
+            'url' => $this->url,
+            'tags' => array_map(fn($tag) => ['name' => $tag->name], $this->tags),
+        ];
+    }
+
     public static function getPostThumbnail(int $id): string
     {
         if (has_post_thumbnail($id)) {

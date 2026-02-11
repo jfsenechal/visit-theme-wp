@@ -91,15 +91,7 @@ class ApiRoutes
 
         RouterPivot::setLinkOnCommonItems($items, $categoryId, 'fr');
 
-        $data = array_map(fn($item) => [
-            'id' => $item->id,
-            'type' => $item->type,
-            'name' => $item->name,
-            'image' => $item->image,
-            'description' => strip_tags($item->description),
-            'url' => $item->url,
-            'tags' => array_map(fn($tag) => ['name' => $tag->name], $item->tags),
-        ], $items);
+        $data = array_map(fn($item) => $item->toArray(), $items);
 
         return rest_ensure_response($data);
     }
