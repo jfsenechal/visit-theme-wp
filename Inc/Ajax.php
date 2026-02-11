@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VisitMarche\ThemeWp\Inc;
 
-use VisitMarche\ThemeWp\Lib\WpRepository;
+use VisitMarche\ThemeWp\Repository\WpRepository;
 
 class Ajax
 {
@@ -29,7 +29,7 @@ class Ajax
         $codesCgt = [];
 
         if ($categoryId > 0 && $codeCgt !== '') {
-            $codesCgt = WpRepository::getMetaPivotCodesCgtOffres($categoryId);
+            $codesCgt = WpRepository::getMetaPivotCodesCgtOffers($categoryId);
             if (!in_array($codeCgt, $codesCgt, true)) {
                 $codesCgt[] = $codeCgt;
                 update_term_meta($categoryId, WpRepository::PIVOT_REFOFFERS, $codesCgt);
@@ -54,7 +54,7 @@ class Ajax
         $codesCgt = [];
 
         if ($categoryId > 0 && $codeCgt !== '') {
-            $codesCgt = WpRepository::getMetaPivotCodesCgtOffres($categoryId);
+            $codesCgt = WpRepository::getMetaPivotCodesCgtOffers($categoryId);
             $key = array_search($codeCgt, $codesCgt, true);
             if ($key !== false) {
                 unset($codesCgt[$key]);

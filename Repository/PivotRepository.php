@@ -2,6 +2,7 @@
 
 namespace VisitMarche\ThemeWp\Repository;
 
+use AcMarche\PivotAi\Api\ContentLevel;
 use AcMarche\PivotAi\Api\PivotClient;
 use AcMarche\PivotAi\Entity\Pivot\Offer;
 use AcMarche\PivotAi\Enums\TypeOffreEnum;
@@ -36,7 +37,10 @@ readonly class PivotRepository
                 $data[] = $offer;
             }
         }
-        array_map(fn(Offer $offer) => $offer->url = RouterPivot::getOfferUrl(Theme::CATEGORY_PATRIMOINES,$offer->codeCgt), $data);
+        array_map(
+            fn(Offer $offer) => $offer->url = RouterPivot::getOfferUrl(Theme::CATEGORY_PATRIMOINES, $offer->codeCgt),
+            $data
+        );
 
         return $data;
     }
@@ -44,5 +48,59 @@ readonly class PivotRepository
     public function loadOffer(string $codeCgt): ?Offer
     {
         return $this->pivotClient->loadOffer($codeCgt);
+    }
+
+    /**
+     * @return \stdClass[]
+     */
+    public function getAllOffersShorts(): array
+    {
+        $offerResponse = $this->pivotClient->fetchOffersByCriteria(ContentLevel::Minimal);
+
+        $offers = [];
+        foreach ($offerResponse->getOffers() as $offer) {
+            $std = new \stdClass();
+            $std->codeCgt = $offer->codeCgt;
+            $std->name = $offer->nom;
+            $std->type = ($offer->typeOffre && $offer->typeOffre->label) ? ($offer->typeOffre->label[0]->value ?? '') : '';
+            $offers[] = $std;
+        }
+
+        usort($offers, fn(\stdClass $a, \stdClass $b) => strcasecmp($a->name ?? '', $b->name ?? ''));
+
+        return $offers;
+    }
+
+    /**
+     * @param string[] $codesCgt
+     * @return \stdClass[]
+     */
+    public function findOffersShortByCodesCgt(array $codesCgt): array
+    {
+        $allOffers = $this->getAllOffersShorts();
+        $offers = [];
+        foreach ($codesCgt as $codeCgt) {
+            foreach ($allOffers as $offerShort) {
+                if ($offerShort->codeCgt === $codeCgt) {
+                    $offers[] = $offerShort;
+                    break;
+                }
+            }
+        }
+
+        return $offers;
+    }
+
+    /**
+     * @return \stdClass[]
+     */
+    public function findShortsByNameOrCode(string $search): array
+    {
+        $offers = array_filter($this->getAllOffersShorts(), function (\stdClass $offre) use ($search) {
+            return preg_match('#'.preg_quote($search, '#').'#i', $offre->name ?? '')
+                || preg_match('#'.preg_quote($search, '#').'#i', $offre->codeCgt ?? '');
+        });
+
+        return array_values($offers);
     }
 }

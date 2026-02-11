@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace VisitMarche\ThemeWp\Inc;
 
-use VisitMarche\ThemeWp\Lib\WpRepository;
-use VisitMarche\ThemeWp\Repository\WpRepository as WpRepositoryData;
+use VisitMarche\ThemeWp\Repository\PivotRepository;
+use VisitMarche\ThemeWp\Repository\WpRepository;
 use WP_Error;
 use WP_HTTP_Response;
 use WP_REST_Request;
@@ -53,11 +53,11 @@ class ApiRoutes
 
     private function findOffersByName(WP_REST_Request $request): WP_Error|WP_REST_Response|WP_HTTP_Response
     {
-        $name = urldecode((string) $request->get_param('name'));
-        $wpRepository = new WpRepository();
+        $name = urldecode((string)$request->get_param('name'));
+        $pivotRepository = new PivotRepository();
 
         try {
-            $offres = $wpRepository->findShortsByNameOrCode($name);
+            $offres = $pivotRepository->findShortsByNameOrCode($name);
         } catch (\Exception $e) {
             return rest_ensure_response(['error' => $e->getMessage()]);
         }
@@ -67,12 +67,12 @@ class ApiRoutes
 
     private function getCategoryItems(WP_REST_Request $request): WP_Error|WP_REST_Response|WP_HTTP_Response
     {
-        $categoryId = (int) $request->get_param('categoryId');
+        $categoryId = (int)$request->get_param('categoryId');
         if ($categoryId < 1) {
             return new WP_Error(400, 'Missing param categoryId');
         }
 
-        $wpRepository = new WpRepositoryData();
+        $wpRepository = new WpRepository();
 
         try {
             $items = $wpRepository->findArticlesAndOffersByWpCategory($categoryId);
@@ -97,16 +97,16 @@ class ApiRoutes
 
     private function getCategoryOffers(WP_REST_Request $request): WP_Error|WP_REST_Response|WP_HTTP_Response
     {
-        $categoryId = (int) $request->get_param('categoryId');
+        $categoryId = (int)$request->get_param('categoryId');
         if ($categoryId < 1) {
             return new WP_Error(400, 'Missing param categoryId');
         }
 
-        $codesCgt = WpRepository::getMetaPivotCodesCgtOffres($categoryId);
-        $wpRepository = new WpRepository();
+        $codesCgt = WpRepository::getMetaPivotCodesCgtOffers($categoryId);
+        $pivotRepository = new PivotRepository();
 
         try {
-            $offers = $wpRepository->findOffersShortByCodesCgt($codesCgt);
+            $offers = $pivotRepository->findOffersShortByCodesCgt($codesCgt);
         } catch (\Exception $e) {
             $offers = [];
         }

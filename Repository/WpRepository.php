@@ -5,12 +5,26 @@ namespace VisitMarche\ThemeWp\Repository;
 use AcMarche\PivotAi\Api\PivotClient;
 use VisitMarche\ThemeWp\Dto\CommonItem;
 use VisitMarche\ThemeWp\Lib\Di;
-use VisitMarche\ThemeWp\Lib\WpRepository as WpRepositoryLib;
 use WP_Query;
 use WP_Term;
 
 class WpRepository
 {
+    public const PIVOT_REFOFFERS = 'pivot_ref_offers';
+
+    /**
+     * @return string[]
+     */
+    public static function getMetaPivotCodesCgtOffers(int $categoryId): array
+    {
+        $offers = get_term_meta($categoryId, self::PIVOT_REFOFFERS, true);
+        if (!is_array($offers)) {
+            return [];
+        }
+
+        return $offers;
+    }
+
     /**
      * @param int $cat_ID
      * @return WP_Term[]
@@ -43,7 +57,7 @@ class WpRepository
             $items[] = CommonItem::createFromPost($post);
         }
 
-        $codesCgt = WpRepositoryLib::getMetaPivotCodesCgtOffres($cat_ID);
+        $codesCgt = WpRepository::getMetaPivotCodesCgtOffers($cat_ID);
         if ($codesCgt !== []) {
             $pivotClient = Di::getInstance()->get(PivotClient::class);
             $offerResponse = $pivotClient->fetchOffersByCriteria();
