@@ -8,34 +8,10 @@
 @source "../templates/**/*.{html,twig}";
 
 @theme {
-  /* Font families */
+  /* Font family */
   --font-montserrat:
     Montserrat, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-montserrat-medium:
-    montserrat-medium, ui-sans-serif, system-ui, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-montserrat-thin:
-    montserrat-thin, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-montserrat-light:
-    montserrat-light, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-montserrat-extra-light:
-    montserrat-extra-light, ui-sans-serif, system-ui, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-montserrat-regular:
-    montserrat-regular, ui-sans-serif, system-ui, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-montserrat-bold:
-    montserrat-bold, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-montserrat-semi-bold:
-    montserrat-semi-bold, ui-sans-serif, system-ui, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-montserrat-extra-bold:
-    montserrat-extra-bold, ui-sans-serif, system-ui, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
   /* Custom colors */
   --color-cta-light: #fd8383;
@@ -150,7 +126,7 @@
 
 @layer base {
     html {
-        @apply scroll-pt-3 scroll-smooth font-montserrat-regular text-base;
+        @apply scroll-pt-3 scroll-smooth font-montserrat font-normal text-base;
         /* see https://www.getrevue.co/profile/shrutibalasa/issues/did-you-know-about-scroll-padding-easy-solution-to-fixed-header-problem-1325973 */
     }
 

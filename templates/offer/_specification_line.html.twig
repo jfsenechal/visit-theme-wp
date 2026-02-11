@@ -3,7 +3,7 @@
     {% for item in data.items %}
         {% if item.data|pivot_check_display %}
             <div class="grid grid-cols-1 gap-2 xl:grid-cols-[20rem_1fr]">
-                <span class="font-montserrat-semi-bold text-cta-dark">
+                <span class="font-semibold text-cta-dark">
                     {{ item.definition.labelByLanguage(locale) }}
                 </span>
                 <span class="text-caractere">

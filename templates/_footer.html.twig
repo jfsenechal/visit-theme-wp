@@ -1,5 +1,5 @@
 <footer 
-        class="flex flex-col justify-between bg-caractere p-5 pb-20 font-montserrat-light text-white xl:grid xl:grid-cols-4 xl:pb-5"
+        class="flex flex-col justify-between bg-caractere p-5 pb-20 font-light text-white xl:grid xl:grid-cols-4 xl:pb-5"
 >
     <div class="flex flex-wrap gap-2 md:w-56 lg:64">
         <a href="/{{ locale }}" class="hover:scale-125 transition-all duration-700">
@@ -18,7 +18,7 @@
         </a>
     </div>
     <div class="border-l border-l-white/50 px-3">
-        <h4 class="font-montserrat-semi-bold">{{ 'menu.name'|trans }}</h4>
+        <h4 class="font-semibold">{{ 'menu.name'|trans }}</h4>
         <ul class="grid grid-cols-2 p-2 text-sm leading-6 xl:grid-cols-1">
             <li class="px-2">
                 <a href="{{ items.idees.url }}">{{ items.idees.name }}</a>
@@ -39,7 +39,7 @@
     </div>
     {% include '@Visit/footer/_shortcut.html.twig' %}
     <div class="border-l border-l-white/50 px-3">
-        <h4 class="font-montserrat-semi-bold">{{ 'menu.contact'|trans }}</h4>
+        <h4 class="font-semibold">{{ 'menu.contact'|trans }}</h4>
         <div class="mb-2 text-sm leading-6">
             {{ 'office.name'|trans }}<br/>
             <a href="tel:+3284326946">+32(0)84 32 69 46</a><br/>

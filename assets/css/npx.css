@@ -13,11 +13,11 @@ li.nav-top-xl {
 }
 
 .icon-menu-mobile {
-  @apply my-4 flex flex-col flex-wrap items-center justify-center font-montserrat-semi-bold;
+  @apply my-4 flex flex-col flex-wrap items-center justify-center font-semibold;
 }
 
 .text-menu-mobile {
-  @apply text-xs font-montserrat-light;
+  @apply text-xs font-light;
 }
 
 .musshadow {

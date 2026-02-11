@@ -1,33 +1,33 @@
 {% if gpx != null %}
-    <h3 class="font-montserrat-semi-bold text-cta-light text-md border-bottom">
+    <h3 class="font-semibold text-cta-light text-md border-bottom">
         Détails du parcours
     </h3>
     <div class="flex flex-col gap-2">
         <div class="grid grid-cols-1 xl:grid-cols-[20rem_1fr] gap-2">
-           {# <span class="font-montserrat-semi-bold text-cta-dark">Distance</span>
+           {# <span class="font-semibold text-cta-dark">Distance</span>
             <span class="text-caractere">{{ offer.gpx_distance }} km</span>
 
-            <span class="font-montserrat-semi-bold text-cta-dark">Durée du parcours</span>
+            <span class="font-semibold text-cta-dark">Durée du parcours</span>
             <span class="text-caractere">{{ offer.gpx_duree }}</span>
 
-            <span class="font-montserrat-semi-bold text-cta-dark">Niveau de difficulté</span>
+            <span class="font-semibold text-cta-dark">Niveau de difficulté</span>
             <span class="text-caractere">{{ offer.gpx_difficulte }}</span>
 
             {% if offer.gpx_type_circuit != null %}
-                <span class="font-montserrat-semi-bold text-cta-dark">
+                <span class="font-semibold text-cta-dark">
                 {{ offer.gpx_type_circuit.urnDefinition.labelByLanguage(locale) }}
             </span>
                 <span class="text-caractere">{{ offer.gpx_type_circuit.data|format_pivot_value }}</span>
             {% endif %}
 
             {% if offer.gpx_cat_circuit != null %}
-                <span class="font-montserrat-semi-bold text-cta-dark">
+                <span class="font-semibold text-cta-dark">
                 {{ offer.gpx_cat_circuit.urnDefinition.labelByLanguage(locale) }}
             </span>
                 <span class="text-caractere">{{ offer.gpx_cat_circuit.data|format_pivot_value }}</span>
             {% endif %}#}
 
-            <span class="font-montserrat-semi-bold text-cta-dark">Télécharger le gpx</span>
+            <span class="font-semibold text-cta-dark">Télécharger le gpx</span>
             <span class="text-caractere">
                 {% for gpx in offer.gpxs %}
                     <a href="{{ template_uri() }}/downloader.php?codecgt={{ gpx.codeCgt }}"

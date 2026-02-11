@@ -11,27 +11,19 @@
     --color-red-500: oklch(63.7% 0.237 25.331);
     --color-sky-500: oklch(68.5% 0.169 237.323);
     --color-indigo-400: oklch(67.3% 0.182 276.935);
-    --color-indigo-500: oklch(58.5% 0.233 277.117);
-    --color-indigo-600: oklch(51.1% 0.262 276.966);
     --color-purple-300: oklch(82.7% 0.119 306.383);
     --color-purple-400: oklch(71.4% 0.203 305.504);
     --color-pink-300: oklch(82.3% 0.12 346.018);
     --color-pink-500: oklch(65.6% 0.241 354.308);
-    --color-slate-400: oklch(70.4% 0.04 256.788);
     --color-gray-100: oklch(96.7% 0.003 264.542);
     --color-gray-200: oklch(92.8% 0.006 264.531);
     --color-gray-300: oklch(87.2% 0.01 258.338);
     --color-gray-400: oklch(70.7% 0.022 261.325);
     --color-gray-500: oklch(55.1% 0.027 264.364);
     --color-gray-800: oklch(27.8% 0.033 256.848);
-    --color-gray-900: oklch(21% 0.034 264.665);
-    --color-black: #000;
     --color-white: #fff;
     --spacing: 0.25rem;
-    --container-xs: 20rem;
     --container-md: 28rem;
-    --container-lg: 32rem;
-    --container-xl: 36rem;
     --container-3xl: 48rem;
     --text-xs: 0.75rem;
     --text-xs--line-height: calc(1 / 0.75);
@@ -53,37 +45,26 @@
     --text-5xl--line-height: 1;
     --text-8xl: 6rem;
     --text-8xl--line-height: 1;
+    --font-weight-thin: 100;
+    --font-weight-extralight: 200;
+    --font-weight-light: 300;
+    --font-weight-normal: 400;
     --font-weight-medium: 500;
     --font-weight-semibold: 600;
     --font-weight-bold: 700;
     --font-weight-extrabold: 800;
-    --tracking-tight: -0.025em;
     --tracking-wider: 0.05em;
     --radius-md: 0.375rem;
     --radius-lg: 0.5rem;
-    --radius-xl: 0.75rem;
     --radius-3xl: 1.5rem;
-    --ease-in: cubic-bezier(0.4, 0, 1, 1);
-    --ease-out: cubic-bezier(0, 0, 0.2, 1);
     --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
     --animate-spin: spin 1s linear infinite;
-    --animate-pulse: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    --animate-bounce: bounce 1s infinite;
-    --blur-sm: 8px;
     --default-transition-duration: 150ms;
     --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     --default-font-family: var(--font-sans);
     --default-mono-font-family: var(--font-mono);
-    --font-montserrat-medium: montserrat-medium, ui-sans-serif, system-ui, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-    --font-montserrat-light: montserrat-light, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    --font-montserrat: Montserrat, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-    --font-montserrat-regular: montserrat-regular, ui-sans-serif, system-ui, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-    --font-montserrat-bold: montserrat-bold, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-    --font-montserrat-semi-bold: montserrat-semi-bold, ui-sans-serif, system-ui, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
     --color-cta-light: #fd8383;
     --color-cta-dark: #487f89;
     --color-cta-hover: #fd83838c;
@@ -101,11 +82,8 @@
     --color-body: #212529;
     --color-carto-main: #354254;
     --color-carto-pink: #bd2d86;
-    --color-carto-gray300: #6b7e9b;
-    --color-carto-gray200: #a8b2c1;
     --color-carto-green: #bdc900;
     --object-position-top-center: top center;
-    --animate-shimmer: shimmer 6s infinite ease-in-out;
     --animate-bouncejf: bouncejf 2s linear;
     --animate-leftjf: leftjf 2s linear;
   }
@@ -1364,20 +1342,8 @@
   .text-left {
     text-align: left;
   }
-  .font-montserrat-bold {
-    font-family: var(--font-montserrat-bold);
-  }
-  .font-montserrat-light {
-    font-family: var(--font-montserrat-light);
-  }
-  .font-montserrat-medium {
-    font-family: var(--font-montserrat-medium);
-  }
-  .font-montserrat-regular {
-    font-family: var(--font-montserrat-regular);
-  }
-  .font-montserrat-semi-bold {
-    font-family: var(--font-montserrat-semi-bold);
+  .font-montserrat {
+    font-family: var(--font-montserrat);
   }
   .text-2xl {
     font-size: var(--text-2xl);
@@ -1423,9 +1389,29 @@
     --tw-font-weight: var(--font-weight-extrabold);
     font-weight: var(--font-weight-extrabold);
   }
+  .font-extralight {
+    --tw-font-weight: var(--font-weight-extralight);
+    font-weight: var(--font-weight-extralight);
+  }
+  .font-light {
+    --tw-font-weight: var(--font-weight-light);
+    font-weight: var(--font-weight-light);
+  }
+  .font-medium {
+    --tw-font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-medium);
+  }
+  .font-normal {
+    --tw-font-weight: var(--font-weight-normal);
+    font-weight: var(--font-weight-normal);
+  }
   .font-semibold {
     --tw-font-weight: var(--font-weight-semibold);
     font-weight: var(--font-weight-semibold);
+  }
+  .font-thin {
+    --tw-font-weight: var(--font-weight-thin);
+    font-weight: var(--font-weight-thin);
   }
   .tracking-wider {
     --tw-tracking: var(--tracking-wider);
@@ -2414,11 +2400,6 @@
       text-align: center;
     }
   }
-  .xl\:font-montserrat-semi-bold {
-    @media (width >= 80rem) {
-      font-family: var(--font-montserrat-semi-bold);
-    }
-  }
   .xl\:text-2xl {
     @media (width >= 80rem) {
       font-size: var(--text-2xl);
@@ -2453,6 +2434,12 @@
     @media (width >= 80rem) {
       font-size: var(--text-xl);
       line-height: var(--tw-leading, var(--text-xl--line-height));
+    }
+  }
+  .xl\:font-semibold {
+    @media (width >= 80rem) {
+      --tw-font-weight: var(--font-weight-semibold);
+      font-weight: var(--font-weight-semibold);
     }
   }
   .xl\:shadow-none {
@@ -2497,12 +2484,14 @@ li.nav-top-xl {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-montserrat-semi-bold);
+  --tw-font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-semibold);
 }
 .text-menu-mobile {
-  font-family: var(--font-montserrat-light);
   font-size: var(--text-xs);
   line-height: var(--tw-leading, var(--text-xs--line-height));
+  --tw-font-weight: var(--font-weight-light);
+  font-weight: var(--font-weight-light);
 }
 .musshadow {
   box-shadow: 0 -0.125rem 0.45rem rgba(0, 0, 0, 0.75);
@@ -2553,9 +2542,11 @@ figcaption {
   html {
     scroll-padding-top: calc(var(--spacing) * 3);
     scroll-behavior: smooth;
-    font-family: var(--font-montserrat-regular);
+    font-family: var(--font-montserrat);
     font-size: var(--text-base);
     line-height: var(--tw-leading, var(--text-base--line-height));
+    --tw-font-weight: var(--font-weight-normal);
+    font-weight: var(--font-weight-normal);
   }
   body {
     color: var(--color-gray-800);
@@ -2958,32 +2949,6 @@ figcaption {
 @keyframes spin {
   to {
     transform: rotate(360deg);
-  }
-}
-@keyframes pulse {
-  50% {
-    opacity: 0.5;
-  }
-}
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(-25%);
-    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
-  }
-  50% {
-    transform: none;
-    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
-  }
-}
-@keyframes shimmer {
-  0% {
-    background-position: left;
-  }
-  50% {
-    background-position: right;
-  }
-  100% {
-    background-position: left;
   }
 }
 @keyframes leftjf {

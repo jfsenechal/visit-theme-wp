@@ -1,7 +1,7 @@
 {% if filters|length > 1 %}
     <nav aria-label="Filtres par catégorie">
         <ul class="hidden xl:flex pt-6 flex-1 flex-wrap gap-2 w-3/5 my-2 mx-auto" role="list">
-            <li class="rounded-md shadow-lg border border-cta-dark font-montserrat-light"
+            <li class="rounded-md shadow-lg border border-cta-dark font-light"
                 :class="activeFilter === null ? 'bg-cta-dark text-white' : 'hover:bg-cta-dark hover:text-white'">
                 <a href="{{ parentCategoryUrl }}"
                    class="block p-3"
@@ -11,7 +11,7 @@
                 </a>
             </li>
             {% for item in filters %}
-                <li class="rounded-md shadow-lg border border-cta-dark font-montserrat-light"
+                <li class="rounded-md shadow-lg border border-cta-dark font-light"
                     :class="activeFilter === {{ item.id }} ? 'bg-cta-dark text-white' : 'hover:bg-cta-dark hover:text-white'">
                     <a href="{{ item.url }}"
                        class="block p-3"
