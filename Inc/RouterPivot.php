@@ -29,6 +29,10 @@ class RouterPivot
         return home_url();
     }
 
+    /**
+     * For sharing button
+     * @return string
+     */
     public static function getCurrentUrl(): string
     {
         /* @var Wp $wp */
@@ -63,24 +67,6 @@ class RouterPivot
     public static function getOfferUrl(int $categoryId, string $codeCgt): string
     {
         return get_category_link(get_category($categoryId)).self::OFFRE_URL.'/'.$codeCgt;
-    }
-
-    /**
-     * @param FilterStd[] $filtres
-     * @return TypeOffre[]
-     */
-    public static function setRoutesToFilters(array $filtres, int $categoryId): array
-    {
-        $urlBase = get_category_link(get_category($categoryId));
-        foreach ($filtres as $filtre) {
-            if ($filtre->type == FilterStd::TYPE_PIVOT) {
-                $filtre->url = $urlBase.'?filtre='.$filtre->urn;
-            } else {
-                $filtre->url = get_category_link(get_category($filtre->id));
-            }
-        }
-
-        return $filtres;
     }
 
     public static function getRouteOfferToPivotSite(string $codeCgt): string
@@ -135,8 +121,4 @@ class RouterPivot
         );
     }
 
-    public function custom_rewrite_tag(): void
-    {
-        add_rewrite_tag('%offre%', '([^&]+)'); //utilite?
-    }
 }
