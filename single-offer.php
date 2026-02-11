@@ -2,9 +2,8 @@
 
 namespace VisitMarche\ThemeWp;
 
-use VisitMarche\ThemeWp\Enums\LanguageEnum;
+use AcMarche\PivotAi\Enums\ContentLevel;
 use VisitMarche\ThemeWp\Inc\RouterPivot;
-use VisitMarche\ThemeWp\Lib\OpenAi;
 use VisitMarche\ThemeWp\Lib\Twig;
 use VisitMarche\ThemeWp\Repository\PivotRepository;
 
@@ -22,13 +21,14 @@ if (!str_contains($codeCgt, "-")) {
 }
 
 try {
-    $offer = $wpRepository->loadOffer($codeCgt);
+    $offer = $wpRepository->loadOffer($codeCgt, ContentLevel::Full);
 } catch (\Exception $e) {
     Twig::rend500Page($e->getMessage());
     get_footer();
 
     return;
 }
+
 if (!$offer) {
     Twig::rend404Page();
     get_footer();
@@ -36,12 +36,11 @@ if (!$offer) {
     return;
 }
 
-$translator = OpenAi::create();
+//$translator = OpenAi::create();
 //$result = $translator->translate($offer->nom, LanguageEnum::ENGLISH);
 
-
 $latitude = $offer->latitude();
-$longitude = $offer->longitude() ;
+$longitude = $offer->longitude();
 if ($latitude && $longitude) {
     //AssetsLoader::enqueueLeaflet();
 }
