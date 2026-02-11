@@ -2,9 +2,9 @@
 
 namespace VisitMarche\ThemeWp\Repository;
 
-use AcMarche\PivotAi\Api\ContentLevel;
 use AcMarche\PivotAi\Api\PivotClient;
 use AcMarche\PivotAi\Entity\Pivot\Offer;
+use AcMarche\PivotAi\Enums\ContentLevel;
 use AcMarche\PivotAi\Enums\TypeOffreEnum;
 use VisitMarche\ThemeWp\Inc\RouterPivot;
 use VisitMarche\ThemeWp\Inc\Theme;
