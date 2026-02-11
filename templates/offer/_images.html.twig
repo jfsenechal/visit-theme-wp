@@ -1,14 +1,14 @@
 {% if offer.images|length > 1 %}
-    <div class="swiper mySwiper">
-        <div class="swiper-wrapper">
+    <div>
+        <div>
             {% for media in offer.images %}
-                <div class="swiper-slide">
+                <div>
                     <img src="{{ media.url }}" alt="{{ media.name ?? offer.nom }}" loading="lazy"/>
                 </div>
             {% endfor %}
         </div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
+        <div></div>
+        <div></div>
     </div>
     <!-- Initialize Swiper -->
     <script>

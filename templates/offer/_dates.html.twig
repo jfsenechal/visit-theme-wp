@@ -1,11 +1,11 @@
 {% if offer.dates|length > 0 %}
-    <h3 class="font-semibold text-cta-light text-md">
+    <h3>
         Quand ?
     </h3>
 
-    <ul class="font-semibold text-cta-dark flex flex-col gap-2 not-prose">
+    <ul>
         {% for dateEvent in offer.dates %}
-            <li class="flex flex-row gap-2">
+            <li>
                 {% if dateEvent.isSingleDay() %}
                     {% if dateEvent.startDate %}
                         <span>{{ dateEvent.startDate|format_date('full') }}</span>

@@ -1,39 +1,38 @@
 {% if gpx != null %}
-    <h3 class="font-semibold text-cta-light text-md border-bottom">
+    <h3>
         Détails du parcours
     </h3>
-    <div class="flex flex-col gap-2">
-        <div class="grid grid-cols-1 xl:grid-cols-[20rem_1fr] gap-2">
-           {# <span class="font-semibold text-cta-dark">Distance</span>
-            <span class="text-caractere">{{ offer.gpx_distance }} km</span>
+    <div>
+        <div>
+           {# <span>Distance</span>
+            <span>{{ offer.gpx_distance }} km</span>
 
-            <span class="font-semibold text-cta-dark">Durée du parcours</span>
-            <span class="text-caractere">{{ offer.gpx_duree }}</span>
+            <span>Durée du parcours</span>
+            <span>{{ offer.gpx_duree }}</span>
 
-            <span class="font-semibold text-cta-dark">Niveau de difficulté</span>
-            <span class="text-caractere">{{ offer.gpx_difficulte }}</span>
+            <span>Niveau de difficulté</span>
+            <span>{{ offer.gpx_difficulte }}</span>
 
             {% if offer.gpx_type_circuit != null %}
-                <span class="font-semibold text-cta-dark">
+                <span>
                 {{ offer.gpx_type_circuit.urnDefinition.labelByLanguage(locale) }}
             </span>
-                <span class="text-caractere">{{ offer.gpx_type_circuit.data|format_pivot_value }}</span>
+                <span>{{ offer.gpx_type_circuit.data|format_pivot_value }}</span>
             {% endif %}
 
             {% if offer.gpx_cat_circuit != null %}
-                <span class="font-semibold text-cta-dark">
+                <span>
                 {{ offer.gpx_cat_circuit.urnDefinition.labelByLanguage(locale) }}
             </span>
-                <span class="text-caractere">{{ offer.gpx_cat_circuit.data|format_pivot_value }}</span>
+                <span>{{ offer.gpx_cat_circuit.data|format_pivot_value }}</span>
             {% endif %}#}
 
-            <span class="font-semibold text-cta-dark">Télécharger le gpx</span>
-            <span class="text-caractere">
+            <span>Télécharger le gpx</span>
+            <span>
                 {% for gpx in offer.gpxs %}
-                    <a href="{{ template_uri() }}/downloader.php?codecgt={{ gpx.codeCgt }}"
-                       class="flex flex-row gap-2 items-center" rel="nofollow">
+                    <a href="{{ template_uri() }}/downloader.php?codecgt={{ gpx.codeCgt }}" rel="nofollow">
                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                               stroke="currentColor" class="w-6 h-6">
+                               stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round"
                               d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/>
                     </svg>

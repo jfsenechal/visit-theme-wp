@@ -3,26 +3,25 @@ ajour aussi dans le head prefetch de l'url d'img de fond
 <link rel="prefetch" href="hero.jpg" as="image">
 -->
 <main>
-    <div class="bg-home-img bg-no-repeat bg-cover bg-center h-200"
-         style="background-image: url('/wp-content/themes/visittail/assets/images/bg/{{ bgimg }}');">
-        <div class="relative bg-home-color pt-4 xl:py-24 h-full">
-            <div class="flex flex-col justify-center items-center w-full pt-40">
+    <div>
+        <div>
+            <div>
                 {% include '@Visit/homepage/_search_home.html.twig' %}
                 {% include '@Visit/homepage/_icones_home.html.twig' %}
             </div>
         </div>
     </div>
-    <div class="flex flex-col justify-center items-center w-full">
+    <div>
         {% include '@Visit/homepage/_home_caractere.html.twig' %}
         {% include '@Visit/homepage/_confirm_newsletter.html.twig' %}
-        <section class="bg-white w-full auto grid grid-cols-1 xl:px-40 xl:grid-cols-[60%_40%] xl:gap-4">
+        <section>
             <div>
                 {% include '@Visit/homepage/_inspiration.html.twig' %}
             </div>
-            <div class="px-4">
+            <div>
                 {% include '@Visit/homepage/_agenda.html.twig' %}
             </div>
-            <div class="px-4 xl:col-span-2">
+            <div>
                 {% include '@Visit/homepage/_ideas.html.twig' %}
             </div>
         </section>

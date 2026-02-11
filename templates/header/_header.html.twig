@@ -1,7 +1,7 @@
-<header class="fixed top-0 right-0 left-0 flex justify-end items-center p-3 bg-home-color bg-opacity-60 z-20 mb-12"
+<header
          id="mainheader">
-    <a href="/{{locale}}" class="flex grow shrink-0 xl:mr-auto">
-        <img class="h-10 w-16 xl:h-14 xl:w-24 inline" alt="logo"
+    <a href="/{{locale}}">
+        <img alt="logo"
              src="{{ template_uri() }}/assets/images/visit_logo.png"/>
     </a>
     {% include '@Visit/header/_navigation.html.twig' %}
