@@ -1,12 +1,10 @@
 {% if excerpt is defined and excerpt != '' %}
     <div>
-        <div>
       <span>
           {{ excerpt|raw }}
       </span>
-            {% if icon %}
-                <img src="{{ icon }}" alt="">
-            {% endif %}
-        </div>
+        {% if icon %}
+            <img src="{{ icon }}" alt="">
+        {% endif %}
     </div>
 {% endif %}

@@ -1,5 +1,5 @@
 {% include '@Visit/article/_header_article.html.twig' %}
-{% include '@Visit/article/_cadre.html.twig' %}
+{% include '@Visit/article/_excerpt.html.twig' %}
 <main>
     <article>
         <div>
@@ -8,13 +8,12 @@
             {% include '@Visit/offer/_address_contact.html.twig' %}
             {% include '@Visit/offer/_descriptions.html.twig' %}
             {% include '@Visit/offer/_specifications.html.twig' %}
-            {% include '@Visit/offer/_gpx_details.html.twig' %}
         </div>
         <aside>
             {% include '@Visit/article/_share.html.twig' %}
             {% include '@Visit/article/_tags.html.twig' %}
             {% include '@Visit/article/_see_also.html.twig' %}
         </aside>
+        {% include '@Visit/offer/_images.html.twig' %}
     </article>
-    {% include '@Visit/offer/_images.html.twig' %}
 </main>

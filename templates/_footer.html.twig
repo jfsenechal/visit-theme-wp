@@ -1,52 +1,70 @@
-<footer
->
-    <div>
-        <a href="/{{ locale }}">
-            <img src="{{ template_uri() }}/assets/images/visit_logo.png"
-                 alt="logo visit"/>
-        </a>
-        <a href="https://www.marche.be"
-           title="template">
-            <img src="{{ template_uri() }}/assets/images/marche_logo.png"
-                 alt="logo ville"/>
-        </a>
-        <a href="https://visitwallonia.be/"
-           title="template">
-            <img src="{{ template_uri() }}/assets/images/VISITWalloniaBlanc.png"
-                 alt="logo visit wallonia"/>
-        </a>
-    </div>
-    <div>
-        <h4>{{ 'menu.name'|trans }}</h4>
-        <ul>
-            <li>
-                <a href="{{ items.idees.url }}">{{ items.idees.name }}</a>
-            </li>
-            <li>
-                <a href="{{ items.inspirations.url }}">{{ items.inspirations.name }}</a>
-            </li>
-            <li>
-                <a href="{{ items.sorganiser.name }}">{{ items.sorganiser.name }}</a>
-            </li>
-            <li>
-                <a href="{{ items.agenda.url }}">{{ items.agenda.name }}</a>
-            </li>
-            <li>
-                <a href="{{ items.pratique.url }}">{{ items.pratique.name }}</a>
-            </li>
-        </ul>
-    </div>
-    {% include '@Visit/footer/_shortcut.html.twig' %}
-    <div>
-        <h4>{{ 'menu.contact'|trans }}</h4>
-        <div>
-            {{ 'office.name'|trans }}<br/>
-            <a href="tel:+3284326946">+32(0)84 32 69 46</a><br/>
-            {{ 'hours.week'|trans }} {{ 'hours.week_time'|trans }}<br/>
-            {{ 'hours.friday'|trans }} {{ 'hours.friday_time'|trans }}<br/>
+<footer class="bg-[var(--color-carto-main)] text-white">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+        {# Logos #}
+        <div class="flex flex-wrap items-center justify-center gap-8 mb-12">
+            <a href="/{{ locale }}" class="transition-opacity hover:opacity-80">
+                <img src="{{ template_uri() }}/assets/images/visit_logo.png"
+                     alt="logo visit"
+                     class="h-12"/>
+            </a>
+            <a href="https://www.marche.be" title="Ville de Marche-en-Famenne"
+               class="transition-opacity hover:opacity-80">
+                <img src="{{ template_uri() }}/assets/images/marche_logo.png"
+                     alt="logo ville"
+                     class="h-12"/>
+            </a>
+            <a href="https://visitwallonia.be/" title="Visit Wallonia"
+               class="transition-opacity hover:opacity-80">
+                <img src="{{ template_uri() }}/assets/images/VISITWalloniaBlanc.png"
+                     alt="logo visit wallonia"
+                     class="h-12"/>
+            </a>
         </div>
-        {% include '@Visit/header/_icones_social.html.twig' %}
+
+        {# Columns #}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+            {# Navigation #}
+            <div>
+                <h4 class="text-lg font-semibold mb-4 text-[var(--color-cta-light)]">{{ 'menu.name'|trans }}</h4>
+                <ul class="space-y-2">
+                    <li>
+                        <a href="{{ items.idees.url }}" class="text-gray-300 hover:text-white transition-colors">{{ items.idees.name }}</a>
+                    </li>
+                    <li>
+                        <a href="{{ items.inspirations.url }}" class="text-gray-300 hover:text-white transition-colors">{{ items.inspirations.name }}</a>
+                    </li>
+                    <li>
+                        <a href="{{ items.sorganiser.name }}" class="text-gray-300 hover:text-white transition-colors">{{ items.sorganiser.name }}</a>
+                    </li>
+                    <li>
+                        <a href="{{ items.agenda.url }}" class="text-gray-300 hover:text-white transition-colors">{{ items.agenda.name }}</a>
+                    </li>
+                    <li>
+                        <a href="{{ items.pratique.url }}" class="text-gray-300 hover:text-white transition-colors">{{ items.pratique.name }}</a>
+                    </li>
+                </ul>
+            </div>
+
+            {# Shortcuts #}
+            {% include '@Visit/footer/_shortcut.html.twig' %}
+
+            {# Contact #}
+            <div>
+                <h4 class="text-lg font-semibold mb-4 text-[var(--color-cta-light)]">{{ 'menu.contact'|trans }}</h4>
+                <div class="text-gray-300 space-y-1 mb-4">
+                    <p>{{ 'office.name'|trans }}</p>
+                    <p><a href="tel:+3284326946" class="hover:text-white transition-colors">+32(0)84 32 69 46</a></p>
+                    <p>{{ 'hours.week'|trans }} {{ 'hours.week_time'|trans }}</p>
+                    <p>{{ 'hours.friday'|trans }} {{ 'hours.friday_time'|trans }}</p>
+                </div>
+                <div class="[&>div]:flex [&_a]:text-gray-300 [&_a:hover]:text-white">
+                    {% include '@Visit/header/_icones_social.html.twig' %}
+                </div>
+            </div>
+        </div>
     </div>
+
+    {# Copyright #}
     {% include '@Visit/footer/_copyright.html.twig' %}
 </footer>
 {% include '@Visit/footer/_analytics.html.twig' %}

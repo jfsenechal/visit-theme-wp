@@ -1,13 +1,13 @@
 <div>
-    <h4>Découvrez</h4>
-    <ul>
+    <h4 class="text-lg font-semibold mb-4 text-[var(--color-cta-light)]">Découvrez</h4>
+    <ul class="space-y-2">
         {% for icon in icons %}
             <li>
-                <a href="{{ icon.url }}">{{ icon.name }}</a>
+                <a href="{{ icon.url }}" class="text-gray-300 hover:text-white transition-colors">{{ icon.name }}</a>
             </li>
         {% endfor %}
         <li>
-            <a href="https://circuit-court.marche.be/" target="_blank">{{ 'local.products'|trans }}</a>
+            <a href="https://circuit-court.marche.be/" target="_blank" class="text-gray-300 hover:text-white transition-colors">{{ 'local.products'|trans }}</a>
         </li>
     </ul>
 </div>

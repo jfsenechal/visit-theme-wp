@@ -9,12 +9,10 @@
                         poster="{{ image.url }}"
                 />
                 <img
-                        {% if imagePosition is defined %} {% endif %}
                      src="{{ image.url ?? '' }}" alt=""/>
             </video>
         {% else %}
             <img
-                    {% if imagePosition is defined %} {% endif %}
                  src="{{ image.url ?? '' }}" alt=""/>
         {% endif %}
 
@@ -33,26 +31,3 @@
         </div>
     </div>
 </div>
-
-{#
-<div
-     id="sticky-parallax-header">
-    <div>
-
-    </div>
-    <div>
-        <h2>
-            {{ categoryName ?? '' }}
-        </h2>
-        <a href="{{ urlBack ?? '/' }}">
-            <svg xmlns="http://www.w3.org/2000/svg"
-                 viewbox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd"
-                      d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                      clip-rule="evenodd"/>
-            </svg>
-            {{ 'url.back'|trans }} {{ nameBack ?? '' }}
-        </a>
-    </div>
-</div>
-#}
