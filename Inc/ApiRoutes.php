@@ -20,6 +20,9 @@ class ApiRoutes
 
     private function registerRoutes(): void
     {
+        /**
+         * Use id admin interface
+         */
         register_rest_route(
             'pivot',
             'find-offers-by-name/(?P<name>.+)',
@@ -30,6 +33,9 @@ class ApiRoutes
             ],
         );
 
+        /**
+         * Use in AdminPage and AdminBar
+         */
         register_rest_route(
             'pivot',
             'category_offers/(?P<categoryId>\d+)',
@@ -40,6 +46,9 @@ class ApiRoutes
             ],
         );
 
+        /**
+         * Use with category's filters
+         */
         register_rest_route(
             'pivot',
             'category_items/(?P<categoryId>\d+)',
