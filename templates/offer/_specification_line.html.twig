@@ -1,12 +1,11 @@
-
-<div>
+<div class="grid grid-cols-1 xl:grid-cols-[12rem,1fr] gap-2">
     {% for item in data.items %}
         {% if item.data|pivot_check_display %}
-            <div>
-                <span>
+            <div class="contents">
+                <span class="font-montserrat-semi-bold text-cta-dark text-sm">
                     {{ item.definition.labelByLanguage(locale) }}
                 </span>
-                <span>
+                <span class="text-sm text-caractere">
                     {{ item.data|format_pivot_value|raw }}
                 </span>
             </div>

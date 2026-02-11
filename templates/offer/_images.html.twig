@@ -1,16 +1,16 @@
 {% if offer.images|length > 1 %}
-    <div>
-        <div>
+    <div class="swiper mySwiper mt-6 rounded-lg overflow-hidden">
+        <div class="swiper-wrapper">
             {% for media in offer.images %}
-                <div>
-                    <img src="{{ media.url }}" alt="{{ media.name ?? offer.nom }}" loading="lazy"/>
+                <div class="swiper-slide">
+                    <img src="{{ media.url }}" alt="{{ media.name ?? offer.nom }}"
+                         class="w-full h-80 xl:h-[28rem] object-cover" loading="lazy"/>
                 </div>
             {% endfor %}
         </div>
-        <div></div>
-        <div></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
     </div>
-    <!-- Initialize Swiper -->
     <script>
         var swiper = new Swiper(".mySwiper", {
             navigation: {
@@ -20,5 +20,8 @@
         });
     </script>
 {% elseif offer.images|length > 0 %}
-    <img src="{{ offer.images[0].url }}" alt="{{ offer.images[0].name ?? offer.nom }}" loading="lazy"/>
+    <div class="mt-6 rounded-lg overflow-hidden">
+        <img src="{{ offer.images[0].url }}" alt="{{ offer.images[0].name ?? offer.nom }}"
+             class="w-full h-80 xl:h-[28rem] object-cover" loading="lazy"/>
+    </div>
 {% endif %}
