@@ -18,7 +18,7 @@ class WpRepository
     public function getChildrenOfCategory(int $cat_ID): array
     {
         $args = [
-            'parent' => $cat_ID,
+            'parent' => $cat_ID,//Get direct children only
             'hide_empty' => false,
         ];
         $children = get_categories($args);
