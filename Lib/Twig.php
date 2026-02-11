@@ -130,14 +130,14 @@ class Twig
         }
     }
 
-    public static function rend404Page(): string
+    public static function rend404Page(): void
     {
-        return '404';
+        echo '404';
     }
 
-    public static function rend500Page(string $getMessage): string
+    public static function rend500Page(string $getMessage): void
     {
-        return '500';
+        echo '500';
     }
 
     private static function removeHtml(): TwigFilter
