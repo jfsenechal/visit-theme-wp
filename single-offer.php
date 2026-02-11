@@ -37,12 +37,11 @@ if (!$offer) {
 }
 
 $translator = OpenAi::create();
-dump($offer->nom);
-$result = $translator->translate($offer->nom, LanguageEnum::ENGLISH);
-dd($result);
+//$result = $translator->translate($offer->nom, LanguageEnum::ENGLISH);
 
-$latitude = $offer->address()->latitude ?? null;
-$longitude = $offer->address()->longitude ?? null;
+
+$latitude = $offer->latitude();
+$longitude = $offer->longitude() ;
 if ($latitude && $longitude) {
     //AssetsLoader::enqueueLeaflet();
 }
