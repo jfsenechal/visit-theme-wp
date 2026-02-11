@@ -55,7 +55,7 @@ readonly class PivotRepository
      */
     public function getAllOffersShorts(): array
     {
-        $offerResponse = $this->pivotClient->fetchOffersByCriteria(ContentLevel::Minimal);
+        $offerResponse = $this->pivotClient->fetchOffersByCriteria(ContentLevel::Summary);
 
         $offers = [];
         foreach ($offerResponse->getOffers() as $offer) {
