@@ -2,6 +2,10 @@
 
 namespace VisitMarche\ThemeWp\Repository;
 
+use AcMarche\PivotAi\Api\PivotClient;
+use VisitMarche\ThemeWp\Dto\CommonItem;
+use VisitMarche\ThemeWp\Lib\Di;
+use VisitMarche\ThemeWp\Lib\WpRepository as WpRepositoryLib;
 use WP_Query;
 use WP_Term;
 
@@ -29,17 +33,33 @@ class WpRepository
         return $children;
     }
 
-    public function findArticlesAndOffersByWpCategory(
-        mixed $cat_ID,
-        $filterSelected = null,
-        $filterSelectedType = null
-    ): array {
-        $data = [];
-        $posts = $this->findArticlesByCategory($cat_ID);
-        $offers = [];//todo
+    /**
+     * @return CommonItem[]
+     */
+    public function findArticlesAndOffersByWpCategory(int $cat_ID): array
+    {
+        $items = [];
+        foreach ($this->findArticlesByCategory($cat_ID) as $post) {
+            $items[] = CommonItem::createFromPost($post);
+        }
 
-        return $data;
+        $codesCgt = WpRepositoryLib::getMetaPivotCodesCgtOffres($cat_ID);
+        if ($codesCgt !== []) {
+            $pivotClient = Di::getInstance()->get(PivotClient::class);
+            $offerResponse = $pivotClient->fetchOffersByCriteria();
+
+            foreach ($offerResponse->getOffers() as $offer) {
+                if (in_array($offer->codeCgt, $codesCgt, true)) {
+                    $items[] = CommonItem::createFromOffer($offer);
+                }
+            }
+        }
+
+        usort($items, fn(CommonItem $a, CommonItem $b) => strcasecmp($a->name, $b->name));
+
+        return $items;
     }
+
 
     public function findArticlesByCategory(int $catId): array
     {
@@ -57,23 +77,11 @@ class WpRepository
             $post = $querynews->next_post();
             $post->excerpt = $post->post_excerpt;
             $post->permalink = get_permalink($post->ID);
-            $post->thumbnail_url = $this->getPostThumbnail($post->ID);
+            $post->thumbnail_url = CommonItem::getPostThumbnail($post->ID);
             $posts[] = $post;
         }
 
         return $posts;
     }
 
-    public function getPostThumbnail(int $id): string
-    {
-        if (has_post_thumbnail($id)) {
-            $attachment_id = get_post_thumbnail_id($id);
-            $images = wp_get_attachment_image_src($attachment_id, 'original');
-            $post_thumbnail_url = $images[0];
-        } else {
-            $post_thumbnail_url = get_template_directory_uri().'/assets/images/404.jpg';
-        }
-
-        return $post_thumbnail_url;
-    }
 }

@@ -2,6 +2,7 @@
 
 namespace VisitMarche\ThemeWp\Inc;
 
+use VisitMarche\ThemeWp\Dto\CommonItem;
 use WP;
 
 /**
