@@ -1,15 +1,15 @@
 {% if offer.images|length > 1 %}
-    <div class="swiper mySwiper mt-6 rounded-lg overflow-hidden">
+    <div class="swiper mySwiper rounded-xl overflow-hidden shadow-md">
         <div class="swiper-wrapper">
             {% for media in offer.images %}
                 <div class="swiper-slide">
                     <img src="{{ media.url }}" alt="{{ media.name ?? offer.nom }}"
-                         class="w-full h-80 xl:h-112 object-cover" loading="lazy"/>
+                         class="w-full h-64 md:h-80 xl:h-72 object-cover" loading="lazy"/>
                 </div>
             {% endfor %}
         </div>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev" role="button" aria-label="{{ 'offer.prev_image'|trans|default('Image précédente') }}"></div>
+        <div class="swiper-button-next" role="button" aria-label="{{ 'offer.next_image'|trans|default('Image suivante') }}"></div>
     </div>
     <script>
         var swiper = new Swiper(".mySwiper", {
@@ -20,8 +20,8 @@
         });
     </script>
 {% elseif offer.images|length > 0 %}
-    <div class="mt-6 rounded-lg overflow-hidden">
+    <div class="rounded-xl overflow-hidden shadow-md">
         <img src="{{ offer.images[0].url }}" alt="{{ offer.images[0].name ?? offer.nom }}"
-             class="w-full h-80 xl:h-112 object-cover" loading="lazy"/>
+             class="w-full h-64 md:h-80 xl:h-72 object-cover" loading="lazy"/>
     </div>
 {% endif %}
