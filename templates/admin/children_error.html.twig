@@ -4,17 +4,23 @@
                                                  title="Voir sur le site">{{ category.name }}</a></strong>
     </h2>
 
-    <h2>Erreur</h2>
-    <div class="notice-error error ">
+    <div class="notice notice-error inline" style="margin: 15px 0;">
         <p>Les offres doivent être encodées sur les catégories enfants</p>
     </div>
 
-    <div class="notice notice-info update-nag inline">
-        <p>Cliquez sur une des offres ci-dessous pour encoder</p>
+    <div class="notice notice-info inline" style="margin: 15px 0;">
+        <p>Cliquez sur une des catégories ci-dessous pour encoder les offres</p>
     </div>
-    <ul>
+
+    <ul style="margin: 15px 0; padding: 0; list-style: none;">
         {% for child in children %}
-            <li><a href="/wp-admin/admin.php?page=category_offers&catID={{ child.id }}">{{ child.name }}</a></li>
+            <li style="margin-bottom: 8px;">
+                <a href="/wp-admin/admin.php?page=category_offers&catID={{ child.id }}"
+                   class="button button-secondary"
+                   style="text-decoration: none;">
+                    {{ child.name }}
+                </a>
+            </li>
         {% endfor %}
     </ul>
 </div>
