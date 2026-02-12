@@ -40,7 +40,12 @@
              style="margin: 10px 0; padding: 8px 12px; background: #d4edda; border: 1px solid #c3e6cb; color: #155724;"
              x-transition></div>
 
-        <table class="wp-list-table widefat fixed striped" style="margin-top: 15px;">
+        <div x-show="loadingOffers" style="margin: 20px 0; text-align: center;">
+            <span class="spinner is-active" style="float: none;"></span>
+            <span style="margin-left: 4px;">Chargement des offres...</span>
+        </div>
+
+        <table x-show="!loadingOffers" class="wp-list-table widefat fixed striped" style="margin-top: 15px;">
             <thead>
             <tr>
                 <th style="width: 200px;">Code CGT</th>
@@ -87,9 +92,11 @@
             suggestions: [],
             offers: [],
             loading: false,
+            loadingOffers: false,
             message: '',
 
             async loadOffers() {
+                this.loadingOffers = true;
                 try {
                     const response = await fetch(pivotOffers.restUrl + '/category_offers/' + pivotOffers.catId, {
                         headers: {'X-WP-Nonce': pivotOffers.restNonce}
@@ -97,6 +104,8 @@
                     this.offers = await response.json();
                 } catch (e) {
                     console.error('Error loading offers:', e);
+                } finally {
+                    this.loadingOffers = false;
                 }
             },
 
