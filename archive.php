@@ -19,7 +19,6 @@ if ($category->parent > 0) {
 }
 
 $wpRepository = new WpRepository();
-$children = $wpRepository->getChildrenOfCategory($cat_ID);
 
 try {
     $offers = $wpRepository->findArticlesAndOffersByWpCategory($category->cat_ID, true);
@@ -35,6 +34,7 @@ try {
     $offersJson = null;
 }
 
+$children = $wpRepository->getChildrenOfCategory($cat_ID);
 $image = CategoryMetaData::getImage($category);
 $video = CategoryMetaData::getVideo($category);
 $icon = CategoryMetaData::getIcon($category);
