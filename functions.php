@@ -8,6 +8,7 @@ use VisitMarche\ThemeWp\Inc\AdminPages;
 use VisitMarche\ThemeWp\Inc\Ajax;
 use VisitMarche\ThemeWp\Inc\ApiRoutes;
 use VisitMarche\ThemeWp\Inc\AssetsLoader;
+use VisitMarche\ThemeWp\Inc\CategoryMetaData;
 use VisitMarche\ThemeWp\Inc\RouterPivot;
 use VisitMarche\ThemeWp\Inc\SetupTheme;
 use VisitMarche\ThemeWp\Lib\Frankenphp;
@@ -27,6 +28,10 @@ if (WP_DEBUG) {
  * Initialisation du thème
  */
 new SetupTheme();
+/**
+ * Category metas: image, video, icon, color
+ */
+new CategoryMetaData();
 /**
  * Chargement css, js
  */

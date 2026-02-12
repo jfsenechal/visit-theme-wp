@@ -2,6 +2,7 @@
 
 namespace VisitMarche\TheWo;
 
+use VisitMarche\ThemeWp\Inc\CategoryMetaData;
 use VisitMarche\ThemeWp\Inc\RouterPivot;
 use VisitMarche\ThemeWp\Lib\Twig;
 use VisitMarche\ThemeWp\Repository\WpRepository;
@@ -37,28 +38,26 @@ try {
 } catch (\JsonException $e) {
     $offersJson = null;
 }
+$image = CategoryMetaData::getImage($category);
+$video = CategoryMetaData::getVideo($category);
+$icon = CategoryMetaData::getIcon($category);
+$color = CategoryMetaData::getColor($category);
 
 Twig::rendPage(
     '@Visit/category.html.twig',
     [
         'name' => $categoryName,
         'excerpt' => $category->description,
-        'image' => '',
-        'video' => null,
-        'bgCat' => '',
-        'icon' => '',
+        'image' => $image,
+        'video' => $video,
+        'icon' => $icon,
+        'color' => $color,
         'category' => $category,
-        'urlBack' => '',
         'children' => $children,
         'filters' => $children,
-        'filterSelected' => null,
-        'filterType' => null,
-        'nameBack' => '',
-        'categoryName' => $categoryName,
         'offersJson' => $offersJson,
         'parentCategoryId' => $category->cat_ID,
         'parentCategoryUrl' => get_category_link($category),
-        'bgcat' => '',
         'countArticles' => count($offers),
     ]
 );
