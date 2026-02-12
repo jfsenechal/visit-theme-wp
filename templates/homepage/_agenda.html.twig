@@ -7,9 +7,9 @@
             <li>
                 <a href="{{ event.url }}">
                     <div>
-                        <span>{{ event.shortCutDateEvent["day"] }}</span>
-                        <span>{{ event.shortCutDateEvent["month"] }}</span>
-                        <span>{{ event.shortCutDateEvent["year"] }}</span>
+                        <span>{{ event.getNextDateParts["day"] }}</span>
+                        <span>{{ event.getNextDateParts["month"] }}</span>
+                        <span>{{ event.getNextDateParts["year"] }}</span>
                     </div>
                     <div>
                         <span>{{ event.name }}</span>

@@ -2,14 +2,12 @@
 >
     {{ 'inspiration.home'|trans }}
 </h2>
-{% if sortLink %}
-    {{ include('@Visit/widgets/_sort_link.html.twig') }}
-{% endif %}
+
 <div>
 
     {% for key,item in inspirations %}
         {% if key == 0 or key == 3 %}
-            {% set colspan =  'xl:col-span-2' %}
+            {% set colspan =  '' %}
         {% else %}
             {% set colspan =  '' %}
         {% endif %}

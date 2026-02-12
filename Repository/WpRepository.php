@@ -4,7 +4,9 @@ namespace VisitMarche\ThemeWp\Repository;
 
 use AcMarche\PivotAi\Api\PivotClient;
 use VisitMarche\ThemeWp\Dto\CommonItem;
+use VisitMarche\ThemeWp\Inc\Theme;
 use VisitMarche\ThemeWp\Lib\Di;
+use WP_Post;
 use WP_Query;
 use WP_Term;
 
@@ -96,6 +98,10 @@ class WpRepository
         return $items;
     }
 
+    /**
+     * @param int $catId
+     * @return array<int, WP_Post>
+     */
     public function findArticlesByCategory(int $catId): array
     {
         $args = [
@@ -106,7 +112,10 @@ class WpRepository
             'post_status' => 'publish',
         ];
 
-        $querynews = new WP_Query($args);
+        $query = new WP_Query($args);
+
+        return $query->posts;
+
         $posts = [];
         while ($querynews->have_posts()) {
             $post = $querynews->next_post();
@@ -117,6 +126,58 @@ class WpRepository
         }
 
         return $posts;
+    }
+
+
+    public function getIntro(): array|string
+    {
+        $intro = '<p>Intro vide</p>';
+        $introId = apply_filters('wpml_object_id', Theme::PAGE_INTRO, 'page', true);
+        $pageIntro = get_post($introId);
+
+        if ($pageIntro) {
+            $intro = get_the_content(null, null, $pageIntro);
+            $intro = apply_filters('the_content', $intro);
+            $intro = str_replace(']]>', ']]&gt;', $intro);
+            $intro = str_replace('<p>', '', $intro);
+            $intro = str_replace('</p>', '', $intro);
+        }
+
+        return $intro;
+    }
+
+    public function getIdeas(): array
+    {
+        $ideas = [];
+        if ($term = get_category_by_slug('en-famille')) {
+            $ideas[] = $this->addIdea($term, 'Famille.jpg');
+        }
+        if ($term = get_category_by_slug('en-solo-ou-duo')) {
+            $ideas[] = $this->addIdea($term, 'Duo-WBT.jpg');
+        }
+        if ($term = get_category_by_slug('entre-amis')) {
+            $ideas[] = $this->addIdea($term, 'Friends.jpg');
+        }
+        if ($term = get_category_by_slug('en-groupe')) {
+            $ideas[] = $this->addIdea($term, 'Groupe.jpg');
+        }
+        if ($term = get_category_by_slug('personnes-porteuses-dun-handicap')) {
+            $ideas[] = $this->addIdea($term, 'PMR.jpg');
+        }
+        if ($term = get_category_by_slug('tourisme-participatif-2')) {
+            $ideas[] = $this->addIdea($term, 'Tourismeparticipatif.jpg');
+        }
+
+        return $ideas;
+    }
+
+    private function addIdea(\WP_Term $term, string $imageName): array
+    {
+        return [
+            'img' => $imageName,
+            'description' => $term->name,
+            'url' => get_category_link($term),
+        ];
     }
 
 }

@@ -28,8 +28,8 @@ foreach (get_the_category($post->ID) as $category) {
 $content = get_the_content(null, null, $post);
 $content = apply_filters('the_content', $content);
 $content = str_replace(']]>', ']]&gt;', $content);
-$pivotRepository = new PivotRepository();
 
+$pivotRepository = new PivotRepository();
 $events = $pivotRepository->loadEvents(skip: true);
 $events = array_slice($events, 0, 3);
 
