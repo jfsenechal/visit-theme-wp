@@ -1,0 +1,11 @@
+<ul>
+    {% for icon in icons %}
+        <li>
+            <a href="{{ icon.url }}">
+                <img
+                     src="{{ template_uri() }}/assets/tartine/{{ icon.imageWhite }}" alt="{{ icon.slug }}"/>
+                <span>{{ icon.name }}</span>
+            </a>
+        </li>
+    {% endfor %}
+</ul>

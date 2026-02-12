@@ -69,7 +69,7 @@ Twig::rendPage(
         'urlAgenda' => $urlAgenda,
         'urlInspiration' => $urlInspiration,
         'intro' => $intro,
-        'icones' => $icones,
+        'icons' => $icones,
         'ideas' => $ideas,
         'bgimg' => $bgImg,
         'sortLink' => $sortLink,
