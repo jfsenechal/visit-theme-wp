@@ -91,3 +91,6 @@ offer:
   signage: 'Signage'
   address: 'Address'
   when: 'When ?'
+  close: 'Close'
+  prev_image: 'Previous image'
+  next_image: 'Next image'

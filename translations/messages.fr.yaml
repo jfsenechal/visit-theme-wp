@@ -91,3 +91,6 @@ offer:
   signage: 'Balisage'
   address: 'Adresse'
   when: 'Quand ?'
+  close: 'Fermer'
+  prev_image: 'Image précédente'
+  next_image: 'Image suivante'
