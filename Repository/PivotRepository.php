@@ -27,8 +27,9 @@ readonly class PivotRepository
     /**
      * @return array<int, Offer>
      */
-    public function loadEvents(): array
-    {
+    public function loadEvents(
+        bool $skip = false
+    ): array {
         $response = $this->pivotClient->fetchOffersByCriteria();
 
         $data = [];
