@@ -53,6 +53,8 @@ article:
   sample: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero provident veritatis eius, nostrum eos, explicabo repudiandae laborum rerum magni, nesciunt nemo quod tenetur omnis dolorum facilis illum. Obcaecati, nobis, a...'
   address: 'Adresse'
   pois: 'Points d''intérêts sur le parcours'
+  copy_link: 'Copier le lien'
+  print: 'Imprimer'
 offre:
   information: 'Renseignements'
 homepage:

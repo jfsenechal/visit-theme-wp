@@ -24,7 +24,8 @@
                 {# ── Sidebar: images first on mobile, sticky right column on desktop ── #}
                 <aside class="order-1 xl:order-2">
                     <div class="xl:sticky xl:top-24 space-y-6">
-                        <div class="hidden xl:block">
+                        <div class="hidden xl:block space-y-2">
+                            {% include '@Visit/article/_tags.html.twig' %}
                             {% include '@Visit/article/_share.html.twig' %}
                         </div>
                         <div class="hidden xl:block rounded-2xl bg-white shadow-lg ring-1 ring-gray-900/5 p-6">
@@ -39,6 +40,7 @@
                         {% include '@Visit/article/_body.html.twig' %}
                         {# Share (mobile only — desktop shows in sidebar) #}
                         <div class="xl:hidden">
+                            {% include '@Visit/article/_tags.html.twig' %}
                             {% include '@Visit/article/_share.html.twig' %}
                         </div>
                     </div>
