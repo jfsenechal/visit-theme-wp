@@ -126,18 +126,8 @@ class Twig
         try {
             echo self::loadTwig()->render($path, $params);
         } catch (LoaderError|RuntimeError|SyntaxError $e) {
-            self::rend500Page($e->getMessage());
+            self::renderErrorPage($e);
         }
-    }
-
-    public static function rend404Page(): void
-    {
-        echo '404';
-    }
-
-    public static function rend500Page(string $getMessage): void
-    {
-        echo '500';
     }
 
     private static function removeHtml(): TwigFilter

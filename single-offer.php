@@ -12,7 +12,7 @@ get_header();
 $codeCgt = get_query_var(RouterPivot::PARAM_OFFRE);
 
 if (!str_contains($codeCgt, "-")) {
-    Twig::rend404Page();
+    Twig::renderNotFoundPage('Offre introuvable.');
     get_footer();
 
     return;
@@ -23,14 +23,14 @@ $pivotRepository = new PivotRepository();
 try {
     $offer = $pivotRepository->loadOffer($codeCgt, ContentLevel::Full);
 } catch (\Exception $e) {
-    Twig::rend500Page($e->getMessage());
+    Twig::renderErrorPage($e);
     get_footer();
 
     return;
 }
 
 if (!$offer) {
-    Twig::rend404Page();
+    Twig::renderNotFoundPage('Offre introuvable.');
     get_footer();
 
     return;
@@ -40,6 +40,7 @@ if (!$offer) {
 //$result = $translator->translate($offer->nom, LanguageEnum::ENGLISH);
 
 $events = $pivotRepository->loadEvents(skip: true);
+$events = array_slice($events, 0, 3);
 $latitude = $offer->latitude();
 $longitude = $offer->longitude();
 if ($latitude && $longitude) {
