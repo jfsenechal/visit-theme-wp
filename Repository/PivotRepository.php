@@ -18,11 +18,6 @@ readonly class PivotRepository
 
     public function __construct()
     {
-        $this->setClient();
-    }
-
-    public function setClient(): void
-    {
         $this->pivotClient = Di::getInstance()->get(PivotClient::class);
     }
 
