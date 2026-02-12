@@ -13,9 +13,13 @@ $cat_ID = get_queried_object_id();
 $category = get_category($cat_ID);
 $categoryName = single_cat_title('', false);
 
+$returnName = null;
+if ($category->parent > 0) {
+    $returnName = get_category($category->parent)->name;
+}
+
 $wpRepository = new WpRepository();
 $children = $wpRepository->getChildrenOfCategory($cat_ID);
-
 
 try {
     $offers = $wpRepository->findArticlesAndOffersByWpCategory($category->cat_ID, true);
@@ -40,12 +44,13 @@ Twig::rendPage(
     '@Visit/category.html.twig',
     [
         'name' => $categoryName,
-        'excerpt' => $category->description,
         'image' => $image,
-        'video' => $video,
+        'returnName' => $returnName,
+        'returnUrl' => $returnName,
+        'excerpt' => $category->description,
         'icon' => $icon,
+        'video' => $video,
         'color' => $color,
-        'category' => $category,
         'children' => $children,
         'filters' => $children,
         'offersJson' => $offersJson,
