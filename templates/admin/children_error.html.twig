@@ -1,0 +1,20 @@
+<div class="wrap">
+    <h2>
+        Offres Pivot sur la catégorie <strong><a href="{{ categoryUrl }}"
+                                                 title="Voir sur le site">{{ category.name }}</a></strong>
+    </h2>
+
+    <h2>Erreur</h2>
+    <div class="notice-error error ">
+        <p>Les offres doivent être encodées sur les catégories enfants</p>
+    </div>
+
+    <div class="notice notice-info update-nag inline">
+        <p>Cliquez sur une des offres ci-dessous pour encoder</p>
+    </div>
+    <ul>
+        {% for child in children %}
+            <li><a href="/wp-admin/admin.php?page=category_offers&catID={{ child.id }}">{{ child.name }}</a></li>
+        {% endfor %}
+    </ul>
+</div>

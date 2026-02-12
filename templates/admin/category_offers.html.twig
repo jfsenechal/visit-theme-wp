@@ -52,8 +52,18 @@
             <tbody>
             <template x-for="offer in offers" :key="offer.codeCgt">
                 <tr>
-                    <td x-text="offer.codeCgt"></td>
-                    <td x-text="offer.name"></td>
+                    <td>
+                        <a :href="'{{ ''|routeOfferToPivotSite }}' + offer.codeCgt"
+                           target="_blank" rel="noopener noreferrer"
+                           title="Gérer l'offre dans Pivot"
+                           x-text="offer.codeCgt"></a>
+                    </td>
+                    <td>
+                        <a :href="'{{ ''|routeOfferToSite }}' + offer.codeCgt"
+                           target="_blank" rel="noopener noreferrer"
+                           title="Voir sur le site"
+                           x-text="offer.name"></a>
+                    </td>
                     <td x-text="offer.type || ''"></td>
                     <td>
                         <button type="button"

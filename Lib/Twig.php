@@ -13,6 +13,8 @@ use Twig\Extra\String\StringExtension;
 use Twig\Loader\FilesystemLoader;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
+use VisitMarche\ThemeWp\Inc\RouterPivot;
+use VisitMarche\ThemeWp\Inc\Theme;
 use WP;
 
 class Twig
@@ -54,6 +56,8 @@ class Twig
         $twig->addGlobal('WP_DEBUG', WP_DEBUG);
         $twig->addFunction(self::currentUrl());
         $twig->addFunction(self::templateUri());
+        $twig->addFilter(self::getRouteOfferToPivotSite());
+        $twig->addFilter(self::getRouteOfferToSite());
         $twig->addExtension(new StringExtension());
         $twig->addExtension(new IntlExtension());
         $twig->addFilter(self::removeHtml());
@@ -144,6 +148,26 @@ class Twig
             [
                 'is_safe' => ['html'],
             ]
+        );
+    }
+
+    private static function getRouteOfferToPivotSite(): TwigFilter
+    {
+        return new TwigFilter(
+            'routeOfferToPivotSite',
+            function (string $codeCgt): string {
+                return RouterPivot::getRouteOfferToPivotSite($codeCgt);
+            }
+        );
+    }
+
+    private static function getRouteOfferToSite(): TwigFilter
+    {
+        return new TwigFilter(
+            'routeOfferToSite',
+            function (string $codeCgt): string {
+                return RouterPivot::getOfferUrl(Theme::CATEGORY_PATRIMOINES, $codeCgt);
+            }
         );
     }
 }
