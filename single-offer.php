@@ -11,8 +11,6 @@ get_header();
 
 $codeCgt = get_query_var(RouterPivot::PARAM_OFFRE);
 
-$wpRepository = new PivotRepository();
-
 if (!str_contains($codeCgt, "-")) {
     Twig::rend404Page();
     get_footer();
@@ -20,8 +18,10 @@ if (!str_contains($codeCgt, "-")) {
     return;
 }
 
+$pivotRepository = new PivotRepository();
+
 try {
-    $offer = $wpRepository->loadOffer($codeCgt, ContentLevel::Full);
+    $offer = $pivotRepository->loadOffer($codeCgt, ContentLevel::Full);
 } catch (\Exception $e) {
     Twig::rend500Page($e->getMessage());
     get_footer();
@@ -39,6 +39,7 @@ if (!$offer) {
 //$translator = OpenAi::create();
 //$result = $translator->translate($offer->nom, LanguageEnum::ENGLISH);
 
+$events = $pivotRepository->loadEvents(skip: true);
 $latitude = $offer->latitude();
 $longitude = $offer->longitude();
 if ($latitude && $longitude) {
@@ -65,7 +66,7 @@ Twig::rendPage(
         'excerpt' => null,
         'tags' => [],
         'icon' => null,
-        'recommandations' => [],
+        'events' => $events,
         'specs' => [],
         'gpx' => null,
         'locations' => [],
