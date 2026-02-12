@@ -26,18 +26,11 @@ try {
 RouterPivot::setLinkOnCommonItems($offers, $category->cat_ID, 'fr');
 
 try {
-    $offersJson = json_encode(array_map(fn($item) => [
-        'id' => $item->id,
-        'type' => $item->type,
-        'name' => $item->name,
-        'image' => $item->image,
-        'description' => strip_tags($item->description),
-        'url' => $item->url,
-        'tags' => array_map(fn($tag) => ['name' => $tag->name], $item->tags),
-    ], $offers), JSON_THROW_ON_ERROR);
+    $offersJson = json_encode(array_map(fn($item) => $item->toArray(), $offers), JSON_THROW_ON_ERROR);
 } catch (\JsonException $e) {
     $offersJson = null;
 }
+
 $image = CategoryMetaData::getImage($category);
 $video = CategoryMetaData::getVideo($category);
 $icon = CategoryMetaData::getIcon($category);
