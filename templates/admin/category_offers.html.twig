@@ -1,6 +1,7 @@
 <div class="wrap">
     <h2>
-        Offres Pivot sur la catégorie <strong><a href="{{ categoryUrl }}" title="Voir sur le site">{{ category.name }}</a></strong>
+        Offres Pivot sur la catégorie <strong><a href="{{ categoryUrl }}"
+                                                 title="Voir sur le site">{{ category.name }}</a></strong>
     </h2>
     <div class="notice notice-info update-nag inline">
         <p>Effectuez une recherche sur le nom ou le code de l'offre</p>
@@ -10,18 +11,22 @@
          x-init="loadOffers()"
          style="position: relative;">
 
-        <div style="margin: 15px 0;">
-            <label for="search-offer"><strong>Rechercher une offre :</strong></label>
-            <input type="text"
-                   id="search-offer"
-                   x-model="search"
-                   @input.debounce.300ms="searchOffers()"
-                   @click.outside="suggestions = []"
-                   placeholder="Nom ou code CGT..."
-                   class="regular-text"
-                   autocomplete="off">
-            <span x-show="loading" style="margin-left: 8px;">Chargement...</span>
-        </div>
+        {% if children|length > 0 %}
+            {% include '@Visit/admin/_children_error.html.twig' %}
+        {% else %}
+            <div style="margin: 15px 0;">
+                <label for="search-offer"><strong>Rechercher une offre :</strong></label>
+                <input type="text"
+                       id="search-offer"
+                       x-model="search"
+                       @input.debounce.300ms="searchOffers()"
+                       @click.outside="suggestions = []"
+                       placeholder="Nom ou code CGT..."
+                       class="regular-text"
+                       autocomplete="off">
+                <span x-show="loading" style="margin-left: 8px;">Chargement...</span>
+            </div>
+        {% endif %}
 
         <ul x-show="suggestions.length > 0"
             style="position: absolute; z-index: 100; background: #fff; border: 1px solid #ccc; max-height: 300px; overflow-y: auto; list-style: none; margin: 0; padding: 0; width: 600px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
@@ -73,7 +78,8 @@
                     <td>
                         <button type="button"
                                 class="button button-link-delete"
-                                @click="removeOffer(offer.codeCgt)">Supprimer</button>
+                                @click="removeOffer(offer.codeCgt)">Supprimer
+                        </button>
                     </td>
                 </tr>
             </template>

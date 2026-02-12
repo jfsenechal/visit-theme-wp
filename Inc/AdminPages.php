@@ -63,16 +63,6 @@ class AdminPages
         $wpRepository = new WpRepository();
         $children = $wpRepository->getChildrenOfCategory($catID);
 
-        if (count($children) > 0) {
-            Twig::rendPage('@Visit/admin/children_error.html.twig', [
-                'category' => $category,
-                'categoryUrl' => $categoryUrl,
-                'children' => $children,
-            ]);
-
-            return;
-        }
-
         wp_enqueue_script(
             'visit-alpine-admin',
             'https://unpkg.com/alpinejs@3/dist/cdn.min.js',
@@ -94,6 +84,7 @@ class AdminPages
             'category' => $category,
             'categoryUrl' => $categoryUrl,
             'catId' => $catID,
+            'children' => $children,
         ]);
     }
 }
