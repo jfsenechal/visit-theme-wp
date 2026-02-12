@@ -6,7 +6,7 @@ use VisitMarche\ThemeWp\Lib\Twig;
 
 class SortLink
 {
-    public static function linkSortNews(): ?string
+    public static function linkSortArticles(): ?string
     {
         if (current_user_can('edit_posts')) {
             $url = admin_url('/admin.php?page=ac_marche_tri_news');

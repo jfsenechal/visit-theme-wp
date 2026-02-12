@@ -2,7 +2,7 @@
 
 namespace VisitMarche\ThemeWp\Inc;
 
-use SortLink;
+use VisitMarche\ThemeWp\Lib\Sort\SortLink;
 use WP_Admin_Bar;
 
 class AdminBar
