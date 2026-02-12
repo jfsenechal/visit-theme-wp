@@ -2459,6 +2459,16 @@
       margin-top: calc(var(--spacing) * 4);
     }
   }
+  .xl\:mb-5 {
+    @media (width >= 80rem) {
+      margin-bottom: calc(var(--spacing) * 5);
+    }
+  }
+  .xl\:mb-8 {
+    @media (width >= 80rem) {
+      margin-bottom: calc(var(--spacing) * 8);
+    }
+  }
   .xl\:mb-10 {
     @media (width >= 80rem) {
       margin-bottom: calc(var(--spacing) * 10);
@@ -2497,6 +2507,11 @@
   .xl\:grid-cols-\[1fr\,400px\] {
     @media (width >= 80rem) {
       grid-template-columns: 1fr,400px;
+    }
+  }
+  .xl\:grid-cols-\[1fr_400px\] {
+    @media (width >= 80rem) {
+      grid-template-columns: 1fr 400px;
     }
   }
   .xl\:grid-cols-\[12rem\,1fr\] {

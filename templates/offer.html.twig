@@ -6,7 +6,7 @@
         <article>
 
             {# ── Title & type badge ── #}
-            <header class="mb-6 xl:mb-10">
+            <header class="mb-6 xl:mb-8">
                 <h1 class="relative inline-block pb-3 font-montserrat text-2xl md:text-3xl xl:text-4xl font-bold tracking-tight text-carto-main text-pretty">
                     {{ offer.nom }}
                     <span class="absolute bottom-0 left-0 h-1 w-16 rounded-full bg-cta-light" aria-hidden="true"></span>
@@ -19,19 +19,16 @@
             </header>
 
             {# ── Two-column responsive grid ── #}
-            <div class="grid grid-cols-1 xl:grid-cols-[1fr,400px] gap-6 xl:gap-10 items-start">
+            <div class="grid grid-cols-1 xl:grid-cols-[1fr_400px] gap-6 xl:gap-10 items-start">
 
                 {# ── Sidebar: images first on mobile, sticky right column on desktop ── #}
                 <aside class="order-1 xl:order-2">
                     <div class="xl:sticky xl:top-24 space-y-6">
-                        {% include '@Visit/offer/_images.html.twig' %}
-
-                        <div class="hidden xl:block rounded-2xl bg-white shadow-lg ring-1 ring-gray-900/5 p-6">
-                            {% include '@Visit/offer/_address_contact.html.twig' %}
-                        </div>
-
                         <div class="hidden xl:block">
                             {% include '@Visit/article/_share.html.twig' %}
+                        </div>
+                        <div class="hidden xl:block rounded-2xl bg-white shadow-lg ring-1 ring-gray-900/5 p-6">
+                            {% include '@Visit/offer/_address_contact.html.twig' %}
                         </div>
                     </div>
                 </aside>
@@ -58,7 +55,7 @@
                 </div>
 
             </div>
-
+         {% include '@Visit/offer/_images.html.twig' %}
             {# ── See also: full width ── #}
             {% include '@Visit/article/_see_also.html.twig' %}
 
