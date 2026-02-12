@@ -90,3 +90,4 @@ offer:
   recommendation: 'Recommendation'
   signage: 'Balisage'
   address: 'Adresse'
+  when: 'Quand ?'
