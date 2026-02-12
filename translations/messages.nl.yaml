@@ -78,3 +78,7 @@ newsletter:
   title: 'Onze nieuwsbrief'
 local:
   products: 'Regionale producten'
+offer:
+  phone: 'Phones'
+  email: 'Emails'
+  website: 'Website'

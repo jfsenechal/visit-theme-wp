@@ -78,3 +78,7 @@ newsletter:
   title: 'Notre lettre d''informations'
 local:
   products: 'Produits locaux'
+offer:
+  phone: 'Téléphones'
+  email: 'Emails'
+  website: 'Website'

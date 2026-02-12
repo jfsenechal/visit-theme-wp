@@ -78,3 +78,7 @@ newsletter:
   title: 'Newsletter'
 local:
   products: 'Local products'
+offer:
+  phone: 'Phones'
+  email: 'Emails'
+  website: 'Website'
