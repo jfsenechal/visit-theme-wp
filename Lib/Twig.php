@@ -65,7 +65,7 @@ class Twig
     public static function renderErrorPage(\Exception $exception): void
     {
         try {
-            echo self::loadTwig()->render('@AcMarche/error/_error.html.twig', [
+            echo self::loadTwig()->render('@Visit/error/_error.html.twig', [
                 'message' => $exception->getMessage(),
                 'file' => $exception->getFile(),
                 'line' => $exception->getLine(),
@@ -78,7 +78,7 @@ class Twig
     public static function renderNotFoundPage(string $message): void
     {
         try {
-            echo self::loadTwig()->render('@AcMarche/error/_not_found.html.twig', [
+            echo self::loadTwig()->render('@Visit/error/_not_found.html.twig', [
                 'message' => $message,
             ]);
 
@@ -126,7 +126,7 @@ class Twig
         try {
             echo self::loadTwig()->render($path, $params);
         } catch (LoaderError|RuntimeError|SyntaxError $e) {
-            echo $e->getMessage();
+            self::rend500Page($e->getMessage());
         }
     }
 

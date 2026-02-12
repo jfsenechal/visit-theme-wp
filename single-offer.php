@@ -47,9 +47,9 @@ if ($latitude && $longitude) {
 }
 
 if (!$currentCategory = get_category_by_slug(get_query_var('category_name'))) {
-    $currentCategory = get_category_by_slug('non-classifiee');
+    $currentCategory = get_category(1);
 }
-$urlcurrentCategory = get_category_link($currentCategory);
+$returnUrl = get_category_link($currentCategory);
 
 Twig::rendPage(
     '@Visit/offer.html.twig',
@@ -57,10 +57,10 @@ Twig::rendPage(
         'offer' => $offer,
         'name' => $offer->name(),
         'returnName' => $currentCategory->name,
-        'returnUrl' => $urlcurrentCategory,
+        'returnUrl' => $returnUrl,
         'categoryName' => $currentCategory->name,
         'nameBack' => $currentCategory->name,
-        'image' => $offer->getDefaultImage()?->url ?? get_template_directory_uri().'/assets/images/404.jpg',
+        'image' => $offer->getDefaultImage()->url ?? get_template_directory_uri().'/assets/images/404.jpg',
         'latitude' => $latitude,
         'longitude' => $longitude,
         'excerpt' => null,
