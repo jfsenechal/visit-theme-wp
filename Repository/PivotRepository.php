@@ -3,9 +3,11 @@
 namespace VisitMarche\ThemeWp\Repository;
 
 use AcMarche\PivotAi\Api\PivotClient;
+use AcMarche\PivotAi\Entity\Pivot\DateEvent;
 use AcMarche\PivotAi\Entity\Pivot\Offer;
 use AcMarche\PivotAi\Enums\ContentLevel;
 use AcMarche\PivotAi\Enums\TypeOffreEnum;
+use Carbon\Carbon;
 use VisitMarche\ThemeWp\Inc\RouterPivot;
 use VisitMarche\ThemeWp\Inc\Theme;
 use VisitMarche\ThemeWp\Lib\Di;
@@ -31,13 +33,58 @@ readonly class PivotRepository
         bool $skip = false
     ): array {
         $response = $this->pivotClient->fetchOffersByCriteria();
+        $today = Carbon::today();
 
         $data = [];
         foreach ($response->getOffers() as $offer) {
-            if ($offer->typeOffre->idTypeOffre == TypeOffreEnum::EVENT->value) {
-                $data[] = $offer;
+            if ($offer->typeOffre->idTypeOffre != TypeOffreEnum::EVENT->value) {
+                continue;
             }
+
+            // Remove outdated dates from each event
+            $offer->dates = array_values(array_filter(
+                $offer->dates,
+                fn(DateEvent $date) => ($date->endDate !== null && Carbon::parse($date->endDate)->gte($today))
+                    || ($date->startDate !== null && Carbon::parse($date->startDate)->gte($today)),
+            ));
+
+            // Skip events with no upcoming dates
+            if ($offer->dates === []) {
+                continue;
+            }
+
+            // When skip is true, remove events where all dates span more than 10 days
+            if ($skip) {
+                $offer->dates = array_values(array_filter(
+                    $offer->dates,
+                    function (DateEvent $date) {
+                        if ($date->startDate === null || $date->endDate === null) {
+                            return true;
+                        }
+
+                        return Carbon::parse($date->startDate)->diffInDays(Carbon::parse($date->endDate)) <= 10;
+                    },
+                ));
+
+                if ($offer->dates === []) {
+                    continue;
+                }
+            }
+
+            // Sort dates within the event by startDate ASC
+            usort($offer->dates, fn(DateEvent $a, DateEvent $b) => $a->startDate <=> $b->startDate);
+
+            $data[] = $offer;
         }
+
+        // Sort events by their earliest startDate ASC
+        usort($data, function (Offer $a, Offer $b) {
+            $dateA = $a->dates[0]->startDate ?? null;
+            $dateB = $b->dates[0]->startDate ?? null;
+
+            return $dateA <=> $dateB;
+        });
+
         array_map(
             fn(Offer $offer) => $offer->url = RouterPivot::getOfferUrl(Theme::CATEGORY_PATRIMOINES, $offer->codeCgt),
             $data
