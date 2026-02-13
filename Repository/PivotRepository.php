@@ -146,4 +146,13 @@ readonly class PivotRepository
 
         return array_values($offers);
     }
+    /**
+     * @return Offer[]
+     */
+    public function getAllOffers(): array
+    {
+        $offerResponse = $this->pivotClient->fetchOffersByCriteria(ContentLevel::Summary);
+
+        return $offerResponse->getOffers();
+    }
 }

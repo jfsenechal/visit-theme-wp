@@ -3,26 +3,26 @@
 namespace VisitMarche\ThemeWp\Lib\Search;
 
 
+use VisitMarche\ThemeWp\Dto\CommonItem;
 use VisitMarche\ThemeWp\Repository\PivotRepository;
 use VisitMarche\ThemeWp\Repository\WpRepository;
 
 class DataForSearch
 {
     private WpRepository $wpRepository;
-    private PivotRepository $bottinRepository;
+    private PivotRepository $pivotRepository;
 
     public function __construct()
     {
         $this->wpRepository = new WpRepository();
-        $this->bottinRepository = new PivotRepository();
+        $this->pivotRepository = new PivotRepository();
     }
 
     /**
-     * @param int $idSite
      * @param int|null $categoryId
-     * @return array<int,Document>
+     * @return array<int,CommonItem>
      */
-    public function getPosts( ?int $categoryId = null): array
+    public function getPosts(?int $categoryId = null): array
     {
         $args = array(
             'numberposts' => 5000,
@@ -43,8 +43,7 @@ class DataForSearch
         $data = [];
 
         foreach ($posts as $post) {
-            $this->wpRepository->preparePost($post);
-            $data[] = Document::documentFromPost($post, 'local');
+            $data[] = CommonItem::createFromPost($post);
         }
 
         // Free memory
@@ -54,46 +53,9 @@ class DataForSearch
     }
 
     /**
-     * Lightweight method to get post content for category indexing
-     * Does not create Document objects to save memory
+     * @return array<int,CommonItem>
      */
-    private function getPostContentForCategory(int $categoryId): string
-    {
-        global $wpdb;
-
-        $sql = $wpdb->prepare(
-            "SELECT p.post_title, p.post_excerpt
-             FROM {$wpdb->posts} p
-             INNER JOIN {$wpdb->term_relationships} tr ON p.ID = tr.object_id
-             INNER JOIN {$wpdb->term_taxonomy} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
-             WHERE tt.term_id = %d
-             AND tt.taxonomy = 'category'
-             AND p.post_status = 'publish'
-             AND p.post_type = 'post'
-             LIMIT 100",
-            $categoryId
-        );
-
-        $posts = $wpdb->get_results($sql);
-        $content = '';
-
-        foreach ($posts as $post) {
-            $content .= ' '.Cleaner::cleandata($post->post_title);
-            if ($post->post_excerpt) {
-                $content .= ' '.Cleaner::cleandata($post->post_excerpt);
-            }
-        }
-
-        unset($posts);
-
-        return $content;
-    }
-
-    /**
-     * @param int $idSite
-     * @return array<int,Document>
-     */
-    public function getCategoriesBySite(int $idSite): array
+    public function getCategories(): array
     {
         $args = array(
             'type' => 'post',
@@ -120,19 +82,25 @@ class DataForSearch
 
             // Use lightweight method - only titles and excerpts, limited to 100 posts
             $content = $category->description ?? '';
-            $content .= $this->getPostContentForCategory($category->cat_ID);
-            $content .= $this->getContentFichesBottin($category);
 
-            $children = $this->wpRepository->getChildrenOfCategory($category->cat_ID);
-            $tags = [];
-            $parent = $this->wpRepository->getParentCategory($category->cat_ID);
-            if ($parent) {
-                $tags[] = ['id' => $parent->term_id, 'name' => $parent->name];
+            try {
+                $offers = $this->wpRepository->findArticlesAndOffersByWpCategory($category->cat_ID);
+            } catch (\Exception $e) {
+                $offers = [];
             }
-            $category->content = $content;
-            $category->tags = $tags;
-            $category->link = get_category_link($category);
-            $data[] = Document::documentFromCategory($category, $idSite, 'local');
+            foreach ($offers as $offer) {
+                $content .= ' '.$offer->title;
+            }
+
+            $tags = [];
+            if ($category->parent > 0) {
+                $parent = get_category($category->parent)->name;
+                if ($parent instanceof \WP_Term) {
+                    $tags[] = ['id' => $parent->term_id, 'name' => $parent->name];
+                }
+            }
+
+            $data[] = CommonItem::createFromCategory($category, $content, $tags);
 
             // Free memory after each category
             unset($content, $children, $tags);
@@ -143,173 +111,23 @@ class DataForSearch
         return $data;
     }
 
-    public function getContentFichesBottin(object $category): string
-    {
-        $categoryBottinId = get_term_meta($category->cat_ID, BottinCategoryMetaBox::KEY_NAME, true);
-
-        if ($categoryBottinId) {
-            $fiches = $this->bottinRepository->getFichesByCategory($categoryBottinId);
-
-            return $this->getContentForCategory($fiches);
-        }
-
-        return '';
-    }
-
-    public static function getContentForCategory(array $fiches): string
-    {
-        $content = '';
-
-        foreach ($fiches as $fiche) {
-            $content .= self::getContentFiche($fiche);
-        }
-
-        return $content;
-    }
-
-    public static function getContentFiche($fiche): string
-    {
-        return ' '.$fiche->societe.' '.$fiche->email.' '.$fiche->website.' '.$fiche->twitter.' '.$fiche->facebook.' '.$fiche->nom.' '.$fiche->prenom.' '.$fiche->comment1.' '.$fiche->comment2.' '.$fiche->comment3;
-    }
-
     /**
-     * @param $fiche
-     *
-     * @return string[]
+     * @param int|null $categoryId
+     * @return array<int,CommonItem>
      */
-    public static function getCategoriesFiche($fiche): array
+    public function getOffers(?int $categoryId = null): array
     {
-        $data = self::instanceBottinRepository()->getCategoriesOfFiche($fiche->id);
-        $categories = [];
-        foreach ($data as $category) {
-            $categories[] = ['id' => $category->id, 'name' => $category->name];
-        }
-
-        return $categories;
-    }
-
-    /**
-     * @return array<int,Document>
-     * @throws \Exception
-     */
-    public function fiches(): array
-    {
-        $documents = [];
-
-        foreach ($this->bottinRepository->getFiches() as $fiche) {
-            $idWpSite = $this->bottinRepository->findByFicheIdWpSite($fiche);
-            $root = $this->bottinRepository->findRootOfBottinFiche($fiche);
-            $source = 'local';
-            if (in_array($root, [Bottin::COMMERCES, Bottin::SANTECO])) {
-                $source = 'https://cap.marche.be';
-            }
-            $documents[] = Document::documentFromFiche($fiche, $idWpSite, $source);
-        }
-
+        $offers = $this->pivotRepository->getAllOffers();
         $data = [];
-        foreach ($documents as $document) {
-            $skip = false;
-            foreach ($document->tags as $category) {
-                if (in_array($category['id'], $this->skips)) {
-                    $skip = true;
-                    break;
-                }
-            }
-            if (!$skip) {
-                $data[] = $document;
-            }
+
+        foreach ($offers as $offer) {
+            $data[] = CommonItem::createFromOffer($offer);
         }
+
+        // Free memory
+        unset($offers);
 
         return $data;
     }
 
-    /**
-     * @return array<int,Document>
-     */
-    public function indexCategoriesBottin(): array
-    {
-        $documents = [];
-        $data = $this->getAllCategoriesBottin();
-        foreach ($data as $document) {
-            if (in_array($document->id, $this->skips)) {
-                continue;
-            }
-            $id = 'bottin_cat_'.$document->id;
-            $document->id = $id;
-            $documents[] = $document;
-        }
-
-        return $documents;
-    }
-
-    /**
-     * @return Document[]
-     *
-     * @throws \Exception
-     */
-    public function getAllCategoriesBottin(): array
-    {
-        $data = $this->bottinRepository->getAllCategories();
-        $documents = [];
-        foreach ($data as $category) {
-            $paths = [];
-            if ($category->parent_id > 0) {
-                $parent = $this->bottinRepository->getCategory($category->parent_id);
-                if ($parent) {
-                    $paths[] = ['id' => $parent->id, 'name' => $parent->name];
-                    $parent2 = $this->bottinRepository->getCategory($category->parent_id);
-                    if ($parent2) {
-                        $paths[] = ['id' => $parent2->id, 'name' => $parent2->name];
-                    }
-                }
-            }
-            $category->tags = [];
-            $category->paths = $paths;
-            $documents[] = Document::documentFromCategoryBottin($category, 'https://cap.marche.be');
-        }
-
-        return $documents;
-    }
-
-    /**
-     * @return Document[]
-     */
-    public function getEnqueteDocuments(): array
-    {
-        $apiRepository = new ApiRepository();
-        $enquetes = $apiRepository->getEnquetesPubliques();
-        $category = get_category(Theme::ENQUETE_DIRECTORY_URBA);
-        $paths = [];
-        $documents = [];
-        if ($category) {
-            $paths = [['id' => $category->term_id, 'name' => $category->name]];
-        }
-        foreach ($enquetes as $enquete) {
-            $enquete->paths = $paths;
-            $documents[] = Document::documentFromEnquete($enquete, 'Enquêtes publiques');
-        }
-
-        return $documents;
-
-    }
-
-    /**
-     * @return Document[]
-     */
-    public function getAllPublications(): array
-    {
-        $apiRepository = new ApiRepository();
-        $publications = $apiRepository->getAllPublications();
-        $documents = [];
-        foreach ($publications as $publication) {
-            $category = get_category($publication->category->wpCategoryId);
-            $publication->paths = [];
-            if ($category) {
-                $publication->paths = [['id' => $category->term_id, 'name' => $category->name]];
-            }
-            $documents[] = Document::documentFromPublication($publication, 'Publications communales');
-        }
-
-        return $documents;
-    }
 }

@@ -19,7 +19,8 @@ class Theme
     public const CATEGORIES_AGENDA = [8, 33, 34];
     public const CATEGORIES_HEBERGEMENT = [6, 67, 68];
     public const CATEGORIES_RESTAURATION = [5, 44, 66];
-    const CATEGORY_INSPIRATION = 2;
+   public const CATEGORY_INSPIRATION = 2;
+    public const CATEGORY_NOT_CATEGORIZED = 1;
 
     public static function isHomePage(): bool
     {

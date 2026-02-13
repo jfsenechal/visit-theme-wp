@@ -73,20 +73,9 @@ class MeiliCommand extends Command
             $this->indexCategories($output);
             $this->freeMemory();
 
-            $output->writeln('<info>Indexing bottin...</info>');
-            $this->indexBottin($output);
+            $output->writeln('<info>Indexing offers...</info>');
+            $this->indexOffers($output);
             $this->freeMemory();
-
-            $output->writeln('<info>Indexing enquetes...</info>');
-            $this->indexEnquetes($output);
-            $this->freeMemory();
-
-            $output->writeln('<info>Indexing publications...</info>');
-            $this->indexPublications($output);
-            $this->freeMemory();
-
-            $output->writeln('<info>Indexing ADL...</info>');
-            $this->indexAdl($output);
 
             $output->writeln('<comment>Indexation complete!</comment>');
 
@@ -104,7 +93,7 @@ class MeiliCommand extends Command
     {
         $documents = [];
         $posts = $this->dataForSearch->getPosts();
-        $output->writeln(sprintf('  - %s: %d posts', $nom, count($posts)));
+        $output->writeln(sprintf(' %d posts', count($posts)));
         foreach ($posts as $document) {
             $documents[] = $document;
         }
@@ -119,8 +108,24 @@ class MeiliCommand extends Command
     {
         $documents = [];
 
-        $categories = $this->dataForSearch->getCategoriesBySite($idSite);
-        $output->writeln(sprintf('  - %s: %d categories', $nom, count($categories)));
+        $categories = $this->dataForSearch->getCategories();
+        $output->writeln(sprintf(' %d categories', count($categories)));
+        foreach ($categories as $document) {
+            $documents[] = $document;
+        }
+        unset($categories);
+        restore_current_blog();
+        $this->freeMemory();
+
+        $this->indexInBatches($documents, $output);
+    }
+
+    private function indexOffers(OutputInterface $output): void
+    {
+        $documents = [];
+
+        $categories = $this->dataForSearch->getOffers();
+        $output->writeln(sprintf(' %d offers', count($categories)));
         foreach ($categories as $document) {
             $documents[] = $document;
         }

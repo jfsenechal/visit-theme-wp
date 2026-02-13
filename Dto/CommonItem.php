@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace VisitMarche\ThemeWp\Dto;
 
 use AcMarche\PivotAi\Entity\Pivot\Offer;
+use VisitMarche\ThemeWp\Inc\CategoryMetaData;
+use VisitMarche\ThemeWp\Inc\RouterPivot;
+use VisitMarche\ThemeWp\Inc\Theme;
 
 class CommonItem
 {
@@ -13,12 +16,14 @@ class CommonItem
     /** @var array<int, object{name: string}> */
     public array $tags = [];
 
+    public string $content = '';
+
     public function __construct(
         public string $id,
         public string $type,
         public string $name,
         public string $image,
-        public string $description = '',
+        public string $excerpt = '',
     ) {
     }
 
@@ -29,14 +34,16 @@ class CommonItem
             type: 'post',
             name: $post->post_title,
             image: self::getPostThumbnail($post->ID),
-            description: $post->post_excerpt,
+            excerpt: $post->post_excerpt
         );
-        $item->url = get_permalink($post->ID);
 
         $categories = get_the_category($post->ID);
         foreach ($categories as $category) {
             $item->tags[] = (object)['name' => $category->name];
         }
+
+        $item->content = apply_filters('the_content', get_the_content(null, null, $post));
+        $item->url = get_permalink($post);
 
         return $item;
     }
@@ -50,7 +57,7 @@ class CommonItem
             type: 'offer',
             name: $offer->nom ?? '',
             image: $image?->url ?? get_template_directory_uri().'/assets/images/404.jpg',
-            description: $offer->getShortDescription() ?? '',
+            excerpt: $offer->getShortDescription() ?? '',
         );
 
         if ($offer->typeOffre) {
@@ -59,6 +66,26 @@ class CommonItem
                 $item->tags[] = (object)['name' => $label];
             }
         }
+
+        $item->url = get_permalink(RouterPivot::getOfferUrl(Theme::CATEGORY_NOT_CATEGORIZED, $offer->codeCgt));
+        $item->content = $offer->getDescription();
+
+        return $item;
+    }
+
+    public static function createFromCategory(\WP_Term $category, string $content, array $tags = []): CommonItem
+    {
+        $item = new CommonItem(
+            id: (string)$category->ID,
+            type: 'category',
+            name: $category->name,
+            image: CategoryMetaData::getImage($category),
+            excerpt: $category->description
+        );
+
+        $item->url = get_category_link($category);
+        $item->tags = $tags;
+        $item->content = $content;
 
         return $item;
     }
@@ -70,7 +97,8 @@ class CommonItem
             'type' => $this->type,
             'name' => $this->name,
             'image' => $this->image,
-            'description' => strip_tags($this->description),
+            'excerpt' => strip_tags($this->excerpt),
+            'content' => strip_tags($this->content),
             'url' => $this->url,
             'tags' => array_map(fn($tag) => ['name' => $tag->name], $this->tags),
         ];
