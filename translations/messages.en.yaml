@@ -20,6 +20,8 @@ menu:
   name: 'Menu'
   contact: 'Contact'
   language: 'Menu language'
+  categories: 'Categories'
+  search: 'Search'
 town_hall: 'Office Communal du Tourisme'
 hours:
   week: 'From Monday to Thursday'
