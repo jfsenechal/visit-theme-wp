@@ -9,7 +9,9 @@ use VisitMarche\ThemeWp\Inc\Ajax;
 use VisitMarche\ThemeWp\Inc\ApiRoutes;
 use VisitMarche\ThemeWp\Inc\AssetsLoader;
 use VisitMarche\ThemeWp\Inc\CategoryMetaData;
+use VisitMarche\ThemeWp\Inc\OpenGraph;
 use VisitMarche\ThemeWp\Inc\RouterPivot;
+use VisitMarche\ThemeWp\Inc\Seo;
 use VisitMarche\ThemeWp\Inc\SetupTheme;
 use VisitMarche\ThemeWp\Lib\Frankenphp;
 
@@ -51,7 +53,8 @@ new RouterPivot();
 /**
  * Balises pour le référencement
  */
-//new Seo();
+new Seo();
+new OpenGraph();
 /**
  * Balises pour le social
  */
