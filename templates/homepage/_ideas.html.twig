@@ -1,18 +1,35 @@
-<h2>
+<h2 id="heading-ideas"
+    class="text-3xl sm:text-4xl font-bold text-caractere mb-10">
     {{ 'ideas.home'|trans }}
 </h2>
-<section>
+
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-5">
     {% for idea in ideas %}
-        <a href="{{ idea.url }}">
-            <img
-                    src="{{ template_uri() }}/assets/images/ideas/{{ idea.img }}"
-                    alt="idea.img"/>
-            <div></div>
-            <div>
-                <span>
+        <a href="{{ idea.url }}"
+           class="group relative block aspect-[3/4] rounded-2xl overflow-hidden
+                  shadow-md hover:shadow-xl
+                  transition-all duration-300
+                  hover:-translate-y-1
+                  focus:outline-none focus:ring-4 focus:ring-cta-light/50 focus:ring-offset-2">
+            <img src="{{ template_uri() }}/assets/images/ideas/{{ idea.img }}"
+                 alt="{{ idea.description }}"
+                 loading="lazy"
+                 class="absolute inset-0 h-full w-full object-cover
+                        group-hover:scale-110
+                        transition-transform duration-500 ease-out"/>
+
+            {# Gradient overlay #}
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent
+                        group-hover:from-black/80
+                        transition-all duration-300"
+                 aria-hidden="true"></div>
+
+            {# Label #}
+            <div class="absolute inset-x-0 bottom-0 p-4">
+                <span class="block text-sm sm:text-base font-semibold text-white text-center leading-tight">
                     {{ idea.description }}
                 </span>
             </div>
         </a>
     {% endfor %}
-</section>
+</div>
