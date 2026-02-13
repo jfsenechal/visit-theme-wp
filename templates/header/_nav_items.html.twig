@@ -119,10 +119,12 @@
     <a href="{{ items.pratique.url }}" class="px-3 py-2 font-medium text-gray-700 hover:text-gray-900 rounded-md hover:bg-gray-50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500">{{ items.pratique.name }}</a>
 </li>
 <li>
-    <a href="#" class="p-2 text-gray-500 hover:text-gray-700 transition-colors rounded-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500" aria-label="{{ 'menu.search'|trans }}">
+    <button
+     @click="openSearchModal()"
+         class="cursor-pointer p-2 text-gray-500 hover:text-gray-700 transition-colors rounded-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500" aria-label="{{ 'menu.search'|trans }}">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="size-5">
             <path stroke-linecap="round" stroke-linejoin="round"
                   d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
         </svg>
-    </a>
+    </button>
 </li>
