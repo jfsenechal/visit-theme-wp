@@ -60,10 +60,10 @@
                            group-hover:translate-y-0 transition-transform duration-300">
                     {{ item.name }}
                 </h3>
-                {% if item.description %}
+                {% if item.excerpt %}
                     <p class="mt-2 text-sm text-white/80 line-clamp-2
                               {{ key == 0 ? '' : 'hidden sm:block' }}">
-                        {{ item.description }}
+                        {{ item.excerpt }}
                     </p>
                 {% endif %}
             </div>
