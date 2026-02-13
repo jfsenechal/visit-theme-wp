@@ -67,7 +67,7 @@ class CommonItem
             }
         }
 
-        $item->url = get_permalink(RouterPivot::getOfferUrl(Theme::CATEGORY_NOT_CATEGORIZED, $offer->codeCgt));
+        $item->url = RouterPivot::getOfferUrl(Theme::CATEGORY_NOT_CATEGORIZED, $offer->codeCgt);
         $item->content = $offer->getDescription();
 
         return $item;
