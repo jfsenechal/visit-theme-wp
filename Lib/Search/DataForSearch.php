@@ -89,7 +89,9 @@ class DataForSearch
                 $offers = [];
             }
             foreach ($offers as $offer) {
-                $content .= ' '.$offer->title;
+                $content .= ' '.$offer->name;
+                $content .= ' '.$offer->type;
+                $content .= ' '.$offer->excerpt;
             }
 
             $tags = [];

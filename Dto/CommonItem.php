@@ -16,7 +16,7 @@ class CommonItem
     /** @var array<int, object{name: string}> */
     public array $tags = [];
 
-    public string $content = '';
+    public ?string $content = null;
 
     public function __construct(
         public string $id,
