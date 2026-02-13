@@ -1,14 +1,18 @@
 <li>
-    <a href="/{{ locale }}" class="px-3 py-2 font-medium text-gray-700 hover:text-gray-900 rounded-md hover:bg-gray-50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500">{{ 'menu.home'|trans }}</a>
+    <a href="/{{ locale }}"
+       class="px-3 py-2 font-medium text-gray-700 hover:text-gray-900 rounded-md hover:bg-gray-50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500">{{ 'menu.home'|trans }}</a>
 </li>
 <li>
-    <a href="{{ items.idees.url }}" class="px-3 py-2 font-medium text-gray-700 hover:text-gray-900 rounded-md hover:bg-gray-50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500">{{ items.idees.name }}</a>
+    <a href="{{ items.idees.url }}"
+       class="px-3 py-2 font-medium text-gray-700 hover:text-gray-900 rounded-md hover:bg-gray-50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500">{{ items.idees.name }}</a>
 </li>
 <li>
-    <a href="{{ items.inspirations.url }}" class="px-3 py-2 font-medium text-gray-700 hover:text-gray-900 rounded-md hover:bg-gray-50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500">{{ items.inspirations.name }}</a>
+    <a href="{{ items.inspirations.url }}"
+       class="px-3 py-2 font-medium text-gray-700 hover:text-gray-900 rounded-md hover:bg-gray-50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500">{{ items.inspirations.name }}</a>
 </li>
 <li>
-    <a href="{{ items.agenda.url }}" class="px-3 py-2 font-medium text-gray-700 hover:text-gray-900 rounded-md hover:bg-gray-50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500">{{ items.agenda.name }}</a>
+    <a href="{{ items.agenda.url }}"
+       class="px-3 py-2 font-medium text-gray-700 hover:text-gray-900 rounded-md hover:bg-gray-50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500">{{ items.agenda.name }}</a>
 </li>
 <li class="relative" x-data="{ open: false }">
     <button
@@ -21,7 +25,8 @@
         @keydown.arrow-down.prevent="open = true; $nextTick(() => $refs.sorganiserMenu.querySelector('a').focus())"
     >
         {{ items.sorganiser.name }}
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="size-4 transition-transform" :class="open && 'rotate-180'">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
+             class="size-4 transition-transform" :class="open && 'rotate-180'">
             <path fill-rule="evenodd"
                   d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                   clip-rule="evenodd"/>
@@ -45,16 +50,20 @@
         x-cloak
     >
         <li>
-            <a href="{{ items.savourer.url }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">{{ items.savourer.name }}</a>
+            <a href="{{ items.savourer.url }}"
+               class="block px-4 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">{{ items.savourer.name }}</a>
         </li>
         <li>
-            <a href="{{ items.barbecue.url }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">{{ items.barbecue.name }}</a>
+            <a href="{{ items.barbecue.url }}"
+               class="block px-4 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">{{ items.barbecue.name }}</a>
         </li>
         <li>
-            <a href="{{ items.sejourner.url }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">{{ items.sejourner.name }}</a>
+            <a href="{{ items.sejourner.url }}"
+               class="block px-4 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">{{ items.sejourner.name }}</a>
         </li>
         <li>
-            <a href="{{ items.mice.url }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">{{ items.mice.name }}</a>
+            <a href="{{ items.mice.url }}"
+               class="block px-4 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">{{ items.mice.name }}</a>
         </li>
     </ul>
 </li>
@@ -69,7 +78,8 @@
         @keydown.arrow-down.prevent="open = true; $nextTick(() => $refs.decouvrirMenu.querySelector('a').focus())"
     >
         {{ items.decouvrir.name }}
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="size-4 transition-transform" :class="open && 'rotate-180'">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
+             class="size-4 transition-transform" :class="open && 'rotate-180'">
             <path fill-rule="evenodd"
                   d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                   clip-rule="evenodd"/>
@@ -93,38 +103,50 @@
         x-cloak
     >
         <li>
-            <a href="{{ items.arts.url }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">{{ items.arts.name }}</a>
+            <a href="{{ items.arts.url }}"
+               class="block px-4 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">{{ items.arts.name }}</a>
         </li>
         <li>
-            <a href="{{ items.balades.url }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">{{ items.balades.name }}</a>
+            <a href="{{ items.balades.url }}"
+               class="block px-4 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">{{ items.balades.name }}</a>
         </li>
         <li>
-            <a href="{{ items.fetes.url }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">{{ items.fetes.name }}</a>
+            <a href="{{ items.fetes.url }}"
+               class="block px-4 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">{{ items.fetes.name }}</a>
         </li>
         <li>
-            <a href="{{ items.gourmandises.url }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">{{ items.gourmandises.name }}</a>
+            <a href="{{ items.gourmandises.url }}"
+               class="block px-4 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">{{ items.gourmandises.name }}</a>
         </li>
         <li>
-            <a href="https://circuit-court.marche.be/" target="_blank" rel="noopener noreferrer" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">
+            <a href="https://circuit-court.marche.be/" target="_blank" rel="noopener noreferrer"
+               class="block px-4 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">
                 {{ 'local.products'|trans }}
                 <span class="sr-only">({{ 'opens.new.window'|trans }})</span>
             </a>
         </li>
         <li>
-            <a href="{{ items.patrimoine.url }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">{{ items.patrimoine.name }}</a>
+            <a href="{{ items.patrimoine.url }}"
+               class="block px-4 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">{{ items.patrimoine.name }}</a>
         </li>
     </ul>
 </li>
 <li>
-    <a href="{{ items.pratique.url }}" class="px-3 py-2 font-medium text-gray-700 hover:text-gray-900 rounded-md hover:bg-gray-50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500">{{ items.pratique.name }}</a>
+    <a href="{{ items.pratique.url }}"
+       class="px-3 py-2 font-medium text-gray-700 hover:text-gray-900 rounded-md hover:bg-gray-50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500">{{ items.pratique.name }}</a>
 </li>
 <li>
     <button
-     @click="openSearchModal()"
-         class="cursor-pointer p-2 text-gray-500 hover:text-gray-700 transition-colors rounded-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500" aria-label="{{ 'menu.search'|trans }}">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="size-5">
+        @click="openSearchModal()"
+        class="cursor-pointer p-2 text-gray-500 hover:text-gray-700 transition-colors rounded-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
+        aria-label="{{ 'menu.search'|trans }}"
+        type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+             aria-hidden="true" class="size-5">
             <path stroke-linecap="round" stroke-linejoin="round"
                   d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
         </svg>
+        <span class="sr-only">Rechercher</span>
+        <span class="hidden lg:inline text-sm font-medium">Ctrl + K</span>
     </button>
 </li>

@@ -46,6 +46,14 @@ class AssetsLoader
             false
         );
 
+        // Header navigation component (must load before Alpine.js)
+        wp_enqueue_script(
+            'marchebe-header-nav',
+            get_template_directory_uri().'/assets/js/header-search.js',
+            [],
+            wp_get_theme()->get('Version')
+        );
+
         wp_enqueue_script(
             'visit-category-filter',
             get_template_directory_uri().'/assets/js/category-filter.js',

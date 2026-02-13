@@ -2,6 +2,7 @@
 
 namespace VisitMarche\ThemeWp;
 
+use VisitMarche\ThemeWp\Lib\CookieHelper;
 use VisitMarche\ThemeWp\Lib\Menu;
 use VisitMarche\ThemeWp\Lib\Twig;
 
@@ -30,6 +31,7 @@ Twig::rendPage(
         'locale' => $locale,
         'items' => $items,
         'icons' => $icons,
+        'hasNotAcceptCookie' => !CookieHelper::isAuthorizedByName(CookieHelper::$essential),
     ]
 );
 

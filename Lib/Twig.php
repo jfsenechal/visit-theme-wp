@@ -60,6 +60,8 @@ class Twig
         $twig->addFilter(self::getRouteOfferToSite());
         $twig->addExtension(new StringExtension());
         $twig->addExtension(new IntlExtension());
+        $twig->addFunction(self::cookieIsAuthorizedByName());
+        $twig->addFunction(self::cookieHasSetPreferences());
         $twig->addFilter(self::removeHtml());
         $twig->addGlobal('template_directory', get_template_directory());
 
@@ -167,6 +169,26 @@ class Twig
             'routeOfferToSite',
             function (string $codeCgt): string {
                 return RouterPivot::getOfferUrl(Theme::CATEGORY_PATRIMOINES, $codeCgt);
+            }
+        );
+    }
+
+    public static function cookieIsAuthorizedByName(): TwigFunction
+    {
+        return new TwigFunction(
+            'cookieIsAuthorizedByName',
+            function (string $name): bool {
+                return CookieHelper::isAuthorizedByName($name);
+            }
+        );
+    }
+
+    public static function cookieHasSetPreferences(): TwigFunction
+    {
+        return new TwigFunction(
+            'cookieHasSetPreferences',
+            function (): bool {
+                return CookieHelper::hasSetPreferences();
             }
         );
     }
