@@ -98,7 +98,6 @@ class MeiliCommand extends Command
             $documents[] = $document;
         }
         unset($posts);
-        restore_current_blog();
         $this->freeMemory();
 
         $this->indexInBatches($documents, $output);
@@ -114,7 +113,6 @@ class MeiliCommand extends Command
             $documents[] = $document;
         }
         unset($categories);
-        restore_current_blog();
         $this->freeMemory();
 
         $this->indexInBatches($documents, $output);
@@ -130,7 +128,6 @@ class MeiliCommand extends Command
             $documents[] = $document;
         }
         unset($categories);
-        restore_current_blog();
         $this->freeMemory();
 
         $this->indexInBatches($documents, $output);
