@@ -19,6 +19,7 @@ menu:
   home: 'Start'
   name: 'Menu'
   contact: 'Contact'
+  language: 'Menu language'
 town_hall: 'Office Communal du Tourisme'
 hours:
   week: 'Van maandag tot en met donderdag'
@@ -96,3 +97,9 @@ offer:
   close: 'Sluiten'
   prev_image: 'Vorige afbeelding'
   next_image: 'Volgende afbeelding'
+skip:
+  to:
+    content: 'Skip to content'
+opens:
+    new:
+        window: 'Ouvre une nouvelle fenêtre'

@@ -19,6 +19,7 @@ menu:
   home: 'Home'
   name: 'Menu'
   contact: 'Contact'
+  language: 'Menu language'
 town_hall: 'Office Communal du Tourisme'
 hours:
   week: 'From Monday to Thursday'
@@ -96,3 +97,9 @@ offer:
   close: 'Close'
   prev_image: 'Previous image'
   next_image: 'Next image'
+skip:
+  to:
+    content: 'Skip to content'
+opens:
+    new:
+        window: 'Opens in a new window'
