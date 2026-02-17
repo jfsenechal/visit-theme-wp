@@ -2,6 +2,7 @@
 
 namespace VisitMarche\ThemeWp\Inc;
 
+use VisitMarche\ThemeWp\Lib\LocaleHelper;
 use VisitMarche\ThemeWp\Repository\PivotRepository;
 use WP_Post;
 
@@ -178,7 +179,6 @@ class Seo
 
     private static function translate(string $text): string
     {
-        //todo translate
-        return $text;
+        return LocaleHelper::translate($text);
     }
 }
