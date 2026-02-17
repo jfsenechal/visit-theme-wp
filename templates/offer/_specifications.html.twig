@@ -2,6 +2,75 @@
 
 {% if detail %}
     <section class="mt-8">
+        {# ── Welcome & Accessibility ── #}
+        {% set activeWelcomeFlags = detail.welcomeFlags|filter(v => v) %}
+        {% if activeWelcomeFlags|length > 0 or detail.openingIndications %}
+            <div class="mb-6">
+                <h3 class="font-montserrat-semi-bold text-lg text-caractere mb-3 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                         stroke="currentColor" class="w-5 h-5 text-cta-dark">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z"/>
+                    </svg>
+                    {{ 'offer.welcome'|trans|default('Accueil & accessibilité') }}
+                </h3>
+
+                <div class="flex flex-wrap gap-2">
+                    {% for name, active in detail.welcomeFlags %}
+                        {% if active %}
+                            <span class="inline-flex items-center gap-1.5 rounded-md bg-purple-50 px-3 py-1.5 text-sm text-purple-800 ring-1 ring-purple-200/80 ring-inset">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                     class="w-3.5 h-3.5 text-purple-500">
+                                    <path fill-rule="evenodd"
+                                          d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
+                                          clip-rule="evenodd"/>
+                                </svg>
+                                {{ name }}
+                            </span>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                {% if detail.openingIndications %}
+                    <p class="mt-3 text-sm text-gray-600">{{ detail.openingIndications|raw }}</p>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        {# ── Equipment & Services ── #}
+        {% set activeEquipments = detail.equipments|filter(v => v) %}
+        {% if activeEquipments|length > 0 or detail.equipmentOther %}
+            <div class="mb-6">
+                <h3 class="font-montserrat-semi-bold text-lg text-caractere mb-3 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                         stroke="currentColor" class="w-5 h-5 text-cta-dark">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.049.58.025 1.194-.14 1.743"/>
+                    </svg>
+                    {{ 'offer.equipments'|trans|default('Equipements & services') }}
+                </h3>
+
+                <div class="flex flex-wrap gap-2">
+                    {% for name, active in detail.equipments %}
+                        {% if active %}
+                            <span class="inline-flex items-center gap-1.5 rounded-md bg-blue-50 px-3 py-1.5 text-sm text-blue-800 ring-1 ring-blue-200/80 ring-inset">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                     class="w-3.5 h-3.5 text-blue-500">
+                                    <path fill-rule="evenodd"
+                                          d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
+                                          clip-rule="evenodd"/>
+                                </svg>
+                                {{ name }}
+                            </span>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                {% if detail.equipmentOther %}
+                    <p class="mt-2 text-sm text-gray-600 italic">{{ detail.getEquipmentOther(locale) }}</p>
+                {% endif %}
+            </div>
+        {% endif %}
 
         {# ── Classification & Awards ── #}
         {% if detail.classificationValue or detail.michelinStars or detail.isBibGourmand or detail.gaultMillauToques %}
@@ -101,76 +170,6 @@
             </div>
         {% endif %}
 
-        {# ── Equipment & Services ── #}
-        {% set activeEquipments = detail.equipments|filter(v => v) %}
-        {% if activeEquipments|length > 0 or detail.equipmentOther %}
-            <div class="mb-6">
-                <h3 class="font-montserrat-semi-bold text-lg text-caractere mb-3 flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                         stroke="currentColor" class="w-5 h-5 text-cta-dark">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.049.58.025 1.194-.14 1.743"/>
-                    </svg>
-                    {{ 'offer.equipments'|trans|default('Equipements & services') }}
-                </h3>
-
-                <div class="flex flex-wrap gap-2">
-                    {% for name, active in detail.equipments %}
-                        {% if active %}
-                            <span class="inline-flex items-center gap-1.5 rounded-md bg-blue-50 px-3 py-1.5 text-sm text-blue-800 ring-1 ring-blue-200/80 ring-inset">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                     class="w-3.5 h-3.5 text-blue-500">
-                                    <path fill-rule="evenodd"
-                                          d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                                          clip-rule="evenodd"/>
-                                </svg>
-                                {{ name }}
-                            </span>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-
-                {% if detail.equipmentOther %}
-                    <p class="mt-2 text-sm text-gray-600 italic">{{ detail.getEquipmentOther(locale) }}</p>
-                {% endif %}
-            </div>
-        {% endif %}
-
-        {# ── Welcome & Accessibility ── #}
-        {% set activeWelcomeFlags = detail.welcomeFlags|filter(v => v) %}
-        {% if activeWelcomeFlags|length > 0 or detail.openingIndications %}
-            <div class="mb-6">
-                <h3 class="font-montserrat-semi-bold text-lg text-caractere mb-3 flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                         stroke="currentColor" class="w-5 h-5 text-cta-dark">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z"/>
-                    </svg>
-                    {{ 'offer.welcome'|trans|default('Accueil & accessibilité') }}
-                </h3>
-
-                <div class="flex flex-wrap gap-2">
-                    {% for name, active in detail.welcomeFlags %}
-                        {% if active %}
-                            <span class="inline-flex items-center gap-1.5 rounded-md bg-purple-50 px-3 py-1.5 text-sm text-purple-800 ring-1 ring-purple-200/80 ring-inset">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                     class="w-3.5 h-3.5 text-purple-500">
-                                    <path fill-rule="evenodd"
-                                          d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                                          clip-rule="evenodd"/>
-                                </svg>
-                                {{ name }}
-                            </span>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-
-                {% if detail.openingIndications %}
-                    <p class="mt-3 text-sm text-gray-600">{{ detail.openingIndications|raw }}</p>
-                {% endif %}
-            </div>
-        {% endif %}
-
         {# ── Circuit / Distance ── #}
         {% if detail.circuitType or detail.distance %}
             <div class="mb-6">
@@ -217,7 +216,7 @@
             </div>
         {% endif %}
 
-        {# ── Homepage Link ── #}
+        {# ── Homepage Link ──
         {% if detail.homepage %}
             <div class="mb-6">
                 <a href="{{ detail.homepage }}" target="_blank" rel="noopener"
@@ -230,7 +229,7 @@
                     {{ 'offer.website'|trans|default('Site web') }}
                 </a>
             </div>
-        {% endif %}
+        {% endif %}#}
 
         {# ── Signage ── #}
         {% if detail.signage %}
