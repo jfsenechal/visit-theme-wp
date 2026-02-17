@@ -43,7 +43,6 @@ class Ajax
 
     private function actionDeleteOffer(): void
     {
-
         $this->checkPermission();
 
         $categoryId = (int)($_POST['categoryId'] ?? 0);
@@ -77,7 +76,7 @@ class Ajax
     // Localize a script to pass Ajax URL and nonce
     public function setCookieScript(): void
     {
-        $url = 'https://'.$_ENV['WP_URL_HOME'].'/wp-admin/admin-ajax.php';
+        $url = $_ENV['WP_URL_HOME'].'/wp-admin/admin-ajax.php';
 
         wp_localize_script('visit-alpine-js', 'wpData', array(
             'ajaxUrl' => $url,
