@@ -23,7 +23,7 @@ class CommonItem
         public string $type,
         public string $name,
         public string $image,
-        public string $excerpt = '',
+        public ?string $excerpt = null,
     ) {
     }
 
@@ -97,8 +97,8 @@ class CommonItem
             'type' => $this->type,
             'name' => $this->name,
             'image' => $this->image,
-            'excerpt' => strip_tags($this->excerpt),
-            'content' => strip_tags($this->content),
+            'excerpt' => $this->excerpt !== null ? strip_tags($this->excerpt) : null,
+            'content' => $this->content !== null ? strip_tags($this->content) : null,
             'url' => $this->url,
             'tags' => array_map(fn($tag) => ['name' => $tag->name], $this->tags),
         ];
