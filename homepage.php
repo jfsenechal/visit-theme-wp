@@ -36,9 +36,8 @@ foreach ($wpRepository->findArticlesByCategory($inspirationCat->term_id) as $pos
 $urlAgenda = '/';
 $urlInspiration = get_category_link($inspirationCat);
 
-//$events = $pivotRepository->loadEvents(skip: true);
-//$events = array_slice($events, 0, 4);
-$events = [];
+$events = $pivotRepository->loadEvents(skip: true);
+$events = array_slice($events, 0, 4);
 $sortLink = false;
 if (current_user_can('edit_post', 2)) {
     $sortLink = SortLink::linkSortArticles(2);
