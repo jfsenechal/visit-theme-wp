@@ -74,11 +74,15 @@ class Ajax
         }
     }
 
-    // Localize script to pass Ajax URL and nonce
+    // Localize a script to pass Ajax URL and nonce
     public function setCookieScript(): void
     {
-        // This method is now redundant as both nonces are set in setCategoryScript()
-        // Keeping it for backwards compatibility but it does nothing
+        $url = 'https://'.$_ENV['WP_URL_HOME'].'/wp-admin/admin-ajax.php';
+
+        wp_localize_script('visit-alpine-js', 'wpData', array(
+            'ajaxUrl' => $url,
+            'cookieNonce' => wp_create_nonce('set_cookie_nonce'),
+        ));
     }
 
     public function setCookieHandler(): void
