@@ -1,96 +1,134 @@
-{% if hasNotAcceptCookie %}
-    <div class="isolate z-70 "
-         data-show-banner="{{ cookieHasSetPreferences() }}"
-         data-essential="{{ cookieIsAuthorizedByName('essential') }}"
-         data-statistics="{{ cookieIsAuthorizedByName('statistics') }}"
-         data-encapsulated="{{ cookieIsAuthorizedByName('encapsulated') }}"
-         x-data="{
-    isPopupCookieOpen: false,
-    showBanner: false,
-    essential: false,
-    statistics: false,
-    encapsulated: false,
-    init() {
-        // Show banner only if preferences haven't been set
-        //this.showBanner = this.$el.dataset.showBanner === '' || this.$el.dataset.showBanner === '0' || this.$el.dataset.showBanner === 'false';
+{# Modal Overlay #}
+<div x-show="isPopupCookieOpen"
+     x-transition:enter="transition ease-out duration-300"
+     x-transition:enter-start="opacity-0"
+     x-transition:enter-end="opacity-100"
+     x-transition:leave="transition ease-in duration-200"
+     x-transition:leave-start="opacity-100"
+     x-transition:leave-end="opacity-0"
+     @click="togglePopupCookie"
+     class="fixed inset-0 z-40 bg-black bg-opacity-50 backdrop-blur-sm"
+     x-cloak>
+</div>
 
-        this.showBanner = true;
-        // Load current preferences from data attributes
-        this.essential = this.$el.dataset.essential === '1' || this.$el.dataset.essential === 'true';
-        this.statistics = this.$el.dataset.statistics === '1' || this.$el.dataset.statistics === 'true';
-        this.encapsulated = this.$el.dataset.encapsulated === '1' || this.$el.dataset.encapsulated === 'true';
-    },
-    togglePopupCookie() {
-        this.isPopupCookieOpen = !this.isPopupCookieOpen;
-    },
-    async acceptAll() {
-        this.essential = true
-        this.statistics = true
-        this.encapsulated = true
-        await this.savePreferences()
-    },
-    async savePreferences() {
-        const formData = new FormData()
-        formData.append('action', 'set_cookie_action')
-        formData.append('nonce', wpData.cookieNonce)
-        formData.append('essential', this.essential ? '1' : '0')
-        formData.append('encapsulated', this.encapsulated ? '1' : '0')
-        formData.append('statistics', this.statistics ? '1' : '0')
+{# Modal Content #}
+<article x-show="isPopupCookieOpen"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0 transform translate-y-4 sm:translate-y-0 sm:scale-95"
+         x-transition:enter-end="opacity-100 transform translate-y-0 sm:scale-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100 transform translate-y-0 sm:scale-100"
+         x-transition:leave-end="opacity-0 transform translate-y-4 sm:translate-y-0 sm:scale-95"
+         @click.outside="togglePopupCookie"
+         class="fixed inset-0 z-50 flex items-center justify-center p-4"
+         x-cloak>
+    <div class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+        <form class="space-y-6">
+            {# Header #}
+            <header class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 rounded-t-2xl">
+                <div class="flex items-center justify-between">
+                    <h1 class="text-2xl font-bold text-gray-900">
+                        <span class="text-3xl mr-2">🍪</span>
+                        Choix des cookies
+                    </h1>
+                    <button @click="togglePopupCookie"
+                            class="text-gray-400 hover:text-gray-600 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+                <p class="mt-2 text-gray-600">
+                    Choisissez d'accepter ou de refuser certains cookies.
+                    Notre politique en matière de cookies peut vous aider à faire ce choix.
+                </p>
+            </header>
 
-        try {
-            const response = await fetch(wpData.ajaxUrl, {
-                method: 'POST',
-                body: formData
-            });
+            {# Content #}
+            <div class="px-6 py-6">
+                <div class="space-y-6">
+                    {# Cookies essentiels #}
+                    <div class="bg-gray-50 rounded-lg p-5 border border-gray-200">
+                        <h2 class="text-lg font-bold text-cta-dark mb-3">Informations sur nos cookies</h2>
+                        <p class="text-gray-700 mb-4">
+                            Les cookies essentiels sont nécessaires au bon fonctionnement de ce site internet.
+                        </p>
+                        <div class="flex items-center gap-4">
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="cookies-essential" checked value="true" disabled
+                                       class="w-4 h-4 text-cta-dark focus:ring-cta-dark">
+                                <span class="font-medium text-gray-900">Accepter</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-not-allowed opacity-50">
+                                <input type="radio" name="cookies-essential" value="false" disabled
+                                       class="w-4 h-4 text-gray-400">
+                                <span class="font-medium text-gray-500">Refuser</span>
+                            </label>
+                        </div>
+                    </div>
 
-            const result = await response.json();
+                    {# Statistiques #}
+                    <div class="bg-gray-50 rounded-lg p-5 border border-gray-200">
+                        <h2 class="text-lg font-bold text-cta-dark mb-3">Statistiques</h2>
+                        <p class="text-gray-700 mb-4">
+                            Nous utilisons Google Analytics pour collecter, de façon anonyme, des statistiques de
+                            fréquentation et d'interactions avec le site.
+                        </p>
+                        <div class="flex items-center gap-4">
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="cookies-statistics" @click="statistics = true" :checked="statistics === true"
+                                       class="w-4 h-4 text-cta-dark focus:ring-cta-dark">
+                                <span class="font-medium text-gray-900">Accepter</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="cookies-statistics" @click="statistics = false" :checked="statistics === false"
+                                       class="w-4 h-4 text-cta-dark focus:ring-cta-dark">
+                                <span class="font-medium text-gray-900">Refuser</span>
+                            </label>
+                        </div>
+                    </div>
 
-            if (result.success && result.data) {
-                console.log('Cookie preferences saved:', result.data);
-                // Hide banner and popup
-                this.showBanner = false;
-                this.isPopupCookieOpen = false;
-                // Reload page to apply changes
-                window.location.reload();
-            } else {
-                console.error('Error saving cookie preferences:', result.data?.message || 'Unknown error');
-            }
-        } catch (error) {
-            console.error('Error saving cookie preferences:', error);
-        }
-    }
-}">
-
-        <section x-show="showBanner"
-                 x-transition:enter="transition ease-out duration-300"
-                 x-transition:enter-start="opacity-0 translate-y-4"
-                 x-transition:enter-end="opacity-100 translate-y-0"
-                 class="fixed max-w-md p-5 mx-auto bg-white border border-gray-200 shadow-2xl left-4 md:left-12 bottom-4 md:bottom-16 rounded-2xl">
-            <div class="flex items-start gap-3">
-                <span class="text-3xl shrink-0">🍪</span>
-                <div class="flex-1">
-                    <h4 class="font-bold text-gray-900 text-lg">Informations sur nos cookies</h4>
-                    <p class="mt-2 text-gray-700 leading-relaxed">
-                        Ce site utilise des cookies pour vous fournir une expérience optimale.
-                        <a href="/administration/rgpd" class="text-cta-dark hover:underline">
-                            Mentions légales et RGPD
-                        </a>
-                    </p>
-                    <div class="flex flex-row sm:flex-row items-stretch sm:items-center gap-2 mt-4">
-                        <button @click="togglePopupCookie"
-                                type="button"
-                                class="cursor-pointer font-medium text-gray-700 hover:text-gray-900 underline transition-colors focus:outline-none">
-                            Personnaliser
-                        </button>
-                        <button @click="acceptAll"
-                                type="button"
-                                class="cursor-pointer bg-cta-dark font-semibold rounded-lg hover:bg-opacity-90 text-white px-5 py-2.5 transition-all focus:outline-none focus:ring-2 focus:ring-cta-dark focus:ring-offset-2 shadow-md">
-                            Tout accepter
-                        </button>
+                    {# Contenu encapsulé #}
+                    <div class="bg-gray-50 rounded-lg p-5 border border-gray-200">
+                        <h2 class="text-lg font-bold text-cta-dark mb-3">Contenu encapsulé</h2>
+                        <p class="text-gray-700 mb-4">
+                            Nous utilisons des services externes (YouTube, OpenStreetMap, etc.) pour afficher des
+                            vidéos, des plans, ou tout autre type de contenu utile. Ces services utilisent leurs propres
+                            cookies. Refuser ceux-ci bloqueront automatiquement l'affichage de ces contenus dans le
+                            site.
+                        </p>
+                        <div class="flex items-center gap-4">
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="cookies-encapsulated" @click="encapsulated = true" :checked="encapsulated === true"
+                                       class="w-4 h-4 text-cta-dark focus:ring-cta-dark">
+                                <span class="font-medium text-gray-900">Accepter</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="cookies-encapsulated" @click="encapsulated = false" :checked="encapsulated === false"
+                                       class="w-4 h-4 text-cta-dark focus:ring-cta-dark">
+                                <span class="font-medium text-gray-900">Refuser</span>
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
-        {% include '@Visit/cookies/_popup.html.twig' %}
+
+            {# Footer Actions #}
+            <footer class="sticky bottom-0 bg-gray-50 border-t border-gray-200 px-6 py-4 rounded-b-2xl">
+                <div class="flex items-center justify-end gap-3">
+                    <button @click="togglePopupCookie()"
+                            type="button"
+                            class="px-6 py-2.5 text-gray-700 font-medium rounded-lg border border-gray-300 hover:bg-gray-100 transition-colors">
+                        Annuler
+                    </button>
+                    <button @click.prevent="savePreferences()"
+                            type="submit"
+                            class="cursor-pointer px-6 py-2.5 bg-cta-dark text-white font-medium rounded-lg hover:bg-opacity-90 transition-colors shadow-lg">
+                        Enregistrer mes préférences
+                    </button>
+                </div>
+            </footer>
+        </form>
     </div>
-{% endif %}
+</article>
