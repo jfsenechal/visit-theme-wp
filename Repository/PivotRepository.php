@@ -94,6 +94,47 @@ readonly class PivotRepository
     }
 
     /**
+     * @return Offer[]
+     */
+    public function loadAccommodations(): array
+    {
+        $accommodationIds = array_map(
+            fn(TypeOffreEnum $type) => $type->value,
+            TypeOffreEnum::accommodations(),
+        );
+
+        return $this->loadOffersByTypeIds($accommodationIds);
+    }
+
+    /**
+     * @return Offer[]
+     */
+    public function loadRestaurants(): array
+    {
+        return $this->loadOffersByTypeIds([TypeOffreEnum::RESTAURANT->value]);
+    }
+
+    /**
+     * @param int[] $typeIds
+     * @return Offer[]
+     */
+    private function loadOffersByTypeIds(array $typeIds): array
+    {
+        $response = $this->pivotClient->fetchOffersByCriteria();
+
+        $offers = array_filter(
+            $response->getOffers(),
+            fn(Offer $offer) => $offer->typeOffre !== null
+                && in_array($offer->typeOffre->idTypeOffre, $typeIds, true),
+        );
+
+        $offers = array_values($offers);
+        usort($offers, fn(Offer $a, Offer $b) => strcasecmp($a->nom ?? '', $b->nom ?? ''));
+
+        return $offers;
+    }
+
+    /**
      * @return \stdClass[]
      */
     public function getAllOffersShorts(): array
