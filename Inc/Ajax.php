@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VisitMarche\ThemeWp\Inc;
 
+use VisitMarche\ThemeWp\Lib\CookieHelper;
 use VisitMarche\ThemeWp\Repository\WpRepository;
 
 class Ajax
@@ -12,6 +13,13 @@ class Ajax
     {
         add_action('wp_ajax_action_add_offer', fn() => $this->actionAddOffer());
         add_action('wp_ajax_action_delete_offer', fn() => $this->actionDeleteOffer());
+        /**
+         * Update cookie preferences
+         */
+        add_action('wp_enqueue_scripts', [$this, 'setCookieScript']);
+        // Handle the AJAX request
+        add_action('wp_ajax_set_cookie_action', [$this, 'setCookieHandler']); // For logged-in users
+        add_action('wp_ajax_nopriv_set_cookie_action', [$this, 'setCookieHandler']); // For non-logged users
     }
 
     private function actionAddOffer(): void
@@ -64,5 +72,38 @@ class Ajax
         if (!current_user_can('edit_posts')) {
             wp_send_json_error('Insufficient permissions', 403);
         }
+    }
+
+    // Localize script to pass Ajax URL and nonce
+    public function setCookieScript(): void
+    {
+        // This method is now redundant as both nonces are set in setCategoryScript()
+        // Keeping it for backwards compatibility but it does nothing
+    }
+
+    public function setCookieHandler(): void
+    {
+        check_ajax_referer('set_cookie_nonce', 'nonce');
+
+        $essential = true;
+        $statistics = isset($_POST['statistics']) ? filter_var($_POST['statistics'], FILTER_VALIDATE_BOOLEAN) : false;
+        $encapsulated = isset($_POST['encapsulated']) ? filter_var(
+            $_POST['encapsulated'],
+            FILTER_VALIDATE_BOOLEAN
+        ) : false;
+
+        $preferences = [
+            'essential' => $essential,
+            'statistics' => $statistics,
+            'encapsulated' => $encapsulated,
+        ];
+
+        // Save all preferences at once
+        CookieHelper::saveAll($preferences);
+
+        wp_send_json_success([
+            'message' => 'Cookie preferences saved',
+            'preferences' => $preferences,
+        ]);
     }
 }
