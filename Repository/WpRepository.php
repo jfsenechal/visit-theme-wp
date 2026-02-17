@@ -115,28 +115,16 @@ class WpRepository
         $query = new WP_Query($args);
 
         return $query->posts;
-
-        $posts = [];
-        while ($querynews->have_posts()) {
-            $post = $querynews->next_post();
-            $post->excerpt = $post->post_excerpt;
-            $post->permalink = get_permalink($post->ID);
-            $post->thumbnail_url = CommonItem::getPostThumbnail($post->ID);
-            $posts[] = $post;
-        }
-
-        return $posts;
     }
 
-
-    public function getIntro(): array|string
+    public function getIntro(): string
     {
         $intro = '<p>Intro vide</p>';
         $introId = apply_filters('wpml_object_id', Theme::PAGE_INTRO, 'page', true);
         $pageIntro = get_post($introId);
 
         if ($pageIntro) {
-            $intro = get_the_content(null, null, $pageIntro);
+            $intro = get_the_content(null, false, $pageIntro);
             $intro = apply_filters('the_content', $intro);
             $intro = str_replace(']]>', ']]&gt;', $intro);
             $intro = str_replace('<p>', '', $intro);
@@ -146,6 +134,9 @@ class WpRepository
         return $intro;
     }
 
+    /**
+     * @return array<string,string>
+     */
     public function getIdeas(): array
     {
         $ideas = [];
@@ -171,6 +162,11 @@ class WpRepository
         return $ideas;
     }
 
+    /**
+     * @param WP_Term $term
+     * @param string $imageName
+     * @return array<string,string>
+     */
     private function addIdea(\WP_Term $term, string $imageName): array
     {
         return [
