@@ -98,7 +98,7 @@ readonly class PivotRepository
      */
     public function getAllOffersShorts(): array
     {
-        $offerResponse = $this->pivotClient->fetchOffersByCriteria(ContentLevel::Summary);
+        $offerResponse = $this->pivotClient->fetchOffersByCriteria(ContentLevel::Full);
 
         $offers = [];
         foreach ($offerResponse->getOffers() as $offer) {
@@ -151,7 +151,7 @@ readonly class PivotRepository
      */
     public function getAllOffers(): array
     {
-        $offerResponse = $this->pivotClient->fetchOffersByCriteria(ContentLevel::Summary);
+        $offerResponse = $this->pivotClient->fetchOffersByCriteria(ContentLevel::Full);
 
         return $offerResponse->getOffers();
     }
