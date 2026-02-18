@@ -1,22 +1,20 @@
 <?php
-/**
- * Template Name: Agenda
- */
 
-namespace VisitMarche\ThemeWp;
+namespace VisitMarche\TheWo;
 
-use VisitMarche\ThemeWp\Inc\Theme;
 use VisitMarche\ThemeWp\Lib\Twig;
 use VisitMarche\ThemeWp\Repository\PivotRepository;
 
 get_header();
 
+$cat_ID = get_queried_object_id();
+$category = get_category($cat_ID);
+
 $pivotRepository = new PivotRepository();
 $events = $pivotRepository->loadEvents();
 
-$category = get_category(Theme::CATEGORY_PATRIMOINES);
 $image = '';
-$filtres = [];
+$filters = [];
 
 Twig::rendPage(
     '@Visit/agenda.html.twig',
@@ -27,9 +25,8 @@ Twig::rendPage(
         'nameBack' => '',
         'categoryName' => $category->name,
         'image' => $image,
-        'filters' => $filtres,
-        'icone' => null,
+        'filters' => $filters,
+        'icon' => null,
     ]
 );
-//lm
 get_footer();
