@@ -10,6 +10,11 @@ npx tailwindcss -i assets/css/input.css -o assets/css/visit.css --watch
 ```bash
 npx @tailwindcss/cli -i wp-content/themes/visit/assets/css/input.css -o wp-content/themes/visit/assets/css/visit.css --watch
 ```
+### Register rewrite rules
+
+```bash
+wp rewrite flush 
+```
 
   Then in your templates, use the Tailwind weight utilities to control thickness:
   ┌─────────────────────────────────┬────────┬─────────────┐
