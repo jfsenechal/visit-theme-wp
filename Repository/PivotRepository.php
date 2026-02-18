@@ -190,6 +190,27 @@ readonly class PivotRepository
     /**
      * @return Offer[]
      */
+    public function loadOffersByClassificationUrn(string $urn): array
+    {
+        $response = $this->pivotClient->fetchOffersByCriteria();
+
+        $offers = array_filter(
+            $response->getOffers(),
+            fn(Offer $offer) => count(array_filter(
+                $offer->classificationLabels,
+                fn($label) => $label->urn === $urn,
+            )) > 0,
+        );
+
+        $offers = array_values($offers);
+        usort($offers, fn(Offer $a, Offer $b) => strcasecmp($a->nom ?? '', $b->nom ?? ''));
+
+        return $offers;
+    }
+
+    /**
+     * @return Offer[]
+     */
     public function getAllOffers(): array
     {
         $offerResponse = $this->pivotClient->fetchOffersByCriteria(ContentLevel::Full);

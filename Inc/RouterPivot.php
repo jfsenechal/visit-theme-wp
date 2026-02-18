@@ -17,10 +17,12 @@ class RouterPivot
     public const OFFRE_URL = 'offre';
     public const PARAM_FILTRE = 'filtre';
     public const PARAM_FILTRE_TYPE = 'filtretype';
+    public const PARAM_CLASSIFICATION_URN = 'classification_urn';
 
     public function __construct()
     {
         $this->addOfferRoute();
+        $this->addClassificationRoute();
         //flush_rewrite_rules();
     }
 
@@ -72,6 +74,45 @@ class RouterPivot
     public static function getRouteOfferToPivotSite(string $codeCgt): string
     {
         return $_ENV['PIVOT_GEST_URI'].'./detail.xhtml?codeCgt='.$codeCgt;
+    }
+
+    public function addClassificationRoute(): void
+    {
+        add_action(
+            'init',
+            function () {
+                add_rewrite_rule(
+                    '^classification/([^/]+)[/]?$',
+                    'index.php?'.self::PARAM_CLASSIFICATION_URN.'=$matches[1]',
+                    'top'
+                );
+            }
+        );
+
+        add_filter(
+            'query_vars',
+            function ($query_vars) {
+                $query_vars[] = self::PARAM_CLASSIFICATION_URN;
+
+                return $query_vars;
+            }
+        );
+
+        add_action(
+            'template_include',
+            function ($template) {
+                global $wp_query;
+                if (is_admin() || !$wp_query->is_main_query()) {
+                    return $template;
+                }
+                if (false === get_query_var(self::PARAM_CLASSIFICATION_URN) ||
+                    '' === get_query_var(self::PARAM_CLASSIFICATION_URN)) {
+                    return $template;
+                }
+
+                return get_template_directory().'/classification-offers.php';
+            }
+        );
     }
 
     public function addOfferRoute(): void

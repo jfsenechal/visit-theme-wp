@@ -1,7 +1,7 @@
 <ul class="flex flex-wrap gap-2">
     {% for item in tags %}
         <li>
-            <a href="/"
+            <a href="{{ item.urn is defined ? '/classification/' ~ item.urn|url_encode(true) : (item.url ?? '/') }}"
                class="inline-block rounded-full border border-caractere px-3 py-1.5 text-sm text-caractere whitespace-nowrap
                       transition-colors duration-200
                       hover:bg-cta-light hover:text-white hover:border-cta-light
