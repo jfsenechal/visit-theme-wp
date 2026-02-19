@@ -18,7 +18,7 @@ class Theme
     public const CATEGORY_PATRIMOINES = 9;
     public const CATEGORIES_AGENDA = 8;
     public const CATEGORIES_HEBERGEMENT = [6, 67, 68];
-    public const CATEGORIES_RESTAURATION = [5, 44, 66];
+    public const CATEGORIES_RESTAURATION = 5;
    public const CATEGORY_INSPIRATION = 2;
     public const CATEGORY_NOT_CATEGORIZED = 1;
 
