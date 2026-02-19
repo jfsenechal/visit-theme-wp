@@ -7,6 +7,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use AcMarche\PivotAi\Enums\TypeOffreEnum;
 use VisitMarche\ThemeWp\Inc\Theme;
 use VisitMarche\ThemeWp\Repository\PivotRepository;
 use VisitMarche\ThemeWp\Repository\WpRepository;
@@ -36,7 +37,8 @@ class VisitCommand extends Command
     {
         $this->io = new SymfonyStyle($input, $output);
 
-        $this->restaurants();
+        //  $this->restaurants();
+        $this->accommodations();
 
         return Command::SUCCESS;
     }
@@ -80,7 +82,7 @@ class VisitCommand extends Command
             $existingTerm = term_exists($categoryName, 'category');
 
             if ($existingTerm) {
-                $categoryId = (int) $existingTerm['term_id'];
+                $categoryId = (int)$existingTerm['term_id'];
                 $this->io->text(sprintf('Category "%s" already exists (ID %d)', $categoryName, $categoryId));
             } else {
                 $result = wp_insert_term($categoryName, 'category', [
@@ -88,11 +90,13 @@ class VisitCommand extends Command
                 ]);
 
                 if (is_wp_error($result)) {
-                    $this->io->error(sprintf('Failed to create category "%s": %s', $categoryName, $result->get_error_message()));
+                    $this->io->error(
+                        sprintf('Failed to create category "%s": %s', $categoryName, $result->get_error_message())
+                    );
                     continue;
                 }
 
-                $categoryId = (int) $result['term_id'];
+                $categoryId = (int)$result['term_id'];
                 $this->io->success(sprintf('Created category "%s" (ID %d)', $categoryName, $categoryId));
             }
 
@@ -113,6 +117,82 @@ class VisitCommand extends Command
 
             update_term_meta($categoryId, WpRepository::PIVOT_REFOFFERS, $codesCgt);
             $this->io->text(sprintf('  URN %s → %d offers linked to category %d', $urn, count($codesCgt), $categoryId));
+        }
+    }
+
+    private function accommodations(): void
+    {
+        $this->pivotRepository = new PivotRepository();
+        $accommodations = $this->pivotRepository->loadAccommodations();
+        $parentCategoryId = Theme::CATEGORIES_HEBERGEMENT;
+
+        // Reset: delete pivot_ref_offers meta from parent and all children
+        delete_term_meta($parentCategoryId, WpRepository::PIVOT_REFOFFERS);
+        $children = get_categories(['parent' => $parentCategoryId, 'hide_empty' => false]);
+        foreach ($children as $child) {
+            delete_term_meta($child->term_id, WpRepository::PIVOT_REFOFFERS);
+            wp_delete_category($child->term_id);
+            $this->io->text(sprintf('Reset meta for child category "%s" (ID %d)', $child->name, $child->term_id));
+        }
+
+        // Group offers by their TypeOffre
+        $accommodationTypes = TypeOffreEnum::accommodations();
+        $typeToCategoryId = [];
+
+        foreach ($accommodationTypes as $type) {
+            // Get the French label from the first offer of this type
+            $categoryName = null;
+            foreach ($accommodations as $offer) {
+                if ($offer->typeOffre !== null && $offer->typeOffre->idTypeOffre === $type->value) {
+                    $categoryName = $offer->typeOffre->getLabelByLang('fr');
+                    break;
+                }
+            }
+
+            if ($categoryName === null) {
+                continue;
+            }
+
+            $existingTerm = term_exists($categoryName, 'category');
+
+            if ($existingTerm) {
+                $categoryId = (int)$existingTerm['term_id'];
+                $this->io->text(sprintf('Category "%s" already exists (ID %d)', $categoryName, $categoryId));
+            } else {
+                $result = wp_insert_term($categoryName, 'category', [
+                    'parent' => $parentCategoryId,
+                ]);
+
+                if (is_wp_error($result)) {
+                    $this->io->error(
+                        sprintf('Failed to create category "%s": %s', $categoryName, $result->get_error_message())
+                    );
+                    continue;
+                }
+
+                $categoryId = (int)$result['term_id'];
+                $this->io->success(sprintf('Created category "%s" (ID %d)', $categoryName, $categoryId));
+            }
+
+            $typeToCategoryId[$type->value] = $categoryId;
+        }
+
+        // Link offers to their type category
+        foreach ($typeToCategoryId as $typeId => $categoryId) {
+            $codesCgt = [];
+            foreach ($accommodations as $offer) {
+                if ($offer->typeOffre !== null && $offer->typeOffre->idTypeOffre === $typeId) {
+                   /* if ($offer->typeOffre->idTypeOffre === TypeOffreEnum::ACCOMMODATIONS->value) {
+                        dump($offer->name());
+                    }*/
+                    $codesCgt[] = $offer->codeCgt;
+                }
+            }
+
+            update_term_meta($categoryId, WpRepository::PIVOT_REFOFFERS, $codesCgt);
+            $this->io->text(
+                sprintf('  Type %d → %d offers linked to category %d', $typeId, count($codesCgt), $categoryId)
+            );
         }
     }
 
