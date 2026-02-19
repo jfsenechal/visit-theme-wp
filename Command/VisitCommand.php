@@ -79,25 +79,9 @@ class VisitCommand extends Command
             }
 
             $categoryName = $urnLabels[$urn];
-            $existingTerm = term_exists($categoryName, 'category');
-
-            if ($existingTerm) {
-                $categoryId = (int)$existingTerm['term_id'];
-                $this->io->text(sprintf('Category "%s" already exists (ID %d)', $categoryName, $categoryId));
-            } else {
-                $result = wp_insert_term($categoryName, 'category', [
-                    'parent' => $parentCategoryId,
-                ]);
-
-                if (is_wp_error($result)) {
-                    $this->io->error(
-                        sprintf('Failed to create category "%s": %s', $categoryName, $result->get_error_message())
-                    );
-                    continue;
-                }
-
-                $categoryId = (int)$result['term_id'];
-                $this->io->success(sprintf('Created category "%s" (ID %d)', $categoryName, $categoryId));
+            $categoryId = $this->findOrCreateCategory($categoryName, $parentCategoryId);
+            if ($categoryId === null) {
+                continue;
             }
 
             $urnToCategoryId[$urn] = $categoryId;
@@ -135,11 +119,18 @@ class VisitCommand extends Command
             $this->io->text(sprintf('Reset meta for child category "%s" (ID %d)', $child->name, $child->term_id));
         }
 
+        // Merge GITE (2) and HOLIDAY_HOME (4) into a single category
+        $mergedTypes = [TypeOffreEnum::GITE->value, TypeOffreEnum::HOLIDAY_HOME->value];
+
         // Group offers by their TypeOffre
         $accommodationTypes = TypeOffreEnum::accommodations();
         $typeToCategoryId = [];
 
         foreach ($accommodationTypes as $type) {
+            if (in_array($type->value, $mergedTypes, true)) {
+                continue;
+            }
+
             // Get the French label from the first offer of this type
             $categoryName = null;
             foreach ($accommodations as $offer) {
@@ -153,47 +144,72 @@ class VisitCommand extends Command
                 continue;
             }
 
-            $existingTerm = term_exists($categoryName, 'category');
-
-            if ($existingTerm) {
-                $categoryId = (int)$existingTerm['term_id'];
-                $this->io->text(sprintf('Category "%s" already exists (ID %d)', $categoryName, $categoryId));
-            } else {
-                $result = wp_insert_term($categoryName, 'category', [
-                    'parent' => $parentCategoryId,
-                ]);
-
-                if (is_wp_error($result)) {
-                    $this->io->error(
-                        sprintf('Failed to create category "%s": %s', $categoryName, $result->get_error_message())
-                    );
-                    continue;
-                }
-
-                $categoryId = (int)$result['term_id'];
-                $this->io->success(sprintf('Created category "%s" (ID %d)', $categoryName, $categoryId));
+            $categoryId = $this->findOrCreateCategory($categoryName, $parentCategoryId);
+            if ($categoryId === null) {
+                continue;
             }
 
             $typeToCategoryId[$type->value] = $categoryId;
         }
 
-        // Link offers to their type category
-        foreach ($typeToCategoryId as $typeId => $categoryId) {
-            $codesCgt = [];
-            foreach ($accommodations as $offer) {
-                if ($offer->typeOffre !== null && $offer->typeOffre->idTypeOffre === $typeId) {
-                   /* if ($offer->typeOffre->idTypeOffre === TypeOffreEnum::ACCOMMODATIONS->value) {
-                        dump($offer->name());
-                    }*/
-                    $codesCgt[] = $offer->codeCgt;
-                }
+        // Create merged "Gîte / Meublé" category for GITE + HOLIDAY_HOME
+        $mergedCategoryId = $this->findOrCreateCategory('Gîte / Meublé', $parentCategoryId);
+        if ($mergedCategoryId !== null) {
+            foreach ($mergedTypes as $typeId) {
+                $typeToCategoryId[$typeId] = $mergedCategoryId;
             }
+        }
 
+        // Link offers to their type category
+        /** @var array<int, string[]> $categoryOffers */
+        $categoryOffers = [];
+        foreach ($accommodations as $offer) {
+            if ($offer->typeOffre === null) {
+                continue;
+            }
+            $typeId = $offer->typeOffre->idTypeOffre;
+            if (!isset($typeToCategoryId[$typeId])) {
+                continue;
+            }
+            $categoryId = $typeToCategoryId[$typeId];
+            $categoryOffers[$categoryId][] = $offer->codeCgt;
+        }
+
+        foreach ($categoryOffers as $categoryId => $codesCgt) {
             update_term_meta($categoryId, WpRepository::PIVOT_REFOFFERS, $codesCgt);
             $this->io->text(
-                sprintf('  Type %d → %d offers linked to category %d', $typeId, count($codesCgt), $categoryId)
+                sprintf('  %d offers linked to category %d', count($codesCgt), $categoryId)
             );
         }
+    }
+
+    private function findOrCreateCategory(string $categoryName, int $parentCategoryId): ?int
+    {
+        $existingTerm = term_exists($categoryName, 'category');
+
+        if ($existingTerm) {
+            $categoryId = (int) $existingTerm['term_id'];
+            $this->io->text(sprintf('Category "%s" already exists (ID %d)', $categoryName, $categoryId));
+
+            return $categoryId;
+        }
+
+        $result = wp_insert_term($categoryName, 'category', [
+            'parent' => $parentCategoryId,
+        ]);
+
+        if (is_wp_error($result)) {
+            $this->io->error(
+                sprintf('Failed to create category "%s": %s', $categoryName, $result->get_error_message())
+            );
+
+            return null;
+        }
+
+        $categoryId = (int) $result['term_id'];
+        $this->io->success(sprintf('Created category "%s" (ID %d)', $categoryName, $categoryId));
+
+        return $categoryId;
     }
 
     private function specculi($label): array
