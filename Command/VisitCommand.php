@@ -37,7 +37,8 @@ class VisitCommand extends Command
     {
         $this->io = new SymfonyStyle($input, $output);
 
-        //  $this->restaurants();
+       // $this->removeWpml();
+        $this->restaurants();
         $this->accommodations();
 
         return Command::SUCCESS;
@@ -181,6 +182,105 @@ class VisitCommand extends Command
                 sprintf('  %d offers linked to category %d', count($codesCgt), $categoryId)
             );
         }
+    }
+
+    private function removeWpml(): void
+    {
+        global $wpdb;
+
+        // Orphaned WPML translated categories (English/Dutch) left after WPML tables were dropped
+        $wpmlCategoryIds = [58, 61, 63, 84, 90, 91, 94, 95, 98, 100, 101, 104, 106, 108, 114, 137];
+
+        // 1. Delete orphaned translated categories
+        $this->io->section('Deleting orphaned WPML translated categories');
+        $rows = [];
+        foreach ($wpmlCategoryIds as $termId) {
+            $term = get_term($termId, 'category');
+            if ($term && !is_wp_error($term)) {
+                $rows[] = [$term->term_id, $term->name, $term->slug, $term->count];
+            }
+        }
+        $this->io->table(['ID', 'Name', 'Slug', 'Posts'], $rows);
+
+        $deletedTerms = 0;
+        foreach ($wpmlCategoryIds as $termId) {
+            $result = wp_delete_term($termId, 'category');
+            if ($result && !is_wp_error($result)) {
+                $deletedTerms++;
+                $this->io->text(sprintf('Deleted category ID %d', $termId));
+            }
+        }
+        $this->io->text(sprintf('Deleted %d orphaned categories', $deletedTerms));
+
+        // 2. Drop remaining WPML/ICL tables
+        $this->io->section('Dropping WPML tables');
+        $wpmlTables = [
+            'icl_background_task',
+            'icl_content_status',
+            'icl_core_status',
+            'icl_flags',
+            'icl_languages',
+            'icl_languages_translations',
+            'icl_links_post_to_post',
+            'icl_links_post_to_term',
+            'icl_locale_map',
+            'icl_message_status',
+            'icl_mo_files_domains',
+            'icl_node',
+            'icl_reminders',
+            'icl_string_batches',
+            'icl_string_packages',
+            'icl_string_pages',
+            'icl_string_positions',
+            'icl_strings',
+            'icl_string_status',
+            'icl_string_translations',
+            'icl_string_urls',
+            'icl_translate',
+            'icl_translate_job',
+            'icl_translation_batches',
+            'icl_translation_downloads',
+            'icl_translations',
+            'icl_translation_status',
+        ];
+
+        foreach ($wpmlTables as $table) {
+            $fullTable = $wpdb->prefix . $table;
+            $wpdb->query("DROP TABLE IF EXISTS `$fullTable`");
+            $this->io->text(sprintf('Dropped table %s', $fullTable));
+        }
+
+        // 3. Clean wp_options
+        $this->io->section('Cleaning wp_options');
+        $deleted = $wpdb->query(
+            "DELETE FROM $wpdb->options WHERE option_name LIKE 'icl_%' OR option_name LIKE '_icl_%'
+             OR option_name LIKE 'wpml_%' OR option_name LIKE '_wpml_%'"
+        );
+        $this->io->text(sprintf('Deleted %d WPML options', $deleted));
+
+        // 4. Clean WPML postmeta
+        $this->io->section('Cleaning postmeta');
+        $deleted = $wpdb->query(
+            "DELETE FROM $wpdb->postmeta WHERE meta_key LIKE '_wpml_%' OR meta_key LIKE 'wpml_%'"
+        );
+        $this->io->text(sprintf('Deleted %d WPML postmeta entries', $deleted));
+
+        // 5. Clean WPML termmeta
+        $this->io->section('Cleaning termmeta');
+        $deleted = $wpdb->query(
+            "DELETE FROM $wpdb->termmeta WHERE meta_key LIKE '_wpml_%' OR meta_key LIKE 'wpml_%'"
+        );
+        $this->io->text(sprintf('Deleted %d WPML termmeta entries', $deleted));
+
+        // 6. Clean WPML usermeta
+        $this->io->section('Cleaning usermeta');
+        $deleted = $wpdb->query(
+            "DELETE FROM $wpdb->usermeta WHERE meta_key LIKE 'icl_%' OR meta_key LIKE '_icl_%'
+             OR meta_key LIKE 'wpml_%' OR meta_key LIKE '_wpml_%'"
+        );
+        $this->io->text(sprintf('Deleted %d WPML usermeta entries', $deleted));
+
+        $this->io->success('WPML cleanup complete');
     }
 
     private function findOrCreateCategory(string $categoryName, int $parentCategoryId): ?int
