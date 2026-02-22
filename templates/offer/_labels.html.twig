@@ -1,5 +1,5 @@
 {# ── Labels & Quality ── #}
-{% if offer.specificationDetail.labels|length > 0 %}
+{% if offer.labels|length > 0 %}
     <div class="mb-6">
         <h3 class="font-montserrat-semi-bold text-lg text-caractere mb-3 flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -11,7 +11,7 @@
         </h3>
 
         <div class="flex flex-wrap gap-2">
-            {% for name, label in offer.specificationDetail.labels %}
+            {% for name, label in offer.labels %}
                 <span
                     class="inline-flex items-center gap-1 rounded-full bg-green-50 px-3 py-1.5 text-sm text-green-800 ring-1 ring-green-200/80 ring-inset">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"

@@ -1,6 +1,5 @@
 {# ── Equipment & Services ── #}
-{% set activeEquipments = offer.specificationDetail.equipments|filter(v => v) %}
-{% if activeEquipments|length > 0 or offer.specificationDetail.equipmentOther %}
+{% if offer.equipments|length > 0 or offer.equipmentOther %}
     <div class="mb-6">
         <h3 class="font-montserrat-semi-bold text-lg text-caractere mb-3 flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -12,9 +11,10 @@
         </h3>
 
         <div class="flex flex-wrap gap-2">
-            {% for name, active in offer.specificationDetail.equipments %}
+            {% for name, active in offer.equipments %}
                 {% if active %}
-                    <span class="inline-flex items-center gap-1.5 rounded-md bg-blue-50 px-3 py-1.5 text-sm text-blue-800 ring-1 ring-blue-200/80 ring-inset">
+                    <span
+                        class="inline-flex items-center gap-1.5 rounded-md bg-blue-50 px-3 py-1.5 text-sm text-blue-800 ring-1 ring-blue-200/80 ring-inset">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                              class="w-3.5 h-3.5 text-blue-500">
                             <path fill-rule="evenodd"
@@ -27,8 +27,8 @@
             {% endfor %}
         </div>
 
-        {% if offer.specificationDetail.equipmentOther %}
-            <p class="mt-2 text-sm text-gray-600 italic">{{ offer.specificationDetail.getEquipmentOther(locale) }}</p>
+        {% if offer.equipmentOther %}
+            <p class="mt-2 text-sm text-gray-600 italic">{{ offer.getEquipmentOther(locale) }}</p>
         {% endif %}
     </div>
 {% endif %}

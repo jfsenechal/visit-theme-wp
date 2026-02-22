@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace VisitMarche\ThemeWp\Dto;
 
 use AcMarche\PivotAi\Entity\Pivot\Offer;
+use AcMarche\PivotAi\Enums\TypeOffreEnum;
 use VisitMarche\ThemeWp\Inc\CategoryMetaData;
 use VisitMarche\ThemeWp\Inc\RouterPivot;
 use VisitMarche\ThemeWp\Inc\Theme;
@@ -66,8 +67,18 @@ class CommonItem
                 $item->tags[] = (object)['name' => $label];
             }
         }
-        foreach ($offer->classificationLabels as $label) {
-            $item->tags[] = (object)['name' => $label->label];
+
+        //dump($offer->typeOffre->idTypeOffre);
+        if ($offer->typeOffre->idTypeOffre === TypeOffreEnum::RESTAURANT->value) {
+            foreach ($offer->culinarySpecialties as $specification) {
+                $item->tags[] = (object)['name' => $specification->getLabelByLang('fr')];
+            }
+        }
+
+        if ($offer->typeOffre->idTypeOffre === TypeOffreEnum::ACCOMMODATIONS->value) {
+            foreach ($offer->culinarySpecialties as $specification) {
+          //      $item->tags[] = (object)['name' => $specification->getLabelByLang('fr')];
+            }
         }
 
         $item->url = RouterPivot::getOfferUrl(Theme::CATEGORY_NOT_CATEGORIZED, $offer->codeCgt);

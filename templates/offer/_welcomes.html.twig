@@ -1,9 +1,7 @@
-{% if offer.welcomeFlags|length > 0 or offer.specificationDetail.openingIndications %}
-    {# ── Welcome & Accessibility ──
-    {% set activeWelcomeFlags = detail.welcomeFlags|filter(v => v) %}
-    {% if activeWelcomeFlags|length > 0 or detail.openingIndications %}
-    #}
-    {% if offer.welcomeFlags|length > 0 or offer.specificationDetail.openingIndications %}
+{# ── Welcome & Accessibility ── #}
+{% if offer.welcomeFlags|length > 0 or offer.openingIndications %}
+
+    {% if offer.welcomeFlags|length > 0 or offer.openingIndications %}
         <div class="mb-6">
         <h3 class="font-montserrat-semi-bold text-lg text-caractere mb-3 flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -32,8 +30,8 @@
         </div>
     {% endif %}
 
-    {% if offer.specificationDetail.openingIndications %}
-        <p class="mt-3 text-sm text-gray-600">{{ offer.specificationDetail.openingIndications|raw }}</p>
+    {% if offer.openingIndications %}
+        <p class="mt-3 text-sm text-gray-600">{{ offer.openingIndications|raw }}</p>
     {% endif %}
     </div>
 {% endif %}
