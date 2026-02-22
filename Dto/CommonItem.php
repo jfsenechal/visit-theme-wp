@@ -66,6 +66,9 @@ class CommonItem
                 $item->tags[] = (object)['name' => $label];
             }
         }
+        foreach ($offer->classificationLabels as $label) {
+            $item->tags[] = (object)['name' => $label->label];
+        }
 
         $item->url = RouterPivot::getOfferUrl(Theme::CATEGORY_NOT_CATEGORIZED, $offer->codeCgt);
         $item->content = $offer->getDescription();
