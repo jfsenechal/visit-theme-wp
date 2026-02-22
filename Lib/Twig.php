@@ -127,7 +127,7 @@ class Twig
         return ABSPATH.'var/cache/'.$folder;
     }
 
-    public static function rendPage(string $path, array $params = []): void
+    public static function renderPage(string $path, array $params = []): void
     {
         try {
             echo self::loadTwig()->render($path, $params);

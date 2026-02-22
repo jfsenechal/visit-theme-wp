@@ -59,7 +59,7 @@ $imgs = [
 $img = array_rand($imgs);
 $bgImg = $imgs[$img];
 
-Twig::rendPage(
+Twig::renderPage(
     '@Visit/homepage.html.twig',
     [
         'events' => $events,

@@ -57,7 +57,7 @@ try {
     $offersJson = null;
 }
 
-Twig::rendPage(
+Twig::renderPage(
     '@Visit/category.html.twig',
     [
         'name' => $label,
