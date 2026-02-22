@@ -4,7 +4,6 @@ namespace VisitMarche\ThemeWp;
 
 use VisitMarche\ThemeWp\Dto\CommonItem;
 use VisitMarche\ThemeWp\Inc\RouterPivot;
-use VisitMarche\ThemeWp\Inc\Theme;
 use VisitMarche\ThemeWp\Lib\Twig;
 use VisitMarche\ThemeWp\Repository\PivotRepository;
 
@@ -47,7 +46,7 @@ if ($label === null) {
 $items = [];
 foreach ($offers as $offer) {
     $item = CommonItem::createFromOffer($offer);
-    $item->url = RouterPivot::getOfferUrl(Theme::CATEGORY_NOT_CATEGORIZED, $offer->codeCgt);
+    $item->url = RouterPivot::getOfferUrl($offer->codeCgt);
     $items[] = $item;
 }
 

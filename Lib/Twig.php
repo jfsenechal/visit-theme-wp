@@ -14,7 +14,6 @@ use Twig\Loader\FilesystemLoader;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 use VisitMarche\ThemeWp\Inc\RouterPivot;
-use VisitMarche\ThemeWp\Inc\Theme;
 use WP;
 
 class Twig
@@ -170,7 +169,7 @@ class Twig
         return new TwigFilter(
             'routeOfferToSite',
             function (string $codeCgt): string {
-                return RouterPivot::getOfferUrl(Theme::CATEGORY_PATRIMOINES, $codeCgt);
+                return RouterPivot::getOfferUrl($codeCgt);
             }
         );
     }

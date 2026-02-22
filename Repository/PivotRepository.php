@@ -9,7 +9,6 @@ use AcMarche\PivotAi\Enums\ContentLevel;
 use AcMarche\PivotAi\Enums\TypeOffreEnum;
 use Carbon\Carbon;
 use VisitMarche\ThemeWp\Inc\RouterPivot;
-use VisitMarche\ThemeWp\Inc\Theme;
 use VisitMarche\ThemeWp\Lib\Di;
 
 readonly class PivotRepository
@@ -37,11 +36,13 @@ readonly class PivotRepository
             }
 
             // Remove outdated dates from each event
-            $offer->dates = array_values(array_filter(
-                $offer->dates,
-                fn(DateEvent $date) => ($date->endDate !== null && Carbon::parse($date->endDate)->gte($today))
-                    || ($date->startDate !== null && Carbon::parse($date->startDate)->gte($today)),
-            ));
+            $offer->dates = array_values(
+                array_filter(
+                    $offer->dates,
+                    fn(DateEvent $date) => ($date->endDate !== null && Carbon::parse($date->endDate)->gte($today))
+                        || ($date->startDate !== null && Carbon::parse($date->startDate)->gte($today)),
+                )
+            );
 
             // Skip events with no upcoming dates
             if ($offer->dates === []) {
@@ -50,16 +51,18 @@ readonly class PivotRepository
 
             // When skip is true, remove events where all dates span more than 10 days
             if ($skip) {
-                $offer->dates = array_values(array_filter(
-                    $offer->dates,
-                    function (DateEvent $date) {
-                        if ($date->startDate === null || $date->endDate === null) {
-                            return true;
-                        }
+                $offer->dates = array_values(
+                    array_filter(
+                        $offer->dates,
+                        function (DateEvent $date) {
+                            if ($date->startDate === null || $date->endDate === null) {
+                                return true;
+                            }
 
-                        return Carbon::parse($date->startDate)->diffInDays(Carbon::parse($date->endDate)) <= 10;
-                    },
-                ));
+                            return Carbon::parse($date->startDate)->diffInDays(Carbon::parse($date->endDate)) <= 10;
+                        },
+                    )
+                );
 
                 if ($offer->dates === []) {
                     continue;
@@ -81,7 +84,7 @@ readonly class PivotRepository
         });
 
         array_map(
-            fn(Offer $offer) => $offer->url = RouterPivot::getOfferUrl(Theme::CATEGORY_PATRIMOINES, $offer->codeCgt),
+            fn(Offer $offer) => $offer->url = RouterPivot::getOfferUrl($offer->codeCgt),
             $data
         );
 
@@ -187,6 +190,7 @@ readonly class PivotRepository
 
         return array_values($offers);
     }
+
     /**
      * @return Offer[]
      */
@@ -196,10 +200,12 @@ readonly class PivotRepository
 
         $offers = array_filter(
             $response->getOffers(),
-            fn(Offer $offer) => count(array_filter(
-                $offer->classificationLabels,
-                fn($label) => $label->urn === $urn,
-            )) > 0,
+            fn(Offer $offer) => count(
+                    array_filter(
+                        $offer->classificationLabels,
+                        fn($label) => $label->urn === $urn,
+                    )
+                ) > 0,
         );
 
         $offers = array_values($offers);
