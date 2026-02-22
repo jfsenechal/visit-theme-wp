@@ -71,6 +71,7 @@ class Twig
     public static function renderErrorPage(\Exception $exception): void
     {
         try {
+            status_header(500);
             echo self::loadTwig()->render('@Visit/error/_error.html.twig', [
                 'message' => $exception->getMessage(),
                 'file' => $exception->getFile(),
@@ -84,6 +85,7 @@ class Twig
     public static function renderNotFoundPage(string $message): void
     {
         try {
+            status_header(404);
             echo self::loadTwig()->render('@Visit/error/_not_found.html.twig', [
                 'message' => $message,
             ]);
