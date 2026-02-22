@@ -163,7 +163,7 @@ class WpRepository
     }
 
     /**
-     * @param WP_Term $term
+     * @param WP_Term|object $term
      * @param string $imageName
      * @return array<string,string>
      */
@@ -175,5 +175,4 @@ class WpRepository
             'url' => get_category_link($term),
         ];
     }
-
 }
