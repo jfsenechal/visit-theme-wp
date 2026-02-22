@@ -5,7 +5,7 @@
          x-data="categoryFilter({{ parentCategoryId }})">
     <header class="mb-6 xl:mb-8">
         <h1 class="relative inline-block pb-3 font-montserrat text-2xl md:text-3xl xl:text-4xl font-bold tracking-tight text-carto-main text-pretty">
-            {{ name }}
+            {{ name|raw }}
             <span class="absolute bottom-0 left-0 h-1 w-16 rounded-full bg-cta-light" aria-hidden="true"></span>
         </h1>
         {% if excerpt %}
