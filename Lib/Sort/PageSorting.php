@@ -36,7 +36,7 @@ class PageSorting
     static function pageIndex(): void
     {
         $urlNews = admin_url('/admin.php?page=ac_marche_tri_news');
-        Twig::rendPage(
+        Twig::renderPage(
             '@AcMarche/sort/menu.html.twig',
             [
                 'urlNews' => $urlNews,
@@ -49,7 +49,7 @@ class PageSorting
         $wpRepository = new WpRepository();
         $news = $wpRepository->getNews(30);
 
-        Twig::rendPage(
+        Twig::renderPage(
             '@AcMarche/sort/tri_news.html.twig',
             [
                 'news' => $news,

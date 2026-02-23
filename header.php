@@ -25,7 +25,7 @@ wp_body_open();
 $menu = new Menu();
 $items = $menu->getMenuTop();
 $icons = $menu->getIcons();
-Twig::rendPage(
+Twig::renderPage(
     '@Visit/header/_header.html.twig',
     [
         'locale' => $locale,

@@ -40,7 +40,7 @@ $video = CategoryMetaData::getVideo($category);
 $icon = CategoryMetaData::getIcon($category);
 $color = CategoryMetaData::getColor($category);
 
-Twig::rendPage(
+Twig::renderPage(
     '@Visit/category.html.twig',
     [
         'name' => $categoryName,

@@ -37,7 +37,7 @@ class VisitCommand extends Command
     {
         $this->io = new SymfonyStyle($input, $output);
 
-        //  $this->restaurants();
+        $this->restaurants();
         $this->accommodations();
 
         return Command::SUCCESS;

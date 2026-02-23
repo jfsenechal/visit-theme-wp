@@ -3,6 +3,7 @@
 namespace VisitMarche\ThemeWp\Inc;
 
 use VisitMarche\ThemeWp\Dto\CommonItem;
+use VisitMarche\ThemeWp\Repository\WpRepository;
 use WP;
 
 /**
@@ -66,8 +67,12 @@ class RouterPivot
 
     }
 
-    public static function getOfferUrl(int $categoryId, string $codeCgt): string
+    public static function getOfferUrl(string $codeCgt, int $categoryId = 0): string
     {
+        if ($categoryId == 0) {
+            $categoryId = WpRepository::findCategoryIdByCodeCgt($codeCgt);
+        }
+
         return get_category_link(get_category($categoryId)).self::OFFRE_URL.'/'.$codeCgt;
     }
 

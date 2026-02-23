@@ -4,7 +4,6 @@ namespace VisitMarche\ThemeWp\Lib\Search;
 
 use Meilisearch\Contracts\DeleteTasksQuery;
 use Meilisearch\Endpoints\Keys;
-use VisitMarche\ThemeWp\Repository\WpRepository;
 
 class MeiliServer
 {
@@ -62,20 +61,5 @@ class MeiliServer
     public function dump(): array
     {
         return $this->client->createDump();
-    }
-
-    public function addPost(array|\WP_Post|null $post): void
-    {
-        WpRepository::instance()->preparePost($post);
-        $document = Document::documentFromPost($post, get_current_blog_id(),'local');
-        $this->initClientAndIndex();
-        $this->index->addDocuments([$document], $this->primaryKey);
-    }
-
-    public function deleteDocument(int $postId, string $type, int $siteId): void
-    {
-        $this->initClientAndIndex();
-        $id = Document::createId($postId, $type, $siteId);
-        $this->index->deleteDocument($id);
     }
 }

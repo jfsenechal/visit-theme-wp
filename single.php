@@ -38,7 +38,7 @@ if (!$currentCategory = get_category_by_slug(get_query_var('category_name'))) {
 }
 $returnUrl = get_category_link($currentCategory);
 
-Twig::rendPage(
+Twig::renderPage(
     '@Visit/article.html.twig',
     [
         'post' => $post,

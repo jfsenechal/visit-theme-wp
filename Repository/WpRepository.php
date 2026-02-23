@@ -14,6 +14,28 @@ class WpRepository
 {
     public const PIVOT_REFOFFERS = 'pivot_ref_offers';
 
+    public static function findCategoryIdByCodeCgt(string $codeCgt): int
+    {
+        $terms = get_terms([
+            'taxonomy' => 'category',
+            'hide_empty' => false,
+            'meta_key' => self::PIVOT_REFOFFERS,
+        ]);
+
+        if (is_wp_error($terms)) {
+            return Theme::CATEGORY_NOT_CATEGORIZED;
+        }
+
+        foreach ($terms as $term) {
+            $codes = get_term_meta($term->term_id, self::PIVOT_REFOFFERS, true);
+            if (is_array($codes) && in_array($codeCgt, $codes, true)) {
+                return $term->term_id;
+            }
+        }
+
+        return Theme::CATEGORY_NOT_CATEGORIZED;
+    }
+
     /**
      * @return string[]
      */
@@ -163,7 +185,7 @@ class WpRepository
     }
 
     /**
-     * @param WP_Term $term
+     * @param WP_Term|object $term
      * @param string $imageName
      * @return array<string,string>
      */
@@ -175,5 +197,4 @@ class WpRepository
             'url' => get_category_link($term),
         ];
     }
-
 }

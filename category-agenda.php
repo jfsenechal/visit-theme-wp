@@ -16,7 +16,7 @@ $events = $pivotRepository->loadEvents();
 $image = '';
 $filters = [];
 
-Twig::rendPage(
+Twig::renderPage(
     '@Visit/agenda.html.twig',
     [
         'events' => $events,

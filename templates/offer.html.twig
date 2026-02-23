@@ -12,7 +12,8 @@
                     <span class="absolute bottom-0 left-0 h-1 w-16 rounded-full bg-cta-light" aria-hidden="true"></span>
                 </h1>
                 <p class="mt-2">
-                    <span class="inline-flex items-center rounded-full bg-cta-dark/10 px-3 py-1 text-sm font-medium text-cta-dark">
+                    <span
+                        class="inline-flex items-center rounded-full bg-cta-dark/10 px-3 py-1 text-sm font-medium text-cta-dark">
                         {{ offer.typeOffre.getLabelByLang(locale) }}
                     </span>
                 </p>
@@ -44,7 +45,16 @@
                         </div>
 
                         {% include '@Visit/offer/_dates.html.twig' %}
-                        {% include '@Visit/offer/_specifications.html.twig' %}
+
+                        <section class="mt-8">
+                            {% include '@Visit/offer/_welcomes.html.twig' %}
+                            {% include '@Visit/offer/_classifications.html.twig' %}
+                            {% include '@Visit/offer/_equipements.html.twig' %}
+                            {% include '@Visit/offer/_labels.html.twig' %}
+                            {% include '@Visit/offer/_circuits.html.twig' %}
+                            {% include '@Visit/offer/_signages.html.twig' %}
+                        </section>
+
                         {% include '@Visit/article/_tags.html.twig' %}
 
                         {# Share (mobile only — desktop shows in sidebar) #}
@@ -55,7 +65,7 @@
                 </div>
 
             </div>
-         {% include '@Visit/offer/_images.html.twig' %}
+            {% include '@Visit/offer/_images.html.twig' %}
             {# ── See also: full width ── #}
             {% include '@Visit/article/_see_also.html.twig' %}
 

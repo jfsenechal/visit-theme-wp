@@ -35,14 +35,14 @@ class AdminPages
 
     private function homepageRender(): void
     {
-        Twig::rendPage('@Visit/admin/home.html.twig');
+        Twig::renderPage('@Visit/admin/home.html.twig');
     }
 
     private function categoryOffersRender(): void
     {
         $catID = (int)($_GET['catID'] ?? 0);
         if ($catID < 1) {
-            Twig::rendPage('@Visit/admin/error.html.twig', [
+            Twig::renderPage('@Visit/admin/error.html.twig', [
                 'message' => 'Vous devez passer par une catégorie pour accéder à cette page',
             ]);
 
@@ -51,7 +51,7 @@ class AdminPages
 
         $category = get_category($catID);
         if (!$category || is_wp_error($category)) {
-            Twig::rendPage('@Visit/admin/error.html.twig', [
+            Twig::renderPage('@Visit/admin/error.html.twig', [
                 'message' => 'Catégorie introuvable',
             ]);
 
@@ -80,7 +80,7 @@ class AdminPages
             'catId' => $catID,
         ]);
 
-        Twig::rendPage('@Visit/admin/category_offers.html.twig', [
+        Twig::renderPage('@Visit/admin/category_offers.html.twig', [
             'category' => $category,
             'categoryUrl' => $categoryUrl,
             'catId' => $catID,
