@@ -52,6 +52,7 @@ Twig::renderPage(
         'thumbnail' => $image,
         'thumbnail_srcset' => $image_srcset,
         'thumbnail_sizes' => $image_sizes,
+        'icon' => null,
         'excerpt' => $post->post_excerpt,
         'tags' => $tags,
         'events' => $events,
