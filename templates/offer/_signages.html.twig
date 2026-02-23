@@ -9,7 +9,7 @@
             </svg>
             <div>
                 <span class="text-sm font-medium text-cta-dark">{{ 'offer.signage'|trans|default('Balisage') }}</span>
-                <span class="ml-2 text-sm text-caractere">{{ offer.signage }}</span>
+                <span class="ml-2 text-sm text-caractere">{{ offer.signage.getValueLabelByLang(locale) }}</span>
             </div>
         </div>
     </div>
