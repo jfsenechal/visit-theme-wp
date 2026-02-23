@@ -20,6 +20,11 @@ class Ajax
         // Handle the AJAX request
         add_action('wp_ajax_set_cookie_action', [$this, 'setCookieHandler']); // For logged-in users
         add_action('wp_ajax_nopriv_set_cookie_action', [$this, 'setCookieHandler']); // For non-logged users
+        /**
+         * Newsletter subscription
+         */
+        add_action('wp_ajax_newsletter_subscribe', [$this, 'newsletterSubscribeHandler']);
+        add_action('wp_ajax_nopriv_newsletter_subscribe', [$this, 'newsletterSubscribeHandler']);
     }
 
     private function actionAddOffer(): void
@@ -81,7 +86,27 @@ class Ajax
         wp_localize_script('visit-alpine-js', 'wpData', array(
             'ajaxUrl' => $url,
             'cookieNonce' => wp_create_nonce('set_cookie_nonce'),
+            'newsletterNonce' => wp_create_nonce('newsletter_nonce'),
         ));
+    }
+
+    public function newsletterSubscribeHandler(): void
+    {
+        check_ajax_referer('newsletter_nonce', 'nonce');
+
+        $email = isset($_POST['email']) ? sanitize_email($_POST['email']) : '';
+
+        if (!is_email($email)) {
+            wp_send_json_error(['message' => 'Adresse email invalide.'], 400);
+        }
+
+        $admin_email = get_option('admin_email');
+        $subject = 'Nouvelle inscription newsletter : '.$email;
+        $body = sprintf("Nouvelle demande d'inscription à la newsletter.\n\nEmail : %s\nDate : %s", $email, wp_date('d/m/Y H:i'));
+
+        wp_mail($admin_email, $subject, $body);
+
+        wp_send_json_success(['message' => 'Inscription enregistrée.']);
     }
 
     public function setCookieHandler(): void
