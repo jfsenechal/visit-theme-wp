@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+/* Google Fonts loaded via <link> in header.php for non-render-blocking behavior */
 @import "tailwindcss";
 @import './npx.css';
 
