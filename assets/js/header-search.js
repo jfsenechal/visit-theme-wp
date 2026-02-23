@@ -2,6 +2,7 @@ document.addEventListener('alpine:init', () => {
     Alpine.data('headerSearch', () => ({
         // State Management
         isSearchModalOpen: false,
+        isMobileMenuOpen: false,
         searchQuery: '',
         results: [],
         isLoading: false,
@@ -28,6 +29,16 @@ document.addEventListener('alpine:init', () => {
             this.searchQuery = '';
             this.results = [];
             this.error = '';
+        },
+
+        openMobileMenu() {
+            this.isMobileMenuOpen = true;
+            document.body.style.overflow = 'hidden';
+        },
+
+        closeMobileMenu() {
+            this.isMobileMenuOpen = false;
+            document.body.style.overflow = '';
         },
 
         closeOnClickOutside(event) {
