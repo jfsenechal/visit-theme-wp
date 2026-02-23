@@ -65,7 +65,7 @@ Twig::renderPage(
         'latitude' => $latitude,
         'longitude' => $longitude,
         'excerpt' => null,
-        'tags' => $offer->classificationLabels,
+        'tags' => $offer->getClassificationLabels(),
         'icon' => null,
         'events' => $events,
         'specs' => [],

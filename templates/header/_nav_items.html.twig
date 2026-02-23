@@ -1,23 +1,23 @@
 <li>
     <a href="/"
-       class="px-3 py-2 font-medium text-gray-700 hover:text-gray-900 rounded-md hover:bg-gray-50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500">{{ 'menu.home'|trans }}</a>
+       class="px-3 py-2 font-medium text-gray-700 hover:text-gray-900 rounded-md hover:bg-gray-50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta-dark">{{ 'menu.home'|trans }}</a>
 </li>
 <li>
     <a href="{{ items.idees.url }}"
-       class="px-3 py-2 font-medium text-gray-700 hover:text-gray-900 rounded-md hover:bg-gray-50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500">{{ items.idees.name }}</a>
+       class="px-3 py-2 font-medium text-gray-700 hover:text-gray-900 rounded-md hover:bg-gray-50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta-dark">{{ items.idees.name }}</a>
 </li>
 <li>
     <a href="{{ items.inspirations.url }}"
-       class="px-3 py-2 font-medium text-gray-700 hover:text-gray-900 rounded-md hover:bg-gray-50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500">{{ items.inspirations.name }}</a>
+       class="px-3 py-2 font-medium text-gray-700 hover:text-gray-900 rounded-md hover:bg-gray-50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta-dark">{{ items.inspirations.name }}</a>
 </li>
 <li>
     <a href="{{ items.agenda.url }}"
-       class="px-3 py-2 font-medium text-gray-700 hover:text-gray-900 rounded-md hover:bg-gray-50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500">{{ items.agenda.name }}</a>
+       class="px-3 py-2 font-medium text-gray-700 hover:text-gray-900 rounded-md hover:bg-gray-50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta-dark">{{ items.agenda.name }}</a>
 </li>
 <li class="relative" x-data="{ open: false }">
     <button
         type="button"
-        class="cursor-pointer inline-flex items-center gap-1 px-3 py-2 font-medium text-gray-700 hover:text-gray-900 rounded-md hover:bg-gray-50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
+        class="cursor-pointer inline-flex items-center gap-1 px-3 py-2 font-medium text-gray-700 hover:text-gray-900 rounded-md hover:bg-gray-50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta-dark"
         aria-haspopup="true"
         :aria-expanded="open.toString()"
         @click="open = !open"
@@ -51,26 +51,26 @@
     >
         <li>
             <a href="{{ items.savourer.url }}"
-               class="block px-4 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">{{ items.savourer.name }}</a>
+               class="block px-4 py-2.5 text-gray-700 hover:bg-gray-100 focus-visible:bg-gray-100 focus-visible:outline-none">{{ items.savourer.name }}</a>
         </li>
         <li>
             <a href="{{ items.barbecue.url }}"
-               class="block px-4 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">{{ items.barbecue.name }}</a>
+               class="block px-4 py-2.5 text-gray-700 hover:bg-gray-100 focus-visible:bg-gray-100 focus-visible:outline-none">{{ items.barbecue.name }}</a>
         </li>
         <li>
             <a href="{{ items.sejourner.url }}"
-               class="block px-4 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">{{ items.sejourner.name }}</a>
+               class="block px-4 py-2.5 text-gray-700 hover:bg-gray-100 focus-visible:bg-gray-100 focus-visible:outline-none">{{ items.sejourner.name }}</a>
         </li>
         <li>
             <a href="{{ items.mice.url }}"
-               class="block px-4 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">{{ items.mice.name }}</a>
+               class="block px-4 py-2.5 text-gray-700 hover:bg-gray-100 focus-visible:bg-gray-100 focus-visible:outline-none">{{ items.mice.name }}</a>
         </li>
     </ul>
 </li>
 <li class="relative" x-data="{ open: false }">
     <button
         type="button"
-        class="cursor-pointer inline-flex items-center gap-1 px-3 py-2 font-medium text-gray-700 hover:text-gray-900 rounded-md hover:bg-gray-50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
+        class="cursor-pointer inline-flex items-center gap-1 px-3 py-2 font-medium text-gray-700 hover:text-gray-900 rounded-md hover:bg-gray-50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta-dark"
         aria-haspopup="true"
         :aria-expanded="open.toString()"
         @click="open = !open"
@@ -104,41 +104,41 @@
     >
         <li>
             <a href="{{ items.arts.url }}"
-               class="block px-4 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">{{ items.arts.name }}</a>
+               class="block px-4 py-2.5 text-gray-700 hover:bg-gray-100 focus-visible:bg-gray-100 focus-visible:outline-none">{{ items.arts.name }}</a>
         </li>
         <li>
             <a href="{{ items.balades.url }}"
-               class="block px-4 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">{{ items.balades.name }}</a>
+               class="block px-4 py-2.5 text-gray-700 hover:bg-gray-100 focus-visible:bg-gray-100 focus-visible:outline-none">{{ items.balades.name }}</a>
         </li>
         <li>
             <a href="{{ items.fetes.url }}"
-               class="block px-4 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">{{ items.fetes.name }}</a>
+               class="block px-4 py-2.5 text-gray-700 hover:bg-gray-100 focus-visible:bg-gray-100 focus-visible:outline-none">{{ items.fetes.name }}</a>
         </li>
         <li>
             <a href="{{ items.gourmandises.url }}"
-               class="block px-4 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">{{ items.gourmandises.name }}</a>
+               class="block px-4 py-2.5 text-gray-700 hover:bg-gray-100 focus-visible:bg-gray-100 focus-visible:outline-none">{{ items.gourmandises.name }}</a>
         </li>
         <li>
             <a href="https://circuit-court.marche.be/" target="_blank" rel="noopener noreferrer"
-               class="block px-4 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">
+               class="block px-4 py-2.5 text-gray-700 hover:bg-gray-100 focus-visible:bg-gray-100 focus-visible:outline-none">
                 {{ 'local.products'|trans }}
                 <span class="sr-only">({{ 'opens.new.window'|trans }})</span>
             </a>
         </li>
         <li>
             <a href="{{ items.patrimoine.url }}"
-               class="block px-4 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">{{ items.patrimoine.name }}</a>
+               class="block px-4 py-2.5 text-gray-700 hover:bg-gray-100 focus-visible:bg-gray-100 focus-visible:outline-none">{{ items.patrimoine.name }}</a>
         </li>
     </ul>
 </li>
 <li>
     <a href="{{ items.pratique.url }}"
-       class="px-3 py-2 font-medium text-gray-700 hover:text-gray-900 rounded-md hover:bg-gray-50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500">{{ items.pratique.name }}</a>
+       class="px-3 py-2 font-medium text-gray-700 hover:text-gray-900 rounded-md hover:bg-gray-50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta-dark">{{ items.pratique.name }}</a>
 </li>
 <li>
     <button
         @click="openSearchModal()"
-        class="cursor-pointer inline-flex items-center gap-2 px-3 py-2 text-gray-500 hover:text-gray-700 transition-colors rounded-md hover:bg-gray-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
+        class="cursor-pointer inline-flex items-center gap-2 px-3 py-2 text-gray-500 hover:text-gray-700 transition-colors rounded-md hover:bg-gray-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta-dark"
         aria-label="{{ 'menu.search'|trans }}"
         type="button">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"

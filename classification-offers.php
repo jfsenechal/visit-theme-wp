@@ -31,7 +31,7 @@ try {
 
 $label = null;
 foreach ($offers as $offer) {
-    foreach ($offer->classificationLabels as $cl) {
+    foreach ($offer->getClassificationLabels() as $cl) {
         if ($cl->urn === $urn) {
             $label = $cl->label;
             break 2;

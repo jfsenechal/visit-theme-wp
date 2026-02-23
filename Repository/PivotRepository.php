@@ -202,7 +202,7 @@ readonly class PivotRepository
             $response->getOffers(),
             fn(Offer $offer) => count(
                     array_filter(
-                        $offer->classificationLabels,
+                        $offer->getClassificationLabels(),
                         fn($label) => $label->urn === $urn,
                     )
                 ) > 0,

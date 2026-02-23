@@ -11,11 +11,15 @@
                     {{ post.post_title }}
                     <span class="absolute bottom-0 left-0 h-1 w-16 rounded-full bg-cta-light" aria-hidden="true"></span>
                 </h1>
-                <p class="mt-2">
-                    <span class="inline-flex items-center rounded-full bg-cta-dark/10 px-3 py-1 text-sm font-medium text-cta-dark">
-                       LABEL ??
-                    </span>
-                </p>
+                {% if post.tags is defined and post.tags|length > 0 %}
+                    <p class="mt-2">
+                        {% for tag in post.tags %}
+                            <span class="inline-flex items-center rounded-full bg-cta-dark/10 px-3 py-1 text-sm font-medium text-cta-dark">
+                                {{ tag.name }}
+                            </span>
+                        {% endfor %}
+                    </p>
+                {% endif %}
             </header>
 
             {# ── Two-column responsive grid ── #}

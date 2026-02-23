@@ -7,7 +7,7 @@
        title="Toutes les inspirations"
        class="group inline-flex items-center gap-2 text-cta-dark font-semibold
               hover:text-cta-light transition-colors duration-200
-              focus:outline-none focus:underline">
+              focus-visible:outline-none focus-visible:underline">
         {{ 'all.experiences'|trans }}
         <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200"
              xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -25,14 +25,14 @@
                   {{ key == 0 ? 'sm:col-span-2 sm:row-span-2 aspect-[4/3] sm:aspect-auto sm:min-h-[400px]' : 'aspect-[4/3]' }}
                   shadow-md hover:shadow-xl
                   transition-shadow duration-300
-                  focus:outline-none focus:ring-4 focus:ring-cta-light/50 focus:ring-offset-2">
+                  focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-cta-light/50 focus-visible:ring-offset-2">
             {# Image #}
             {% if item.image %}
                 <img src="{{ item.image }}"
                      alt="{{ item.name }}"
                      loading="lazy"
                      class="absolute inset-0 h-full w-full object-cover
-                            group-hover:scale-105
+                            motion-safe:group-hover:scale-105
                             transition-transform duration-500 ease-out"/>
             {% endif %}
 

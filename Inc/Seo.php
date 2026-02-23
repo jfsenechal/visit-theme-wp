@@ -120,7 +120,7 @@ class Seo
             }
             $keywords = array_map(
                 fn($tag) => $tag->name(),
-                $offer->classificationLabels,
+                $offer->getClassificationLabels(),
             );
             self::$metas['keywords'] = implode(',', $keywords);
             self::$metas['image'] = $offer->getDefaultImage();

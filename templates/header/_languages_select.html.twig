@@ -2,7 +2,7 @@
     <li class="relative" x-data="{ open: false }">
         <button
             type="button"
-            class="inline-flex items-center gap-1 px-2 py-1 text-sm font-medium text-gray-600 hover:text-gray-900 rounded-md transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
+            class="inline-flex items-center gap-1 px-2 py-2.5 text-sm font-medium text-gray-600 hover:text-gray-900 rounded-md transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta-dark"
             aria-haspopup="true"
             :aria-expanded="open.toString()"
             aria-label="{{ 'menu.language'|trans }}"
@@ -35,13 +35,13 @@
             x-cloak
         >
             <li>
-                <a href="/fr" class="block px-4 py-1.5 text-sm text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">FR</a>
+                <a href="/fr" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 focus-visible:bg-gray-100 focus-visible:outline-none">FR</a>
             </li>
             <li>
-                <a href="/nl" class="block px-4 py-1.5 text-sm text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">NL</a>
+                <a href="/nl" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 focus-visible:bg-gray-100 focus-visible:outline-none">NL</a>
             </li>
             <li>
-                <a href="/en" class="block px-4 py-1.5 text-sm text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">EN</a>
+                <a href="/en" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 focus-visible:bg-gray-100 focus-visible:outline-none">EN</a>
             </li>
         </ul>
     </li>

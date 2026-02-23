@@ -63,7 +63,7 @@ class VisitCommand extends Command
         // Step 1: Find the label for each URN from the offers data
         $urnLabels = [];
         foreach ($restaurants as $offer) {
-            foreach ($offer->classificationLabels as $label) {
+            foreach ($offer->getClassificationLabels() as $label) {
                 if (in_array($label->urn, $urns, true) && !isset($urnLabels[$label->urn])) {
                     $urnLabels[$label->urn] = $label->label;
                 }
@@ -91,7 +91,7 @@ class VisitCommand extends Command
         foreach ($urnToCategoryId as $urn => $categoryId) {
             $codesCgt = [];
             foreach ($restaurants as $offer) {
-                foreach ($offer->classificationLabels as $label) {
+                foreach ($offer->getClassificationLabels() as $label) {
                     if ($label->urn === $urn) {
                         $codesCgt[] = $offer->codeCgt;
                         break;
@@ -228,7 +228,7 @@ class VisitCommand extends Command
         $labels = [];
         foreach ($events as $event) {
             $this->io->title($event->name());
-            foreach ($event->classificationLabels as $label) {
+            foreach ($event->getClassificationLabels() as $label) {
                 $this->io->text($label);
                 if (!strpos($label->urn, 'specculi')) {
                     $labels[$label->urn] = [$label->label, $label->urn];

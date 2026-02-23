@@ -12,9 +12,7 @@
     encapsulated: false,
     init() {
         // Show banner only if preferences haven't been set
-        //this.showBanner = this.$el.dataset.showBanner === '' || this.$el.dataset.showBanner === '0' || this.$el.dataset.showBanner === 'false';
-
-        this.showBanner = true;
+        this.showBanner = this.$el.dataset.showBanner === '' || this.$el.dataset.showBanner === '0' || this.$el.dataset.showBanner === 'false';
         // Load current preferences from data attributes
         this.essential = this.$el.dataset.essential === '1' || this.$el.dataset.essential === 'true';
         this.statistics = this.$el.dataset.statistics === '1' || this.$el.dataset.statistics === 'true';
@@ -79,12 +77,12 @@
                     <div class="flex flex-row sm:flex-row items-stretch sm:items-center gap-2 mt-4">
                         <button @click="togglePopupCookie"
                                 type="button"
-                                class="cursor-pointer font-medium text-gray-700 hover:text-gray-900 underline transition-colors focus:outline-none">
+                                class="cursor-pointer font-medium text-gray-700 hover:text-gray-900 underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cta-dark focus-visible:ring-offset-2 rounded">
                             Personnaliser
                         </button>
                         <button @click="acceptAll"
                                 type="button"
-                                class="cursor-pointer bg-cta-dark font-semibold rounded-lg hover:bg-opacity-90 text-white px-5 py-2.5 transition-all focus:outline-none focus:ring-2 focus:ring-cta-dark focus:ring-offset-2 shadow-md">
+                                class="cursor-pointer bg-cta-dark font-semibold rounded-lg hover:bg-opacity-90 text-white px-5 py-2.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cta-dark focus-visible:ring-offset-2 shadow-md">
                             Tout accepter
                         </button>
                     </div>
