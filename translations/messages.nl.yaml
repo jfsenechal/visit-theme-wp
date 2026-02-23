@@ -99,6 +99,9 @@ offer:
   close: 'Sluiten'
   prev_image: 'Vorige afbeelding'
   next_image: 'Volgende afbeelding'
+  gpx_details: 'Routegegevens'
+  gpx_download: 'Download het GPX-bestand'
+  download: 'Download'
 skip:
   to:
     content: 'Skip to content'

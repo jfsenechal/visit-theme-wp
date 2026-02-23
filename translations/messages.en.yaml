@@ -99,6 +99,9 @@ offer:
   close: 'Close'
   prev_image: 'Previous image'
   next_image: 'Next image'
+  gpx_details: 'Route details'
+  gpx_download: 'Download the GPX file'
+  download: 'Download'
 skip:
   to:
     content: 'Skip to content'

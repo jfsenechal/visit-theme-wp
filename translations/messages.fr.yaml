@@ -99,6 +99,9 @@ offer:
   close: 'Fermer'
   prev_image: 'Image précédente'
   next_image: 'Image suivante'
+  gpx_details: 'Détails du parcours'
+  gpx_download: 'Télécharger le gpx'
+  download: 'Télécharger'
 skip:
   to:
     content: 'Skip to content'

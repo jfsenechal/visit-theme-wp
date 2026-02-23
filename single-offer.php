@@ -69,7 +69,6 @@ Twig::renderPage(
         'icon' => null,
         'events' => $events,
         'specs' => [],
-        'gpx' => null,
         'locations' => [],
     ]
 );
