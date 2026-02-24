@@ -60,10 +60,12 @@ class CommonItem
             excerpt: $offer->getShortDescription() ?? '',
         );
 
-        if ($offer->typeOffre) {
-            $label = $offer->typeOffre->getLabelByLang('fr');
-            if ($label) {
-                $item->tags[] = (object)['name' => $label];
+        if (!$offer->typeOffre->idTypeOffre === TypeOffreEnum::RESTAURANT->value) {
+            if ($offer->typeOffre) {
+                $label = $offer->typeOffre->getLabelByLang('fr');
+                if ($label) {
+                    $item->tags[] = (object)['name' => $label];
+                }
             }
         }
 
