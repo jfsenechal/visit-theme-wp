@@ -1,13 +1,11 @@
 <nav aria-label="{{ 'menu.categories'|trans|default('Categories') }}"
      class="mx-auto max-w-4xl px-4 sm:px-6">
-    <ul class="flex items-center justify-center gap-3 sm:gap-6 lg:gap-10
-              overflow-x-auto pb-2 scrollbar-none
-              snap-x snap-mandatory">
+    <ul class="flex flex-wrap items-center justify-center gap-3 sm:gap-6 lg:gap-10">
         {% for icon in icons %}
-            <li class="snap-center shrink-0">
+            <li>
                 <a href="{{ icon.url }}"
                    class="group flex flex-col items-center justify-center
-                          w-22 h-22 sm:w-28 sm:h-28
+                          w-24 h-24 sm:w-28 sm:h-28
                           rounded-2xl
                           bg-white/10 backdrop-blur-sm
                           border border-white/20
