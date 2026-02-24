@@ -9,6 +9,7 @@ use VisitMarche\ThemeWp\Inc\Ajax;
 use VisitMarche\ThemeWp\Inc\ApiRoutes;
 use VisitMarche\ThemeWp\Inc\AssetsLoader;
 use VisitMarche\ThemeWp\Inc\CategoryMetaData;
+use VisitMarche\ThemeWp\Inc\LanguageRouter;
 use VisitMarche\ThemeWp\Inc\OpenGraph;
 use VisitMarche\ThemeWp\Inc\RouterPivot;
 use VisitMarche\ThemeWp\Inc\Seo;
@@ -42,6 +43,10 @@ new AssetsLoader();
  * Un peu de sécurité
  */
 //new SecurityConfig();
+/**
+ * Détection de la langue via le préfixe URL
+ */
+new LanguageRouter();
 /**
  * Enregistrement des routes api
  */

@@ -3,10 +3,11 @@
 namespace VisitMarche\ThemeWp;
 
 use VisitMarche\ThemeWp\Lib\CookieHelper;
+use VisitMarche\ThemeWp\Lib\LocaleHelper;
 use VisitMarche\ThemeWp\Lib\Menu;
 use VisitMarche\ThemeWp\Lib\Twig;
 
-$locale = 'fr';
+$locale = LocaleHelper::getSelectedLanguage();
 ?>
     <!doctype html>
 <html lang="<?php echo $locale; ?>">

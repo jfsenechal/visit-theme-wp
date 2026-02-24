@@ -10,7 +10,7 @@
             @keydown.escape.prevent="open = false"
             @keydown.arrow-down.prevent="open = true; $nextTick(() => $refs.langMenu.querySelector('a').focus())"
         >
-            FR
+            {{ locale|upper }}
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="size-4 transition-transform" :class="open && 'rotate-180'">
                 <path fill-rule="evenodd"
                       d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
@@ -34,15 +34,15 @@
             class="list-none absolute right-0 top-full mt-1 w-20 bg-white rounded-md shadow-lg ring-1 ring-black/5 py-1 z-50"
             x-cloak
         >
-            <li>
-                <a href="/fr" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 focus-visible:bg-gray-100 focus-visible:outline-none">FR</a>
-            </li>
-            <li>
-                <a href="/nl" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 focus-visible:bg-gray-100 focus-visible:outline-none">NL</a>
-            </li>
-            <li>
-                <a href="/en" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 focus-visible:bg-gray-100 focus-visible:outline-none">EN</a>
-            </li>
+            {% set currentPath = lang_current_path() %}
+            {% for lang in ['fr', 'en', 'nl', 'de'] %}
+                <li>
+                    <a href="/{{ lang }}{% if currentPath %}/{{ currentPath }}{% endif %}"
+                       class="block px-4 py-2.5 text-sm {{ locale == lang ? 'text-cta-dark font-semibold' : 'text-gray-700' }} hover:bg-gray-100 focus-visible:bg-gray-100 focus-visible:outline-none">
+                        {{ lang|upper }}
+                    </a>
+                </li>
+            {% endfor %}
         </ul>
     </li>
 </ul>

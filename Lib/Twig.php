@@ -13,6 +13,7 @@ use Twig\Extra\String\StringExtension;
 use Twig\Loader\FilesystemLoader;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
+use VisitMarche\ThemeWp\Inc\LanguageRouter;
 use VisitMarche\ThemeWp\Inc\RouterPivot;
 use WP;
 
@@ -48,13 +49,16 @@ class Twig
             $twig->addExtension(new DebugExtension());
         }
 
-        locale_set_default('fr-FR');//for format date
+        $locale = LocaleHelper::getSelectedLanguage();
+        locale_set_default($locale . '-' . strtoupper($locale));
         $translator = LocaleHelper::iniTranslator();
         $twig->addExtension(new TranslationExtension($translator));
-        $twig->addGlobal('locale', 'fr');
+        $twig->addGlobal('locale', $locale);
         $twig->addGlobal('WP_DEBUG', WP_DEBUG);
         $twig->addFunction(self::currentUrl());
         $twig->addFunction(self::templateUri());
+        $twig->addFunction(self::langUrl());
+        $twig->addFunction(self::langCurrentPath());
         $twig->addFilter(self::getRouteOfferToPivotSite());
         $twig->addFilter(self::getRouteOfferToSite());
         $twig->addExtension(new StringExtension());
@@ -100,6 +104,22 @@ class Twig
         return new TwigFunction(
             'template_uri',
             fn(): string => get_template_directory_uri()
+        );
+    }
+
+    private static function langUrl(): TwigFunction
+    {
+        return new TwigFunction(
+            'lang_url',
+            fn(string $path): string => LanguageRouter::url($path)
+        );
+    }
+
+    private static function langCurrentPath(): TwigFunction
+    {
+        return new TwigFunction(
+            'lang_current_path',
+            fn(): string => LanguageRouter::currentPath()
         );
     }
 

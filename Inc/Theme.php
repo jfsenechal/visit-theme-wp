@@ -2,8 +2,6 @@
 
 namespace VisitMarche\ThemeWp\Inc;
 
-use Symfony\Component\HttpFoundation\Request;
-
 class Theme
 {
     public const PAGE_INTRO = 115;
@@ -19,14 +17,13 @@ class Theme
     public const CATEGORIES_AGENDA = 8;
     public const CATEGORIES_HEBERGEMENT = 6;
     public const CATEGORIES_RESTAURATION = 5;
-   public const CATEGORY_INSPIRATION = 2;
+    public const CATEGORY_INSPIRATION = 2;
     public const CATEGORY_NOT_CATEGORIZED = 1;
 
     public static function isHomePage(): bool
     {
-        $request = Request::createFromGlobals();
-        $uri = $request->getPathInfo();
+        global $wp;
 
-        return '/' === $uri || '/fr/' === $uri || '/fr' === $uri || '/nl/' === $uri || '/nl' === $uri || '/en/' === $uri || '/en' === $uri;
+        return '' === $wp->request;
     }
 }

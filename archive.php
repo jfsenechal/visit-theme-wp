@@ -2,8 +2,11 @@
 
 namespace VisitMarche\TheWo;
 
+use VisitMarche\ThemeWp\Enums\LanguageEnum;
 use VisitMarche\ThemeWp\Inc\CategoryMetaData;
 use VisitMarche\ThemeWp\Inc\RouterPivot;
+use VisitMarche\ThemeWp\Lib\LocaleHelper;
+use VisitMarche\ThemeWp\Lib\OpenAi;
 use VisitMarche\ThemeWp\Lib\Twig;
 use VisitMarche\ThemeWp\Repository\WpRepository;
 
@@ -25,8 +28,9 @@ try {
 } catch (\Exception $e) {
     $offers = [];
 }
+$locale = LocaleHelper::getSelectedLanguage();
 
-RouterPivot::setLinkOnCommonItems($offers, $category->cat_ID, 'fr');
+RouterPivot::setLinkOnCommonItems($offers, $category->cat_ID, $locale);
 
 try {
     $offersJson = json_encode(array_map(fn($item) => $item->toArray(), $offers), JSON_THROW_ON_ERROR);
@@ -39,6 +43,12 @@ $image = CategoryMetaData::getImage($category);
 $video = CategoryMetaData::getVideo($category);
 $icon = CategoryMetaData::getIcon($category);
 $color = CategoryMetaData::getColor($category);
+
+$translator = OpenAi::create();
+foreach ($offers as $offer) {
+    $offer->nom = $offer->name;
+}
+$result = $translator->translate($offer->nom, LanguageEnum::ENGLISH);
 
 Twig::renderPage(
     '@Visit/category.html.twig',

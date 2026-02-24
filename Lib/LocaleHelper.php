@@ -5,17 +5,13 @@ namespace VisitMarche\ThemeWp\Lib;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
 use Symfony\Component\Translation\Translator;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use VisitMarche\ThemeWp\Inc\LanguageRouter;
 
 class LocaleHelper
 {
     public static function getSelectedLanguage(): string
     {
-        $current_lang = apply_filters('wpml_current_language', null);
-        if (!$current_lang) {
-            $current_lang = 'fr';
-        }
-
-        return $current_lang;
+        return LanguageRouter::getCurrentLanguage();
     }
 
     public static function iniTranslator(): TranslatorInterface
