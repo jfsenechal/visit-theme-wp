@@ -37,6 +37,7 @@ class VisitCommand extends Command
     {
         $this->io = new SymfonyStyle($input, $output);
 
+        $this->categories();
         $this->restaurants();
         $this->accommodations();
 
@@ -188,7 +189,7 @@ class VisitCommand extends Command
         $existingTerm = term_exists($categoryName, 'category');
 
         if ($existingTerm) {
-            $categoryId = (int) $existingTerm['term_id'];
+            $categoryId = (int)$existingTerm['term_id'];
             $this->io->text(sprintf('Category "%s" already exists (ID %d)', $categoryName, $categoryId));
 
             return $categoryId;
@@ -206,7 +207,7 @@ class VisitCommand extends Command
             return null;
         }
 
-        $categoryId = (int) $result['term_id'];
+        $categoryId = (int)$result['term_id'];
         $this->io->success(sprintf('Created category "%s" (ID %d)', $categoryName, $categoryId));
 
         return $categoryId;
@@ -241,5 +242,26 @@ class VisitCommand extends Command
             ['Label', 'Urn'],
             $labels,
         );
+    }
+
+    private function categories(): void
+    {
+        $decouvrir = $this->findOrCreateCategory('Découvrir', 0);
+        $toMove = [9, 10, 11, 12, 13];
+        foreach ($toMove as $categoryId) {
+            wp_update_term($categoryId, 'category', ['parent' => $decouvrir]);
+        }
+        $organiser = get_category_by_slug('sorganiser');
+        if ($organiser instanceof \WP_Term) {
+            $toMove = [5, 6, 84];
+            foreach ($toMove as $categoryId) {
+                if (!$cat =get_category($categoryId)) {
+                    $this->io->warning(sprintf('Category %d does not exist', $categoryId));
+                    continue;
+                }
+                dump($cat->name);
+                wp_update_term($categoryId, 'category', ['parent' => $organiser]);
+            }
+        }
     }
 }

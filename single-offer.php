@@ -3,7 +3,10 @@
 namespace VisitMarche\ThemeWp;
 
 use AcMarche\PivotAi\Enums\ContentLevel;
+use VisitMarche\ThemeWp\Enums\LanguageEnum;
 use VisitMarche\ThemeWp\Inc\RouterPivot;
+use VisitMarche\ThemeWp\Lib\LocaleHelper;
+use VisitMarche\ThemeWp\Lib\OpenAi;
 use VisitMarche\ThemeWp\Lib\Twig;
 use VisitMarche\ThemeWp\Repository\PivotRepository;
 
@@ -36,8 +39,17 @@ if (!$offer) {
     return;
 }
 
-//$translator = OpenAi::create();
-//$result = $translator->translate($offer->nom, LanguageEnum::ENGLISH);
+$locale = LocaleHelper::getSelectedLanguage();
+$name = $offer->name();
+$description = $offer->getDescription();
+
+if ($locale !== 'fr' && ($language = LanguageEnum::tryFrom($locale))) {
+    $translator = OpenAi::create();
+    $name = $translator->translate($name, $language);
+    if ($description) {
+        $description = $translator->translate($description, $language);
+    }
+}
 
 $events = $pivotRepository->loadEvents(skip: true);
 $events = array_slice($events, 0, 3);
@@ -56,7 +68,8 @@ Twig::renderPage(
     '@Visit/offer.html.twig',
     [
         'offer' => $offer,
-        'name' => $offer->name(),
+        'name' => $name,
+        'description' => $description,
         'returnName' => $currentCategory->name,
         'returnUrl' => $returnUrl,
         'categoryName' => $currentCategory->name,

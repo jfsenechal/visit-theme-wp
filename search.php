@@ -5,6 +5,7 @@ namespace VisitMarche\ThemeWp;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
+use VisitMarche\ThemeWp\Lib\LocaleHelper;
 use VisitMarche\ThemeWp\Lib\Search\MeiliSearch;
 use VisitMarche\ThemeWp\Lib\Twig;
 
@@ -14,11 +15,26 @@ $searcher = new MeiliSearch();
 $searcher->initClientAndIndex();
 
 $keyword = get_search_query();
+$locale = LocaleHelper::getSelectedLanguage();
 
 try {
-    $searching = $searcher->doSearch($keyword);
+    $searching = $searcher->doSearch($keyword, locale: $locale);
     $hits = $searching->getHits();
     $count = $searching->count();
+
+    if ($locale !== 'fr' && in_array($locale, ['en', 'nl', 'de'])) {
+        foreach ($hits as &$hit) {
+            $nameField = 'name_' . $locale;
+            $excerptField = 'excerpt_' . $locale;
+            if (!empty($hit[$nameField])) {
+                $hit['name'] = $hit[$nameField];
+            }
+            if (!empty($hit[$excerptField])) {
+                $hit['excerpt'] = $hit[$excerptField];
+            }
+        }
+        unset($hit);
+    }
 } catch (\Exception $e) {
     Twig::renderErrorPage($e);
 

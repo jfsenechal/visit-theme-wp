@@ -18,6 +18,13 @@ class CommonItem
 
     public ?string $content = null;
 
+    public ?string $name_en = null;
+    public ?string $name_nl = null;
+    public ?string $name_de = null;
+    public ?string $excerpt_en = null;
+    public ?string $excerpt_nl = null;
+    public ?string $excerpt_de = null;
+
     public function __construct(
         public string $id,
         public string $type,
@@ -88,7 +95,7 @@ class CommonItem
         return $item;
     }
 
-    public static function createFromCategory(\WP_Term $category, string $content, array $tags = []): CommonItem
+    public static function createFromCategory(\WP_Term $category, string $content = '', array $tags = []): CommonItem
     {
         $item = new CommonItem(
             id: (string)$category->ID,
@@ -107,7 +114,7 @@ class CommonItem
 
     public function toArray(): array
     {
-        return [
+        $data = [
             'id' => $this->id,
             'type' => $this->type,
             'name' => $this->name,
@@ -117,6 +124,17 @@ class CommonItem
             'url' => $this->url,
             'tags' => array_map(fn($tag) => ['name' => $tag->name], $this->tags),
         ];
+
+        foreach (['en', 'nl', 'de'] as $lang) {
+            if ($this->{'name_' . $lang} !== null) {
+                $data['name_' . $lang] = $this->{'name_' . $lang};
+            }
+            if ($this->{'excerpt_' . $lang} !== null) {
+                $data['excerpt_' . $lang] = strip_tags($this->{'excerpt_' . $lang});
+            }
+        }
+
+        return $data;
     }
 
     public static function getPostThumbnail(int $id): string

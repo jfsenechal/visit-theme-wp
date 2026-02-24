@@ -2,31 +2,36 @@
 
 namespace VisitMarche\ThemeWp\Lib;
 
+use VisitMarche\ThemeWp\Dto\CommonItem;
 use VisitMarche\ThemeWp\Enums\IconeEnum;
-use VisitMarche\ThemeWp\Inc\Theme;
+use VisitMarche\ThemeWp\Enums\LanguageEnum;
+use VisitMarche\ThemeWp\Repository\WpRepository;
+use WP_Term;
 
 class Menu
 {
     /**
-     * @return \WP_Term[]
+     * @return WP_Term[]
      */
     public function getIcons(): array
     {
-            $icons = [
-                'arts' => get_category_by_slug('arts'),
-                'balades' => get_category_by_slug('balades'),
-                'fetes' => get_category_by_slug('fetes'),
-                'gourmandises' => get_category_by_slug('gourmandises'),
-                'patrimoine' => get_category_by_slug('patrimoine'),
-            ];
+        $icons = [
+            'arts' => get_category_by_slug('arts'),
+            'balades' => get_category_by_slug('balades'),
+            'fetes' => get_category_by_slug('fetes'),
+            'gourmandises' => get_category_by_slug('gourmandises'),
+            'patrimoine' => get_category_by_slug('patrimoine'),
+        ];
 
-            foreach ($icons as $key => $icone) {
-                $icone->url = get_category_link($icone);
-                $icone->colorHover = $this->hoverColor($key);
-                $icone->imageWhite = IconeEnum::iconeWhite($icone->slug);
+        foreach ($icons as $key => $icon) {
+            if ($icon instanceof WP_Term) {
+                $icon->url = get_category_link($icon);
+                $icon->colorHover = $this->hoverColor($key);
+                $icon->imageWhite = IconeEnum::iconeWhite($icon->slug);
             }
+        }
 
-            return $icons;
+        return $icons;
     }
 
     private function hoverColor(string $key): string
@@ -40,40 +45,60 @@ class Menu
         };
     }
 
-    public function getMenuTop()
+    public function getMenuTop(string $locale = 'en'): array
     {
-            $menu = [
-                'sorganiser' => get_category_by_slug('sorganiser'),
-                'sejourner' => get_category_by_slug('sejourner'),
-                'savourer' => get_category_by_slug('savourer'),
-                'barbecue' => get_category_by_slug('pique-nique-et-bbq'),
-                'mice' => get_category_by_slug('mice'),
-                'inspirations' => get_category_by_slug('inspirations'),
-                'pratique' => get_category_by_slug('pratique'),
-                'arts' => get_category_by_slug('arts'),
-                'balades' => get_category_by_slug('balades'),
-                'fetes' => get_category_by_slug('fetes'),
-                'gourmandises' => get_category_by_slug('gourmandises'),
-                'patrimoine' => get_category_by_slug('patrimoine'),
-                'agenda' => get_category_by_slug('agenda'),
-                'idees' => get_category_by_slug('idees-sejours'),
+        $wpRepository = new WpRepository();
+
+        $menu = [
+            0 => ['parent' => get_category_by_slug('idees-sejours'), 'children' => []],
+            1 => ['parent' => get_category_by_slug('inspirations'), 'children' => []],
+            2 => ['parent' => get_category_by_slug('agenda'), 'children' => []],
+        ];
+
+        $organiser = get_category_by_slug('sorganiser');
+        if ($organiser) {
+            $menu[3] = [
+                'parent' => $organiser,
+                'children' => $wpRepository->getChildrenOfCategory($organiser->term_id),
             ];
-            $menu = array_map(
-                function ($item) {
-                    $item->url = get_category_link($item);
+        }
+        $decouvrir = get_category_by_slug('decouvrir');
+        //todo add produits locaux carte
+        if ($decouvrir) {
+            $menu[4] = [
+                'parent' => $decouvrir,
+                'children' => $wpRepository->getChildrenOfCategory($decouvrir->term_id),
+            ];
+        }
 
-                    return $item;
-                },
-                $menu
-            );
+        $menu[] = [
+            'parent' => get_category_by_slug('pratique'),
+            'children' => [],
+        ];
 
-            $idDecouvrir = apply_filters('wpml_object_id', Theme::PAGE_DECOUVRIR, 'post', true);
+        $items = [];
+        foreach ($menu as $data) {
+            if ($data['parent'] instanceof WP_Term) {
+                $row = ['parent' => CommonItem::createFromCategory($data['parent']), 'children' => []];
+                foreach ($data['children'] as $child) {
+                    if ($child instanceof WP_Term) {
+                        $row['children'][] = CommonItem::createFromCategory($child);
+                    }
+                }
+                $items[] = $row;
+            }
+        }
 
-            $decouvrir = get_post($idDecouvrir);
-            $decouvrir->name = $decouvrir->post_title;
-            $decouvrir->url = get_permalink($decouvrir);
-            $menu['decouvrir'] = $decouvrir;
+        if ($locale !== 'fr' && ($language = LanguageEnum::tryFrom($locale))) {
+            $translator = OpenAi::create();
+            foreach ($items as $data) {
+                $data['parent']->name = $translator->translate($data['parent']->name, $language);
+                foreach ($data['children'] as $child) {
+                    $child->name = $translator->translate($child->name, $language);
+                }
+            }
+        }
 
-            return $menu;
+        return $items;
     }
 }

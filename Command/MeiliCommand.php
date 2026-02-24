@@ -28,6 +28,7 @@ class MeiliCommand extends Command
         $this->addOption('reset', "reset", InputOption::VALUE_NONE, 'Search engine reset');
         $this->addOption('update', "update", InputOption::VALUE_NONE, 'Update data');
         $this->addOption('dump', "dump", InputOption::VALUE_NONE, 'migrate data');
+        $this->addOption('translate', "translate", InputOption::VALUE_NONE, 'Translate offer names and excerpts via OpenAI');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -37,6 +38,7 @@ class MeiliCommand extends Command
         $reset = (bool)$input->getOption('reset');
         $update = (bool)$input->getOption('update');
         $dump = (bool)$input->getOption('dump');
+        $translate = (bool)$input->getOption('translate');
 
         $this->meiliServer = new MeiliServer();
         $this->meiliServer->initClientAndIndex();
@@ -74,7 +76,7 @@ class MeiliCommand extends Command
             $this->freeMemory();
 
             $output->writeln('<info>Indexing offers...</info>');
-            $this->indexOffers($output);
+            $this->indexOffers($output, $translate);
             $this->freeMemory();
 
             $output->writeln('<comment>Indexation complete!</comment>');
@@ -118,16 +120,20 @@ class MeiliCommand extends Command
         $this->indexInBatches($documents, $output);
     }
 
-    private function indexOffers(OutputInterface $output): void
+    private function indexOffers(OutputInterface $output, bool $translate = false): void
     {
         $documents = [];
 
-        $categories = $this->dataForSearch->getOffers();
-        $output->writeln(sprintf(' %d offers', count($categories)));
-        foreach ($categories as $document) {
+        if ($translate) {
+            $output->writeln('<comment> Translations enabled (OpenAI) — cached results will be reused</comment>');
+        }
+
+        $offers = $this->dataForSearch->getOffers(translate: $translate);
+        $output->writeln(sprintf(' %d offers', count($offers)));
+        foreach ($offers as $document) {
             $documents[] = $document;
         }
-        unset($categories);
+        unset($offers);
         $this->freeMemory();
 
         $this->indexInBatches($documents, $output);

@@ -4,6 +4,8 @@ namespace VisitMarche\ThemeWp\Lib\Search;
 
 
 use VisitMarche\ThemeWp\Dto\CommonItem;
+use VisitMarche\ThemeWp\Enums\LanguageEnum;
+use VisitMarche\ThemeWp\Lib\OpenAi;
 use VisitMarche\ThemeWp\Repository\PivotRepository;
 use VisitMarche\ThemeWp\Repository\WpRepository;
 
@@ -117,13 +119,31 @@ class DataForSearch
      * @param int|null $categoryId
      * @return array<int,CommonItem>
      */
-    public function getOffers(?int $categoryId = null): array
+    public function getOffers(?int $categoryId = null, bool $translate = false): array
     {
         $offers = $this->pivotRepository->getAllOffers();
         $data = [];
 
+        $translator = $translate ? OpenAi::create() : null;
+        $languages = [
+            'en' => LanguageEnum::ENGLISH,
+            'nl' => LanguageEnum::DUTCH,
+            'de' => LanguageEnum::GERMAN,
+        ];
+
         foreach ($offers as $offer) {
-            $data[] = CommonItem::createFromOffer($offer);
+            $item = CommonItem::createFromOffer($offer);
+
+            if ($translator) {
+                foreach ($languages as $code => $language) {
+                    $item->{'name_' . $code} = $translator->translate($item->name, $language);
+                    if ($item->excerpt) {
+                        $item->{'excerpt_' . $code} = $translator->translate($item->excerpt, $language);
+                    }
+                }
+            }
+
+            $data[] = $item;
         }
 
         // Free memory

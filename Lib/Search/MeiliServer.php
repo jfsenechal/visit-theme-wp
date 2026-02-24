@@ -38,7 +38,13 @@ class MeiliServer
 
         $index->updateSearchableAttributes([
             'name',
+            'name_en',
+            'name_nl',
+            'name_de',
             'excerpt',
+            'excerpt_en',
+            'excerpt_nl',
+            'excerpt_de',
             'content',
             'tags.name',
         ]);

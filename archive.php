@@ -32,6 +32,16 @@ $locale = LocaleHelper::getSelectedLanguage();
 
 RouterPivot::setLinkOnCommonItems($offers, $category->cat_ID, $locale);
 
+if ($locale !== 'fr' && ($language = LanguageEnum::tryFrom($locale))) {
+    $translator = OpenAi::create();
+    foreach ($offers as $offer) {
+        $offer->name = $translator->translate($offer->name, $language);
+        if ($offer->excerpt) {
+            $offer->excerpt = $translator->translate($offer->excerpt, $language);
+        }
+    }
+}
+
 try {
     $offersJson = json_encode(array_map(fn($item) => $item->toArray(), $offers), JSON_THROW_ON_ERROR);
 } catch (\JsonException $e) {
@@ -39,16 +49,13 @@ try {
 }
 
 $children = $wpRepository->getChildrenOfCategory($cat_ID);
+foreach ($children as $child) {
+    $child->name = $translator->translate($child->name, $language);
+}
 $image = CategoryMetaData::getImage($category);
 $video = CategoryMetaData::getVideo($category);
 $icon = CategoryMetaData::getIcon($category);
 $color = CategoryMetaData::getColor($category);
-
-$translator = OpenAi::create();
-foreach ($offers as $offer) {
-    $offer->nom = $offer->name;
-}
-$result = $translator->translate($offer->nom, LanguageEnum::ENGLISH);
 
 Twig::renderPage(
     '@Visit/category.html.twig',

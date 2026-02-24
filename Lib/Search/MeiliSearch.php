@@ -21,13 +21,19 @@ class MeiliSearch
      * @param int $limit
      * @return SearchResult
      */
-    public function doSearch(string $keyword, array $filters = [], int $limit = 100): SearchResult
+    public function doSearch(string $keyword, array $filters = [], int $limit = 100, string $locale = 'fr'): SearchResult
     {
         $this->initClientAndIndex();
 
+        $highlightAttributes = ['name', 'excerpt', 'content'];
+        if ($locale !== 'fr' && in_array($locale, ['en', 'nl', 'de'])) {
+            $highlightAttributes[] = 'name_' . $locale;
+            $highlightAttributes[] = 'excerpt_' . $locale;
+        }
+
         $options = [
             'limit' => $limit,
-            'attributesToHighlight' => ['name', 'excerpt', 'content'],
+            'attributesToHighlight' => $highlightAttributes,
             'highlightPreTag' => '<mark>',
             'highlightPostTag' => '</mark>',
             'attributesToCrop' => ['content'],
