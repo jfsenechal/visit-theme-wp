@@ -13,7 +13,7 @@ class Menu
     /**
      * @return WP_Term[]
      */
-    public function getIcons(): array
+    public function getIcons(string $locale): array
     {
         $icons = [
             'arts' => get_category_by_slug('arts'),
@@ -31,6 +31,13 @@ class Menu
             }
         }
 
+        if ($locale !== 'fr' && ($language = LanguageEnum::tryFrom($locale))) {
+            $translator = OpenAi::create();
+            foreach ($icons as $data) {
+                $data->name = $translator->translate($data->name, $language);
+            }
+        }
+
         return $icons;
     }
 
@@ -45,7 +52,7 @@ class Menu
         };
     }
 
-    public function getMenuTop(string $locale = 'en'): array
+    public function getMenuTop(string $locale): array
     {
         $wpRepository = new WpRepository();
 

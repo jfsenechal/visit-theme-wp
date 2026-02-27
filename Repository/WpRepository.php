@@ -157,7 +157,7 @@ class WpRepository
     }
 
     /**
-     * @return array<string,string>
+     * @return array<int,CommonItem>
      */
     public function getIdeas(): array
     {
@@ -185,16 +185,15 @@ class WpRepository
     }
 
     /**
-     * @param WP_Term|object $term
+     * @param WP_Term $term
      * @param string $imageName
-     * @return array<string,string>
+     * @return CommonItem
      */
-    private function addIdea(\WP_Term $term, string $imageName): array
+    private function addIdea(\WP_Term $term, string $imageName): CommonItem
     {
-        return [
-            'img' => $imageName,
-            'description' => $term->name,
-            'url' => get_category_link($term),
-        ];
+        $item = CommonItem::createFromCategory($term);
+        $item->icon = $imageName;
+
+        return $item;
     }
 }

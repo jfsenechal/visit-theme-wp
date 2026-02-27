@@ -3,8 +3,11 @@
 namespace VisitMarche\ThemeWp;
 
 use VisitMarche\ThemeWp\Dto\CommonItem;
+use VisitMarche\ThemeWp\Enums\LanguageEnum;
 use VisitMarche\ThemeWp\Inc\Theme;
+use VisitMarche\ThemeWp\Lib\LocaleHelper;
 use VisitMarche\ThemeWp\Lib\Menu;
+use VisitMarche\ThemeWp\Lib\OpenAi;
 use VisitMarche\ThemeWp\Lib\Sort\SortLink;
 use VisitMarche\ThemeWp\Lib\Twig;
 use VisitMarche\ThemeWp\Repository\PivotRepository;
@@ -23,14 +26,16 @@ try {
     $ideas = [];
 }
 
+$locale = LocaleHelper::getSelectedLanguage();
 $inspirationCat = get_category(Theme::CATEGORY_INSPIRATION);
 $inspirations = [];
+$translator = OpenAi::create();
 foreach ($wpRepository->findArticlesByCategory($inspirationCat->term_id) as $post) {
     $item = CommonItem::createFromPost($post);
-    if (!isset($seenIds[$item->id])) {
-        $seenIds[$item->id] = true;
-        $inspirations[] = $item;
+    if ($locale !== 'fr' && ($language = LanguageEnum::tryFrom($locale))) {
+        $item->name = $translator->translate($item->name, $language);
     }
+    $inspirations[$item->id] = $item;
 }
 
 $urlAgenda = '/';
@@ -44,7 +49,15 @@ if (current_user_can('edit_post', 2)) {
 }
 
 $inspirations = array_slice($inspirations, 0, 4);
-$icones = $menu->getIcons();
+$icons = $menu->getIcons($locale);
+
+if ($locale !== 'fr' && ($language = LanguageEnum::tryFrom($locale))) {
+    $translator = OpenAi::create();
+    $intro = $translator->translate($intro, $language);
+    foreach ($ideas as $idea) {
+        $idea->name = $translator->translate($idea->name, $language);
+    }
+}
 
 $imgs = [
     '01.jpg',
@@ -67,7 +80,7 @@ Twig::renderPage(
         'urlAgenda' => $urlAgenda,
         'urlInspiration' => $urlInspiration,
         'intro' => $intro,
-        'icons' => $icones,
+        'icons' => $icons,
         'ideas' => $ideas,
         'bgimg' => $bgImg,
         'sortLink' => $sortLink,

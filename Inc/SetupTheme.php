@@ -2,11 +2,22 @@
 
 namespace VisitMarche\ThemeWp\Inc;
 
+use VisitMarche\ThemeWp\Repository\TranslationRepository;
+
 class SetupTheme
 {
  public function __construct()
     {
         add_action('after_setup_theme', fn () => $this->setup());
+        add_action('after_switch_theme', fn () => TranslationRepository::createTable());
+        add_action('admin_init', fn () => $this->maybeCreateTranslationTable());
+    }
+
+    private function maybeCreateTranslationTable(): void
+    {
+        if (TranslationRepository::needsUpgrade()) {
+            TranslationRepository::createTable();
+        }
     }
 
     /**

@@ -5,31 +5,25 @@ declare(strict_types=1);
 namespace VisitMarche\ThemeWp\Lib;
 
 use RuntimeException;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpClient\HttpClient;
-use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use VisitMarche\ThemeWp\Enums\LanguageEnum;
+use VisitMarche\ThemeWp\Repository\TranslationRepository;
 
 class OpenAi
 {
     private const string OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
     private const string DEFAULT_MODEL = 'gpt-4o-mini';
-    private const int DEFAULT_CACHE_TTL = 86400 * 30; // 30 days
 
-    private readonly FilesystemAdapter $cache;
+    private readonly TranslationRepository $repository;
 
     public function __construct(
         private readonly HttpClientInterface $httpClient,
         private readonly string $apiKey,
         private readonly string $model = self::DEFAULT_MODEL,
-        private readonly int $cacheTtl = self::DEFAULT_CACHE_TTL,
     ) {
-        $this->cache = new FilesystemAdapter(
-            namespace: 'openai_translations',
-            defaultLifetime: $this->cacheTtl,
-            directory: defined('ABSPATH') ? ABSPATH . '../var/cache' : sys_get_temp_dir(),
-        );
+        global $wpdb;
+        $this->repository = new TranslationRepository($wpdb);
     }
 
     /**
@@ -41,17 +35,19 @@ class OpenAi
             return '';
         }
 
-        $cacheKey = $this->buildCacheKey($text, $language);
+        $cached = $this->repository->findTranslation($text, $language->value);
+        if ($cached !== null) {
+            return $cached;
+        }
 
-        return $this->cache->get($cacheKey, function (ItemInterface $item) use ($text, $language): string {
-            $item->expiresAfter($this->cacheTtl);
+        $translated = $this->callOpenAi($text, $language);
+        $this->repository->saveTranslation($text, $translated, $language->value);
 
-            return $this->callOpenAi($text, $language);
-        });
+        return $translated;
     }
 
     /**
-     * Translate and bypass cache (forces a fresh API call, then caches the result).
+     * Translate and bypass cache (forces a fresh API call, then saves the result).
      */
     public function translateFresh(string $text, LanguageEnum $language): string
     {
@@ -59,15 +55,17 @@ class OpenAi
             return '';
         }
 
-        $cacheKey = $this->buildCacheKey($text, $language);
-        $this->cache->deleteItem($cacheKey);
+        $this->repository->deleteTranslation($text, $language->value);
 
-        return $this->translate($text, $language);
+        $translated = $this->callOpenAi($text, $language);
+        $this->repository->saveTranslation($text, $translated, $language->value);
+
+        return $translated;
     }
 
-    public function clearCache(): bool
+    public function clearCache(): void
     {
-        return $this->cache->clear();
+        $this->repository->truncate();
     }
 
     private function callOpenAi(string $text, LanguageEnum $language): string
@@ -97,11 +95,6 @@ class OpenAi
         return trim($data['choices'][0]['message']['content'] ?? throw new RuntimeException(
             'Unexpected OpenAI response: no content in choices',
         ));
-    }
-
-    private function buildCacheKey(string $text, LanguageEnum $language): string
-    {
-        return sprintf('translation_%s_%s', $language->value, md5($text));
     }
 
     /**

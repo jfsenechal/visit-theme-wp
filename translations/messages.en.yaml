@@ -109,3 +109,5 @@ skip:
 opens:
     new:
         window: 'Opens in a new window'
+city:
+  character: 'City of character'

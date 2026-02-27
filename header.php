@@ -27,8 +27,8 @@ $locale = LocaleHelper::getSelectedLanguage();
 wp_body_open();
 
 $menu = new Menu();
-$items = $menu->getMenuTop();
-$icons = $menu->getIcons();
+$items = $menu->getMenuTop($locale);
+$icons = $menu->getIcons($locale);
 Twig::renderPage(
     '@Visit/header/_header.html.twig',
     [

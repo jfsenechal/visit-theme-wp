@@ -12,6 +12,7 @@ use VisitMarche\ThemeWp\Inc\RouterPivot;
 class CommonItem
 {
     public ?string $url = null;
+    public ?string $icon = null;
 
     /** @var array<int, object{name: string}> */
     public array $tags = [];

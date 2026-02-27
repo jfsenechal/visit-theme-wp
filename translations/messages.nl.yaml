@@ -109,3 +109,5 @@ skip:
 opens:
     new:
         window: 'Ouvre une nouvelle fenêtre'
+city:
+  character: 'Stad met karakter'
