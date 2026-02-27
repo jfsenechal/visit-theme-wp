@@ -70,10 +70,8 @@ class OpenAi
 
     private function callOpenAi(string $text, LanguageEnum $language): string
     {
-        $prompt = sprintf(
-            'Translate the following text to %s. Return ONLY the translated text, no explanations or quotes.',
-            $language->label(),
-        );
+        $promptTemplate = file_get_contents(get_template_directory() . '/translations/prompt.txt');
+        $systemPrompt = str_replace('{TARGET_LANGUAGE}', $language->label(), $promptTemplate);
 
         $response = $this->httpClient->request('POST', self::OPENAI_API_URL, [
             'headers' => [
@@ -83,7 +81,7 @@ class OpenAi
             'json' => [
                 'model' => $this->model,
                 'messages' => [
-                    ['role' => 'system', 'content' => $prompt],
+                    ['role' => 'system', 'content' => $systemPrompt],
                     ['role' => 'user', 'content' => $text],
                 ],
                 'temperature' => 0.3,
