@@ -43,12 +43,11 @@ $locale = LocaleHelper::getSelectedLanguage();
 $name = $offer->name();
 $description = $offer->getDescription();
 
-if ($locale !== 'fr' && ($language = LanguageEnum::tryFrom($locale))) {
-    $translator = OpenAi::create();
-    $name = $translator->translate($name, $language);
-    if ($description) {
-        $description = $translator->translate($description, $language);
-    }
+$language = LanguageEnum::tryFrom($locale);
+$translator = OpenAi::create();
+$name = $translator->translate($name, $language);
+if ($description) {
+    $description = $translator->translate($description, $language);
 }
 
 $events = $pivotRepository->loadEvents(skip: true);

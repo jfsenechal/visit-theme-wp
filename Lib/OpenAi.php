@@ -35,6 +35,10 @@ class OpenAi
             return '';
         }
 
+        if ($language === LanguageEnum::FRENCH) {
+            return $text;
+        }
+
         $cached = $this->repository->findTranslation($text, $language->value);
         if ($cached !== null) {
             return $cached;
@@ -70,12 +74,12 @@ class OpenAi
 
     private function callOpenAi(string $text, LanguageEnum $language): string
     {
-        $promptTemplate = file_get_contents(get_template_directory() . '/translations/prompt.txt');
+        $promptTemplate = file_get_contents(get_template_directory().'/translations/prompt.txt');
         $systemPrompt = str_replace('{TARGET_LANGUAGE}', $language->label(), $promptTemplate);
 
         $response = $this->httpClient->request('POST', self::OPENAI_API_URL, [
             'headers' => [
-                'Authorization' => 'Bearer ' . $this->apiKey,
+                'Authorization' => 'Bearer '.$this->apiKey,
                 'Content-Type' => 'application/json',
             ],
             'json' => [
@@ -90,9 +94,11 @@ class OpenAi
 
         $data = $response->toArray();
 
-        return trim($data['choices'][0]['message']['content'] ?? throw new RuntimeException(
+        return trim(
+            $data['choices'][0]['message']['content'] ?? throw new RuntimeException(
             'Unexpected OpenAI response: no content in choices',
-        ));
+        )
+        );
     }
 
     /**

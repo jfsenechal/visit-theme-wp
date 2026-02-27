@@ -29,12 +29,13 @@ try {
 $locale = LocaleHelper::getSelectedLanguage();
 $inspirationCat = get_category(Theme::CATEGORY_INSPIRATION);
 $inspirations = [];
+
 $translator = OpenAi::create();
+$language = LanguageEnum::tryFrom($locale);
+
 foreach ($wpRepository->findArticlesByCategory($inspirationCat->term_id) as $post) {
     $item = CommonItem::createFromPost($post);
-    if ($locale !== 'fr' && ($language = LanguageEnum::tryFrom($locale))) {
-        $item->name = $translator->translate($item->name, $language);
-    }
+    $item->name = $translator->translate($item->name, $language);
     $inspirations[$item->id] = $item;
 }
 
@@ -51,12 +52,9 @@ if (current_user_can('edit_post', 2)) {
 $inspirations = array_slice($inspirations, 0, 4);
 $icons = $menu->getIcons($locale);
 
-if ($locale !== 'fr' && ($language = LanguageEnum::tryFrom($locale))) {
-    $translator = OpenAi::create();
-    $intro = $translator->translate($intro, $language);
-    foreach ($ideas as $idea) {
-        $idea->name = $translator->translate($idea->name, $language);
-    }
+$intro = $translator->translate($intro, $language);
+foreach ($ideas as $idea) {
+    $idea->name = $translator->translate($idea->name, $language);
 }
 
 $imgs = [

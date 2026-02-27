@@ -28,17 +28,17 @@ try {
 } catch (\Exception $e) {
     $offers = [];
 }
+
 $locale = LocaleHelper::getSelectedLanguage();
+$translator = OpenAi::create();
+$language = LanguageEnum::tryFrom($locale);
 
 RouterPivot::setLinkOnCommonItems($offers, $category->cat_ID, $locale);
 
-if ($locale !== 'fr' && ($language = LanguageEnum::tryFrom($locale))) {
-    $translator = OpenAi::create();
-    foreach ($offers as $offer) {
-        $offer->name = $translator->translate($offer->name, $language);
-        if ($offer->excerpt) {
-            $offer->excerpt = $translator->translate($offer->excerpt, $language);
-        }
+foreach ($offers as $offer) {
+    $offer->name = $translator->translate($offer->name, $language);
+    if ($offer->excerpt) {
+        $offer->excerpt = $translator->translate($offer->excerpt, $language);
     }
 }
 

@@ -96,13 +96,12 @@ class Menu
             }
         }
 
-        if ($locale !== 'fr' && ($language = LanguageEnum::tryFrom($locale))) {
-            $translator = OpenAi::create();
-            foreach ($items as $data) {
-                $data['parent']->name = $translator->translate($data['parent']->name, $language);
-                foreach ($data['children'] as $child) {
-                    $child->name = $translator->translate($child->name, $language);
-                }
+        $language = LanguageEnum::tryFrom($locale);
+        $translator = OpenAi::create();
+        foreach ($items as $data) {
+            $data['parent']->name = $translator->translate($data['parent']->name, $language);
+            foreach ($data['children'] as $child) {
+                $child->name = $translator->translate($child->name, $language);
             }
         }
 
