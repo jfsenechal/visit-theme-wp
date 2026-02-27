@@ -19,13 +19,6 @@ class CommonItem
 
     public ?string $content = null;
 
-    public ?string $name_en = null;
-    public ?string $name_nl = null;
-    public ?string $name_de = null;
-    public ?string $excerpt_en = null;
-    public ?string $excerpt_nl = null;
-    public ?string $excerpt_de = null;
-
     public function __construct(
         public string $id,
         public string $type,
@@ -120,20 +113,12 @@ class CommonItem
             'type' => $this->type,
             'name' => $this->name,
             'image' => $this->image,
+            'icon' => $this->icon,
             'excerpt' => $this->excerpt !== null ? strip_tags($this->excerpt) : null,
             'content' => $this->content !== null ? strip_tags($this->content) : null,
             'url' => $this->url,
             'tags' => array_map(fn($tag) => ['name' => $tag->name], $this->tags),
         ];
-
-        foreach (['en', 'nl', 'de'] as $lang) {
-            if ($this->{'name_' . $lang} !== null) {
-                $data['name_' . $lang] = $this->{'name_' . $lang};
-            }
-            if ($this->{'excerpt_' . $lang} !== null) {
-                $data['excerpt_' . $lang] = strip_tags($this->{'excerpt_' . $lang});
-            }
-        }
 
         return $data;
     }
