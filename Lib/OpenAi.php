@@ -15,9 +15,11 @@ class OpenAi
     private const string OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
     private const string DEFAULT_MODEL = 'gpt-4o-mini';
 
+    private static ?self $instance = null;
+
     private readonly TranslationRepository $repository;
 
-    public function __construct(
+    private function __construct(
         private readonly HttpClientInterface $httpClient,
         private readonly string $apiKey,
         private readonly string $model = self::DEFAULT_MODEL,
@@ -102,18 +104,24 @@ class OpenAi
     }
 
     /**
-     * Factory: create an instance using $_ENV and a fresh HttpClient.
+     * Get or create the singleton instance.
      */
     public static function create(?string $model = null): self
     {
+        if (self::$instance !== null) {
+            return self::$instance;
+        }
+
         $apiKey = $_ENV['OPENAI_API_KEY'] ?? throw new RuntimeException(
             'OPENAI_API_KEY is not set in environment',
         );
 
-        return new self(
+        self::$instance = new self(
             httpClient: HttpClient::create(),
             apiKey: $apiKey,
             model: $model ?? self::DEFAULT_MODEL,
         );
+
+        return self::$instance;
     }
 }
