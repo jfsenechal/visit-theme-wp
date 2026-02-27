@@ -9,6 +9,7 @@ use AcMarche\PivotAi\Enums\ContentLevel;
 use AcMarche\PivotAi\Enums\TypeOffreEnum;
 use Carbon\Carbon;
 use VisitMarche\ThemeWp\Inc\RouterPivot;
+use VisitMarche\ThemeWp\Inc\Theme;
 use VisitMarche\ThemeWp\Lib\Di;
 
 readonly class PivotRepository
@@ -84,7 +85,7 @@ readonly class PivotRepository
         });
 
         array_map(
-            fn(Offer $offer) => $offer->url = RouterPivot::getOfferUrl($offer->codeCgt),
+            fn(Offer $offer) => $offer->url = RouterPivot::getOfferUrl($offer->codeCgt,Theme::CATEGORIES_AGENDA),
             $data
         );
 
