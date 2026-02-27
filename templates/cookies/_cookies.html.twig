@@ -67,23 +67,23 @@
             <div class="flex items-start gap-3">
                 <span class="text-3xl shrink-0">🍪</span>
                 <div class="flex-1">
-                    <h4 class="font-bold text-gray-900 text-lg">Informations sur nos cookies</h4>
+                    <h4 class="font-bold text-gray-900 text-lg">{{ 'cookie.title'|trans }}</h4>
                     <p class="mt-2 text-gray-700 leading-relaxed">
-                        Ce site utilise des cookies pour vous fournir une expérience optimale.
+                        {{ 'cookie.description'|trans }}
                         <a href="/administration/rgpd" class="text-cta-dark hover:underline">
-                            Mentions légales et RGPD
+                            {{ 'private.rgpd'|trans }}
                         </a>
                     </p>
                     <div class="flex flex-row sm:flex-row items-stretch sm:items-center gap-2 mt-4">
                         <button @click="togglePopupCookie"
                                 type="button"
                                 class="cursor-pointer font-medium text-gray-700 hover:text-gray-900 underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cta-dark focus-visible:ring-offset-2 rounded">
-                            Personnaliser
+                            {{ 'cookie.customize'|trans }}
                         </button>
                         <button @click="acceptAll"
                                 type="button"
                                 class="cursor-pointer bg-cta-dark font-semibold rounded-lg hover:bg-opacity-90 text-white px-5 py-2.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cta-dark focus-visible:ring-offset-2 shadow-md">
-                            Tout accepter
+                            {{ 'cookie.accept_all'|trans }}
                         </button>
                     </div>
                 </div>

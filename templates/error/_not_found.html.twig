@@ -28,22 +28,22 @@
 
         <!-- Message -->
         <h1 class="text-3xl md:text-4xl font-extrabold text-slate-700 mb-4">
-            Oups ! Vous semblez perdu
+            {{ 'error.not_found_title'|trans }}
         </h1>
         <p class="text-lg text-slate-500 mb-8 max-w-md mx-auto">
-            La page que vous recherchez n'existe pas ou a pris un autre chemin dans la Famenne.
+            {{ 'error.not_found_description'|trans }}
         </p>
 
         <!-- CTA Button -->
         <a href="/"
            class="inline-flex items-center gap-3 bg-cta-dark hover:bg-slate-700 text-white font-semibold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl motion-safe:hover:-translate-y-1 transition-all duration-300">
             <i class="fas fa-home text-xl"></i>
-            <span>Retour à l'accueil</span>
+            <span>{{ 'url.back_home'|trans }}</span>
         </a>
 
         <!-- Quick links -->
         <div class="mt-12 pt-8 border-t border-slate-200">
-            <p class="text-sm text-slate-400 mb-4">Ou explorez ces pages populaires</p>
+            <p class="text-sm text-slate-400 mb-4">{{ 'error.explore_pages'|trans }}</p>
             <div class="flex flex-wrap justify-center gap-3">
                 <a href="/administration/category/12"
                    class="group flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-slate-200 hover:border-cta-dark hover:shadow-md transition-all duration-200">
@@ -65,8 +65,8 @@
 
         <!-- Contact hint -->
         <p class="mt-10 text-sm text-slate-400">
-            Vous cherchez quelque chose de précis ?
-            <a href="mailto:info@marche.be" class="text-cta-dark hover:underline">Contactez-nous</a>
+            {{ 'error.looking_for'|trans }}
+            <a href="mailto:info@marche.be" class="text-cta-dark hover:underline">{{ 'error.contact_us'|trans }}</a>
         </p>
     </div>
 </section>

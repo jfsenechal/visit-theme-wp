@@ -1,5 +1,5 @@
 {% if filters|length > 1 %}
-    <nav aria-label="Filtres par catégorie" class="my-8 px-4 sm:px-6 lg:px-8">
+    <nav aria-label="{{ 'filter.by_category'|trans }}" class="my-8 px-4 sm:px-6 lg:px-8">
         <ul role="list" class="flex flex-wrap justify-center gap-2">
             <li>
                 <a href="{{ parentCategoryUrl }}"
@@ -11,7 +11,7 @@
                    :class="activeFilter === null
                        ? 'bg-cta-dark text-white shadow-md'
                        : 'bg-white text-cta-dark hover:bg-cta-dark hover:text-white hover:shadow-md'">
-                    Tout
+                    {{ 'filter.all'|trans }}
                 </a>
             </li>
             {% for item in filters %}
