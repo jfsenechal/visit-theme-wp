@@ -11,6 +11,8 @@ use VisitMarche\ThemeWp\Inc\RouterPivot;
 
 class CommonItem
 {
+    public const string PLACEHOLDER_IMAGE = '/assets/images/placeholder.jpg';
+
     public ?string $url = null;
     public ?string $icon = null;
 
@@ -18,6 +20,12 @@ class CommonItem
     public array $tags = [];
 
     public ?string $content = null;
+    /**
+     * @var array|null[]|string[]
+     */
+    public array $dates = [];
+    public array $nextDateParts = [];
+    public bool $hasMultipleDates = false;
 
     public function __construct(
         public string $id,
@@ -57,24 +65,28 @@ class CommonItem
             id: $offer->codeCgt ?? '',
             type: 'offer',
             name: $offer->nom ?? '',
-            image: $image?->url ?? get_template_directory_uri().'/assets/images/404.jpg',
+            image: $image?->url ?? get_template_directory_uri().self::PLACEHOLDER_IMAGE,
             excerpt: $offer->getShortDescription() ?? '',
         );
 
-        if (!$offer->typeOffre->idTypeOffre === TypeOffreEnum::RESTAURANT->value) {
-            if ($offer->typeOffre) {
-                $label = $offer->typeOffre->getLabelByLang('fr');
-                if ($label) {
-                    $item->tags[] = (object)['name' => $label];
-                }
-            }
+        $item->url = RouterPivot::getOfferUrl($offer->codeCgt);
+        $item->content = $offer->getDescription();
+
+        if ($offer->typeOffre->idTypeOffre === TypeOffreEnum::EVENT->value) {
+            $item->tags = array_keys($offer->eventCategories);
+            $item->dates = array_map(fn($d) => $d->startDate?->format('Y-m-d'), $offer->dates);
+            $item->nextDateParts = $offer->getNextDateParts();
+            $item->hasMultipleDates = count($event->dates ?? []) > 1;
+
+            return $item;
         }
 
-        //dump($offer->typeOffre->idTypeOffre);
         if ($offer->typeOffre->idTypeOffre === TypeOffreEnum::RESTAURANT->value) {
             foreach ($offer->culinarySpecialties as $specification) {
                 $item->tags[] = (object)['name' => $specification->getLabelByLang('fr')];
             }
+
+            return $item;
         }
 
         if ($offer->typeOffre->idTypeOffre === TypeOffreEnum::ACCOMMODATIONS->value) {
@@ -83,8 +95,12 @@ class CommonItem
             }
         }
 
-        $item->url = RouterPivot::getOfferUrl($offer->codeCgt);
-        $item->content = $offer->getDescription();
+        if ($offer->typeOffre) {
+            $label = $offer->typeOffre->getLabelByLang('fr');
+            if ($label) {
+                $item->tags[] = (object)['name' => $label];
+            }
+        }
 
         return $item;
     }
@@ -130,7 +146,7 @@ class CommonItem
             $images = wp_get_attachment_image_src($attachment_id, 'original');
             $post_thumbnail_url = $images[0];
         } else {
-            $post_thumbnail_url = get_template_directory_uri().'/assets/images/404.jpg';
+            $post_thumbnail_url = get_template_directory_uri().self::PLACEHOLDER_IMAGE;
         }
 
         return $post_thumbnail_url;
