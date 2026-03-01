@@ -260,7 +260,7 @@ class VisitCommand extends Command
                     continue;
                 }
                 dump($cat->name);
-                wp_update_term($categoryId, 'category', ['parent' => $organiser]);
+                wp_update_term($categoryId, 'category', ['parent' => $organiser->term_id]);
             }
         }
     }
