@@ -19,8 +19,8 @@ class AdminBar
         if ($codeCgt) {
             $wp_admin_bar->add_menu(
                 [
-                    'id' => 'edit',
-                    'title' => 'Modifier l\'offre',
+                    'id' => 'edit-offer',
+                    'title' => '<span class="ab-icon dashicons dashicons-database-vie"></span> Modifier l\'offre',
                     'href' => RouterPivot::getRouteOfferToPivotSite($codeCgt),
                 ]
             );
@@ -32,7 +32,7 @@ class AdminBar
                 $wp_admin_bar->add_menu(
                     [
                         'id' => 'pivot_sort',
-                        'title' => 'Trier les articles',
+                        'title' => '<span class="ab-icon dashicons dashicons-sort"></span> Trier les articles',
                         'href' => $sortLink,
                     ]
                 );
@@ -40,7 +40,7 @@ class AdminBar
             $wp_admin_bar->add_menu(
                 [
                     'id' => 'pivot_category_offers',
-                    'title' => 'Offres Pivot',
+                    'title' => '<span class="ab-icon dashicons dashicons-database"></span> Offres Pivot',
                     'href' => '/wp-admin/admin.php?page=category_offers&catID='.$cat_ID,
                 ]
             );
