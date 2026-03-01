@@ -3,6 +3,7 @@
 namespace VisitMarche\TheWo;
 
 use VisitMarche\ThemeWp\Dto\CommonItem;
+use VisitMarche\ThemeWp\Inc\RouterPivot;
 use VisitMarche\ThemeWp\Lib\LocaleHelper;
 use VisitMarche\ThemeWp\Lib\Twig;
 use VisitMarche\ThemeWp\Repository\PivotRepository;
@@ -24,6 +25,7 @@ foreach ($events as $event) {
             $filters[$urn] = [
                 'urn' => $urn,
                 'name' => $specification->getLabelByLang($locale) ?? $urn,
+                'url' => RouterPivot::getUrlByUrn($urn)
             ];
         }
     }
@@ -46,6 +48,7 @@ Twig::renderPage(
         'categoryName' => $category->name,
         'image' => $image,
         'filters' => $filters,
+        'parentCategoryUrl' => get_category_link($category),
         'icon' => null,
     ]
 );

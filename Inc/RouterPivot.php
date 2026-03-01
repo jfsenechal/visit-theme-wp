@@ -81,6 +81,11 @@ class RouterPivot
         return $_ENV['PIVOT_GEST_URI'].'/detail.xhtml?codeCgt='.$codeCgt.'&state=EDIT';
     }
 
+    public static function getUrlByUrn(string $urn): string
+    {
+        return '/'.$urn.'/classification/'.$urn;
+    }
+
     public function addClassificationRoute(): void
     {
         add_action(

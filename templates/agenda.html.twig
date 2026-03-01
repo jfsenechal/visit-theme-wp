@@ -9,7 +9,7 @@
         <nav aria-label="{{ 'filter.by_category'|trans }}" class="my-8 px-4 sm:px-6 lg:px-8">
             <ul role="list" class="flex flex-wrap justify-center gap-2">
                 <li>
-                    <a href="#"
+                    <a href="{{ parentCategoryUrl }}"
                        :aria-current="activeFilter === null ? 'true' : 'false'"
                        @click.prevent="showAll()"
                        class="inline-flex items-center px-4 py-2 rounded-full text-sm font-montserrat font-medium
@@ -23,7 +23,7 @@
                 </li>
                 {% for item in filters %}
                     <li>
-                        <a href="#"
+                        <a href="{{ item.url }}"
                            :aria-current="activeFilter === '{{ item.urn }}' ? 'true' : 'false'"
                            @click.prevent="filterByCategory('{{ item.urn }}')"
                            class="inline-flex items-center px-4 py-2 rounded-full text-sm font-montserrat font-medium
