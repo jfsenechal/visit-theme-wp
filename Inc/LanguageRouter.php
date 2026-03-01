@@ -13,6 +13,7 @@ class LanguageRouter
     public function __construct()
     {
         $this->stripLanguagePrefix();
+        $this->registerUrlFilters();
     }
 
     /**
@@ -53,10 +54,6 @@ class LanguageRouter
         $lang = self::getCurrentLanguage();
         $path = ltrim($path, '/');
 
-        if ($lang === self::DEFAULT_LANGUAGE) {
-            return '/' . $path;
-        }
-
         return '/' . $lang . '/' . $path;
     }
 
@@ -65,5 +62,41 @@ class LanguageRouter
         global $wp;
 
         return $wp->request ?? '';
+    }
+
+    public static function prefixUrl(string $url): string
+    {
+        $lang = self::getCurrentLanguage();
+        $parsed = parse_url($url);
+        $path = $parsed['path'] ?? '/';
+
+        // Don't prefix if already prefixed
+        if (preg_match('#^/(en|nl|de|fr)(/|$)#', $path)) {
+            return $url;
+        }
+
+        // Don't prefix admin or REST API URLs
+        if (str_contains($path, '/wp-admin') || str_contains($path, '/wp-json')) {
+            return $url;
+        }
+
+        $prefixedPath = '/' . $lang . $path;
+        $scheme = isset($parsed['scheme']) ? $parsed['scheme'] . '://' : '';
+        $host = $parsed['host'] ?? '';
+        $port = isset($parsed['port']) ? ':' . $parsed['port'] : '';
+        $query = isset($parsed['query']) ? '?' . $parsed['query'] : '';
+        $fragment = isset($parsed['fragment']) ? '#' . $parsed['fragment'] : '';
+
+        return $scheme . $host . $port . $prefixedPath . $query . $fragment;
+    }
+
+    private function registerUrlFilters(): void
+    {
+        $prefixer = static fn(string $url): string => self::prefixUrl($url);
+
+        add_filter('post_link', $prefixer, 10);
+        add_filter('page_link', $prefixer, 10);
+        add_filter('category_link', $prefixer, 10);
+        add_filter('term_link', $prefixer, 10);
     }
 }

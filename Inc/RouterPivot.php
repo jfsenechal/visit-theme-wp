@@ -29,7 +29,7 @@ class RouterPivot
 
     public static function getUrlSite(): string
     {
-        return home_url();
+        return LanguageRouter::prefixUrl(home_url());
     }
 
     /**
@@ -41,7 +41,7 @@ class RouterPivot
         /* @var Wp $wp */
         global $wp;
 
-        return home_url($wp->request);
+        return LanguageRouter::prefixUrl(home_url($wp->request));
     }
 
     public static function getOfferUrl(string $codeCgt, int $categoryId = 0): string
@@ -60,7 +60,7 @@ class RouterPivot
 
     public static function getUrlByUrn(string $urn): string
     {
-        return '/classification/'.rawurlencode($urn);
+        return LanguageRouter::url('classification/'.rawurlencode($urn));
     }
 
     public function addClassificationRoute(): void

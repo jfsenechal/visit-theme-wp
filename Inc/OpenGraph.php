@@ -185,6 +185,6 @@ class OpenGraph
          */
         global $wp;
 
-        return home_url($wp->request);
+        return LanguageRouter::prefixUrl(home_url($wp->request));
     }
 }

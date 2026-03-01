@@ -133,7 +133,7 @@ class Twig
          */
         global $wp;
 
-        $url = home_url($wp->request);
+        $url = LanguageRouter::prefixUrl(home_url($wp->request));
 
         return new TwigFunction(
             'currentUrl',
