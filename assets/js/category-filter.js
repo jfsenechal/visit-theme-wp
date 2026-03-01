@@ -1,3 +1,20 @@
+function agendaFilter() {
+    const allEvents = JSON.parse(document.getElementById('agenda-events-data').textContent);
+    return {
+        events: allEvents,
+        allEvents: allEvents,
+        activeFilter: null,
+        filterByCategory(urn) {
+            this.activeFilter = urn;
+            this.events = this.allEvents.filter(event => event.tags.includes(urn));
+        },
+        showAll() {
+            this.events = this.allEvents;
+            this.activeFilter = null;
+        }
+    };
+}
+
 function categoryFilter(parentCategoryId) {
     const initialOffers = JSON.parse(document.getElementById('category-offers-data').textContent);
     return {
