@@ -73,7 +73,7 @@ Twig::renderPage(
         'returnUrl' => $returnUrl,
         'categoryName' => $currentCategory->name,
         'nameBack' => $currentCategory->name,
-        'image' => $offer->getDefaultImage()->url ?? get_template_directory_uri().'/assets/images/404.jpg',
+        'image' => $offer->getDefaultImage()->url ?? get_template_directory_uri().Dto\CommonItem::PLACEHOLDER_IMAGE,
         'latitude' => $latitude,
         'longitude' => $longitude,
         'excerpt' => null,
