@@ -19,6 +19,8 @@ class OpenAi
 
     private readonly TranslationRepository $repository;
 
+    private string $promptTemplate;
+
     private function __construct(
         private readonly HttpClientInterface $httpClient,
         private readonly string $apiKey,
@@ -26,6 +28,7 @@ class OpenAi
     ) {
         global $wpdb;
         $this->repository = new TranslationRepository($wpdb);
+        $this->promptTemplate = file_get_contents(get_template_directory().'/translations/prompt.txt');
     }
 
     /**
@@ -76,8 +79,7 @@ class OpenAi
 
     private function callOpenAi(string $text, LanguageEnum $language): string
     {
-        $promptTemplate = file_get_contents(get_template_directory().'/translations/prompt.txt');
-        $systemPrompt = str_replace('{TARGET_LANGUAGE}', $language->label(), $promptTemplate);
+        $systemPrompt = str_replace('{TARGET_LANGUAGE}', $language->label(), $this->promptTemplate);
 
         $response = $this->httpClient->request('POST', self::OPENAI_API_URL, [
             'headers' => [
@@ -96,11 +98,11 @@ class OpenAi
 
         $data = $response->toArray();
 
-        return trim(
-            $data['choices'][0]['message']['content'] ?? throw new RuntimeException(
+        $content = $data['choices'][0]['message']['content'] ?? throw new RuntimeException(
             'Unexpected OpenAI response: no content in choices',
-        )
         );
+
+        return trim($content, " \t\n\r\0\x0B\"");
     }
 
     /**

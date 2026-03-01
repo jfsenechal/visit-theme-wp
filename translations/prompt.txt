@@ -13,9 +13,5 @@ Instructions:
 - Adapt cultural references naturally for the target audience.
 - Maintain SEO relevance where possible.
 - Do not add explanations or comments.
-- Return only the translated text.
-
-Text to translate:
-"""
-{TEXT}
-"""
+- Do not wrap the result in quotation marks.
+- Return only the translated text, nothing else.
