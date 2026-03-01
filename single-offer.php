@@ -3,6 +3,7 @@
 namespace VisitMarche\ThemeWp;
 
 use AcMarche\PivotAi\Enums\ContentLevel;
+use VisitMarche\ThemeWp\Dto\Tag;
 use VisitMarche\ThemeWp\Enums\LanguageEnum;
 use VisitMarche\ThemeWp\Inc\RouterPivot;
 use VisitMarche\ThemeWp\Lib\LocaleHelper;
@@ -77,7 +78,10 @@ Twig::renderPage(
         'latitude' => $latitude,
         'longitude' => $longitude,
         'excerpt' => null,
-        'tags' => $offer->getClassificationLabels(),
+        'tags' => array_map(
+            fn($cl) => Tag::createFromClassificationUrn($cl->label, $cl->urn),
+            $offer->getClassificationLabels()
+        ),
         'icon' => null,
         'events' => $events,
         'specs' => [],

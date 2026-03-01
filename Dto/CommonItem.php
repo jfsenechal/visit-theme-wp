@@ -16,7 +16,7 @@ class CommonItem
     public ?string $url = null;
     public ?string $icon = null;
 
-    /** @var array<int, object{name: string}> */
+    /** @var Tag[] */
     public array $tags = [];
 
     public ?string $content = null;
@@ -48,7 +48,7 @@ class CommonItem
 
         $categories = get_the_category($post->ID);
         foreach ($categories as $category) {
-            $item->tags[] = (object)['name' => $category->name];
+            $item->tags[] = Tag::createFromCategory($category);
         }
 
         $item->content = apply_filters('the_content', get_the_content(null, null, $post));
@@ -73,32 +73,34 @@ class CommonItem
         $item->content = $offer->getDescription();
 
         if ($offer->typeOffre->idTypeOffre === TypeOffreEnum::EVENT->value) {
-            $item->tags = array_keys($offer->eventCategories);
+            foreach ($offer->eventCategories as $urn => $specification) {
+                $label = $specification->getLabelByLang('fr');
+                if ($label) {
+                    $item->tags[] = Tag::createFromClassificationUrn($label, $urn);
+                }
+            }
             $item->dates = array_map(fn($d) => $d->startDate?->format('Y-m-d'), $offer->dates);
             $item->nextDateParts = $offer->getNextDateParts();
-            $item->hasMultipleDates = count($event->dates ?? []) > 1;
+            $item->hasMultipleDates = count($offer->dates ?? []) > 1;
 
             return $item;
         }
 
         if ($offer->typeOffre->idTypeOffre === TypeOffreEnum::RESTAURANT->value) {
-            foreach ($offer->culinarySpecialties as $specification) {
-                $item->tags[] = (object)['name' => $specification->getLabelByLang('fr')];
+            foreach ($offer->culinarySpecialties as $urn => $specification) {
+                $label = $specification->getLabelByLang('fr');
+                if ($label) {
+                    $item->tags[] = Tag::createFromClassificationUrn($label, $urn);
+                }
             }
 
             return $item;
         }
 
-        if ($offer->typeOffre->idTypeOffre === TypeOffreEnum::ACCOMMODATIONS->value) {
-            foreach ($offer->culinarySpecialties as $specification) {
-                //      $item->tags[] = (object)['name' => $specification->getLabelByLang('fr')];
-            }
-        }
-
         if ($offer->typeOffre) {
             $label = $offer->typeOffre->getLabelByLang('fr');
             if ($label) {
-                $item->tags[] = (object)['name' => $label];
+                $item->tags[] = new Tag(name: $label, value: $offer->typeOffre->idTypeOffre);
             }
         }
 
@@ -133,7 +135,7 @@ class CommonItem
             'excerpt' => $this->excerpt !== null ? strip_tags($this->excerpt) : null,
             'content' => $this->content !== null ? strip_tags($this->content) : null,
             'url' => $this->url,
-            'tags' => array_map(fn($tag) => ['name' => $tag->name], $this->tags),
+            'tags' => array_map(fn(Tag $tag) => ['name' => $tag->name, 'url' => $tag->url], $this->tags),
         ];
 
         return $data;

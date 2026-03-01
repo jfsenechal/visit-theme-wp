@@ -2,6 +2,7 @@
 
 namespace VisitMarche\ThemeWp;
 
+use VisitMarche\ThemeWp\Dto\Tag;
 use VisitMarche\ThemeWp\Lib\Twig;
 use VisitMarche\ThemeWp\Repository\PivotRepository;
 
@@ -22,7 +23,7 @@ if (has_post_thumbnail()) {
 
 $tags = [];
 foreach (get_the_category($post->ID) as $category) {
-    $tags[] = ['id' => $category->term_id, 'name' => $category->name, 'url' => get_category_link($category->term_id)];
+    $tags[] = Tag::createFromCategory($category);
 }
 
 $content = get_the_content(null, null, $post);

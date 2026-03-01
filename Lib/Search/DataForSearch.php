@@ -4,6 +4,7 @@ namespace VisitMarche\ThemeWp\Lib\Search;
 
 
 use VisitMarche\ThemeWp\Dto\CommonItem;
+use VisitMarche\ThemeWp\Dto\Tag;
 use VisitMarche\ThemeWp\Enums\LanguageEnum;
 use VisitMarche\ThemeWp\Lib\OpenAi;
 use VisitMarche\ThemeWp\Repository\PivotRepository;
@@ -98,9 +99,9 @@ class DataForSearch
 
             $tags = [];
             if ($category->parent > 0) {
-                $parent = get_category($category->parent)->name;
+                $parent = get_category($category->parent);
                 if ($parent instanceof \WP_Term) {
-                    $tags[] = ['id' => $parent->term_id, 'name' => $parent->name];
+                    $tags[] = Tag::createFromCategory($parent);
                 }
             }
 

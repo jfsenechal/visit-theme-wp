@@ -83,7 +83,7 @@ class RouterPivot
 
     public static function getUrlByUrn(string $urn): string
     {
-        return '/'.$urn.'/classification/'.$urn;
+        return '/classification/'.rawurlencode($urn);
     }
 
     public function addClassificationRoute(): void
