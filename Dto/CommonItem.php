@@ -135,7 +135,8 @@ class CommonItem
             'excerpt' => $this->excerpt !== null ? strip_tags($this->excerpt) : null,
             'content' => $this->content !== null ? strip_tags($this->content) : null,
             'url' => $this->url,
-            'tags' => array_map(fn(Tag $tag) => ['name' => $tag->name, 'url' => $tag->url], $this->tags),
+            'tags' => array_map(fn(Tag $tag) => ['name' => $tag->name, 'value' => $tag->value, 'url' => $tag->url],
+                $this->tags),
         ];
 
         return $data;
