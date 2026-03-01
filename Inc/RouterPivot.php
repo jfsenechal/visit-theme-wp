@@ -44,29 +44,6 @@ class RouterPivot
         return home_url($wp->request);
     }
 
-    /**
-     * @param CommonItem[] $items
-     * @param int $categoryId
-     * @param string $language
-     * @return CommonItem[]
-     */
-    public static function setLinkOnCommonItems(array $items, int $categoryId, string $language): void
-    {
-        $urlBase = get_category_link(get_category($categoryId)).self::OFFRE_URL.'/';
-
-        array_map(
-            function ($item) use ($categoryId, $language, $urlBase) {
-                if ($item->type == 'post') {
-                    $item->url = get_permalink($item->id);
-                } else {
-                    $item->url = $urlBase.$item->id;
-                }
-            },
-            $items
-        );
-
-    }
-
     public static function getOfferUrl(string $codeCgt, int $categoryId = 0): string
     {
         if ($categoryId == 0) {

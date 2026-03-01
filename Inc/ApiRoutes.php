@@ -89,8 +89,6 @@ class ApiRoutes
             return rest_ensure_response(['error' => $e->getMessage()]);
         }
 
-        RouterPivot::setLinkOnCommonItems($items, $categoryId, 'fr');
-
         $data = array_map(fn($item) => $item->toArray(), $items);
 
         return rest_ensure_response($data);
