@@ -20,13 +20,21 @@ class AdminBar
             $wp_admin_bar->add_menu(
                 [
                     'id' => 'edit-offer',
-                    'title' => '<span class="ab-icon dashicons dashicons-database-vie"></span> Modifier l\'offre',
+                    'title' => '<span class="ab-icon dashicons dashicons-database-view"></span> Modifier l\'offre',
                     'href' => RouterPivot::getRouteOfferToPivotSite($codeCgt),
+                    'meta' => ['target' => '_blank'],
                 ]
             );
         }
         if (is_category()) {
             $cat_ID = get_queried_object_id();
+            $wp_admin_bar->add_menu(
+                [
+                    'id' => 'pivot_category_offers',
+                    'title' => '<span class="ab-icon dashicons dashicons-database"></span> Offres Pivot',
+                    'href' => '/wp-admin/admin.php?page=category_offers&catID='.$cat_ID,
+                ]
+            );
             $sortLink = SortLink::linkSortArticles($cat_ID);
             if ($sortLink) {
                 $wp_admin_bar->add_menu(
@@ -37,13 +45,6 @@ class AdminBar
                     ]
                 );
             }
-            $wp_admin_bar->add_menu(
-                [
-                    'id' => 'pivot_category_offers',
-                    'title' => '<span class="ab-icon dashicons dashicons-database"></span> Offres Pivot',
-                    'href' => '/wp-admin/admin.php?page=category_offers&catID='.$cat_ID,
-                ]
-            );
         }
     }
 }
