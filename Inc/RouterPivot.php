@@ -78,7 +78,7 @@ class RouterPivot
 
     public static function getRouteOfferToPivotSite(string $codeCgt): string
     {
-        return $_ENV['PIVOT_GEST_URI'].'./detail.xhtml?codeCgt='.$codeCgt;
+        return $_ENV['PIVOT_GEST_URI'].'/detail.xhtml?codeCgt='.$codeCgt.'&state=EDIT';
     }
 
     public function addClassificationRoute(): void
