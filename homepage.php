@@ -35,7 +35,7 @@ foreach ($wpRepository->findArticlesByCategory($inspirationCat->term_id) as $pos
     $inspirations[$item->id] = $item;
 }
 
-$urlAgenda = '/';
+$urlAgenda = get_category_link(Theme::CATEGORIES_AGENDA);
 $urlInspiration = get_category_link($inspirationCat);
 
 $events = $pivotRepository->loadEvents(skip: true);
