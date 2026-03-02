@@ -73,12 +73,6 @@ class CommonItem
         $item->content = $offer->getDescription();
 
         if ($offer->typeOffre->idTypeOffre === TypeOffreEnum::EVENT->value) {
-            foreach ($offer->eventCategories as $urn => $specification) {
-                $label = $specification->getLabelByLang('fr');
-                if ($label) {
-                    $item->tags[] = Tag::createFromClassificationUrn($label, $urn);
-                }
-            }
             $item->dates = array_map(fn($d) => $d->startDate?->format('Y-m-d'), $offer->dates);
             $item->nextDateParts = $offer->getNextDateParts();
             $item->hasMultipleDates = $offer->hasMultipleDates();
@@ -86,31 +80,21 @@ class CommonItem
             return $item;
         }
 
-        if ($offer->typeOffre->idTypeOffre === TypeOffreEnum::RESTAURANT->value) {
-            foreach ($offer->culinarySpecialties as $urn => $specification) {
-                $label = $specification->getLabelByLang('fr');
-                if ($label) {
-                    $item->tags[] = Tag::createFromClassificationUrn($label, $urn);
-                }
-            }
-
-            return $item;
-        }
-
-        if ($offer->typeOffre) {
-            $label = $offer->typeOffre->getLabelByLang('fr');
-            if ($label) {
-                $item->tags[] = new Tag(name: $label, value: $offer->typeOffre->idTypeOffre);
-            }
-        }
+        $item->tags[] = self::populateTagsForOffer($offer);
 
         return $item;
     }
 
+    /**
+     * @param \WP_Term $category
+     * @param string $content
+     * @param array<int,Tag> $tags
+     * @return CommonItem
+     */
     public static function createFromCategory(\WP_Term $category, string $content = '', array $tags = []): CommonItem
     {
         $item = new CommonItem(
-            id: (string)$category->ID,
+            id: (string)$category->term_id,
             type: 'category',
             name: $category->name,
             image: CategoryMetaData::getImage($category),
@@ -124,9 +108,12 @@ class CommonItem
         return $item;
     }
 
+    /**
+     * @return array{id: string, type: string, name: string, image: string, icon: ?string, excerpt: ?string, content: ?string, url: ?string, tags: list<array{name: string, value: string, url: ?string}>}
+     */
     public function toArray(): array
     {
-        $data = [
+        return [
             'id' => $this->id,
             'type' => $this->type,
             'name' => $this->name,
@@ -138,8 +125,6 @@ class CommonItem
             'tags' => array_map(fn(Tag $tag) => ['name' => $tag->name, 'value' => $tag->value, 'url' => $tag->url],
                 $this->tags),
         ];
-
-        return $data;
     }
 
     public static function getPostThumbnail(int $id): string
@@ -153,5 +138,59 @@ class CommonItem
         }
 
         return $post_thumbnail_url;
+    }
+
+    /**
+     * @param Offer $offer
+     * @return array<int,Tag>
+     */
+    public static function populateTagsForOffer(Offer $offer): array
+    {
+        $tags = [];
+
+        if ($offer->typeOffre->idTypeOffre === TypeOffreEnum::EVENT->value) {
+            foreach ($offer->eventCategories as $urn => $specification) {
+                $label = $specification->getLabelByLang('fr');
+                if ($label) {
+                    $tags[] = Tag::createFromClassificationUrn($label, $urn);
+                }
+            }
+
+            return $tags;
+        }
+
+        if ($offer->typeOffre->idTypeOffre === TypeOffreEnum::RESTAURANT->value) {
+            foreach ($offer->culinarySpecialties as $urn => $specification) {
+                $label = $specification->getLabelByLang('fr');
+                if ($label) {
+                    $tags[] = Tag::createFromClassificationUrn($label, $urn);
+                }
+            }
+
+            return $tags;
+        }
+
+        if ($offer->typeOffre) {
+            $label = $offer->typeOffre->getLabelByLang('fr');
+            if ($label) {
+                $tags[] = new Tag(name: $label, value: $offer->typeOffre->idTypeOffre);
+            }
+        }
+
+        return $tags;
+    }
+
+    /**
+     * @param \WP_Post $post
+     * @return array<int,Tag>
+     */
+    public static function populateTagsForPost(\WP_Post $post): array
+    {
+        $tags = [];
+        foreach (get_the_category($post->ID) as $category) {
+            $tags[] = Tag::createFromCategory($category);
+        }
+
+        return $tags;
     }
 }

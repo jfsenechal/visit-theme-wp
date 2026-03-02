@@ -3,6 +3,8 @@
 namespace VisitMarche\ThemeWp;
 
 use AcMarche\PivotAi\Enums\ContentLevel;
+use AcMarche\PivotAi\Enums\TypeOffreEnum;
+use VisitMarche\ThemeWp\Dto\CommonItem;
 use VisitMarche\ThemeWp\Dto\Tag;
 use VisitMarche\ThemeWp\Enums\LanguageEnum;
 use VisitMarche\ThemeWp\Inc\RouterPivot;
@@ -46,23 +48,39 @@ $description = $offer->getDescription();
 
 $language = LanguageEnum::tryFrom($locale);
 $translator = OpenAi::create();
-$name = $translator->translate($name, $language);
+if ($offer->typeOffre->idTypeOffre === TypeOffreEnum::EVENT->value) {
+    $name = $translator->translate($name, $language);
+}
 if ($description) {
     $description = $translator->translate($description, $language);
-}
-
-$events = $pivotRepository->loadEvents(skip: true);
-$events = array_slice($events, 0, 3);
-$latitude = $offer->latitude();
-$longitude = $offer->longitude();
-if ($latitude && $longitude) {
-    //AssetsLoader::enqueueLeaflet();
 }
 
 if (!$currentCategory = get_category_by_slug(get_query_var('category_name'))) {
     $currentCategory = get_category(1);
 }
+
+$returnName = $currentCategory->name;
 $returnUrl = get_category_link($currentCategory);
+
+$events = $pivotRepository->loadEvents(skip: true);
+$events = array_slice($events, 0, 3);
+
+$tags = CommonItem::populateTagsForOffer($offer);
+
+if ($locale !== 'fr' && ($language = LanguageEnum::tryFrom($locale))) {
+    foreach ($events as $event) {
+        $event->nom = $translator->translate($event->nom, $language);
+    }
+    foreach ($tags as $tag) {
+        $tag->name = $translator->translate($tag->name, $language);
+    }
+    $returnName = $translator->translate($returnName, $language);
+}
+$latitude = $offer->latitude();
+$longitude = $offer->longitude();
+if ($latitude && $longitude) {
+    //AssetsLoader::enqueueLeaflet();
+}
 
 Twig::renderPage(
     '@Visit/offer.html.twig',
@@ -70,18 +88,13 @@ Twig::renderPage(
         'offer' => $offer,
         'name' => $name,
         'description' => $description,
-        'returnName' => $currentCategory->name,
+        'returnName' => $returnName,
         'returnUrl' => $returnUrl,
-        'categoryName' => $currentCategory->name,
-        'nameBack' => $currentCategory->name,
         'image' => $offer->getDefaultImage()->url ?? get_template_directory_uri().Dto\CommonItem::PLACEHOLDER_IMAGE,
         'latitude' => $latitude,
         'longitude' => $longitude,
         'excerpt' => null,
-        'tags' => array_map(
-            fn($cl) => Tag::createFromClassificationUrn($cl->label, $cl->urn),
-            $offer->getClassificationLabels()
-        ),
+        'tags' => $tags,
         'icon' => null,
         'events' => $events,
         'specs' => [],
