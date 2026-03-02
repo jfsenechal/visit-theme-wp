@@ -83,7 +83,7 @@ class CommonItem
             return $item;
         }
 
-        $item->tags[] = self::populateTagsForOffer($offer);
+        $item->tags = self::populateTagsForOffer($offer);
 
         return $item;
     }
