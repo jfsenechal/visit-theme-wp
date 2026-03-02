@@ -4,6 +4,7 @@ namespace VisitMarche\TheWo;
 
 use VisitMarche\ThemeWp\Enums\LanguageEnum;
 use VisitMarche\ThemeWp\Inc\CategoryMetaData;
+use VisitMarche\ThemeWp\Inc\LanguageRouter;
 use VisitMarche\ThemeWp\Inc\RouterPivot;
 use VisitMarche\ThemeWp\Lib\LocaleHelper;
 use VisitMarche\ThemeWp\Lib\OpenAi;
@@ -32,12 +33,18 @@ try {
 $locale = LocaleHelper::getSelectedLanguage();
 $translator = OpenAi::create();
 $language = LanguageEnum::tryFrom($locale);
+$excerpt = $category->description;
 
 if ($locale !== 'fr' && ($language = LanguageEnum::tryFrom($locale))) {
+    $categoryName = $translator->translate($categoryName, $language);
+    $returnName = $translator->translate($returnName, $language);
+    $excerpt = $translator->translate($category->description, $language);
     foreach ($offers as $offer) {
-        $offer->name = $translator->translate($offer->name, $language);
         if ($offer->excerpt) {
             $offer->excerpt = $translator->translate($offer->excerpt, $language);
+        }
+        foreach ($offer->tags as $tag) {
+            $tag->name = $translator->translate($tag->name, $language);
         }
     }
 }
@@ -64,7 +71,7 @@ Twig::renderPage(
         'image' => $image,
         'returnName' => $returnName,
         'returnUrl' => $returnName,
-        'excerpt' => $category->description,
+        'excerpt' => $excerpt,
         'icon' => $icon,
         'video' => $video,
         'color' => $color,
@@ -72,7 +79,7 @@ Twig::renderPage(
         'filters' => $children,
         'offersJson' => $offersJson,
         'parentCategoryId' => $category->cat_ID,
-        'parentCategoryUrl' => get_category_link($category),
+        'parentCategoryUrl' => LanguageRouter::prefixUrl(get_category_link($category)),
         'countArticles' => count($offers),
     ]
 );

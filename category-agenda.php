@@ -3,8 +3,10 @@
 namespace VisitMarche\TheWo;
 
 use VisitMarche\ThemeWp\Dto\CommonItem;
+use VisitMarche\ThemeWp\Enums\LanguageEnum;
 use VisitMarche\ThemeWp\Inc\RouterPivot;
 use VisitMarche\ThemeWp\Lib\LocaleHelper;
+use VisitMarche\ThemeWp\Lib\OpenAi;
 use VisitMarche\ThemeWp\Lib\Twig;
 use VisitMarche\ThemeWp\Repository\PivotRepository;
 
@@ -25,7 +27,7 @@ foreach ($events as $event) {
             $filters[$urn] = [
                 'urn' => $urn,
                 'name' => $specification->getLabelByLang($locale) ?? $urn,
-                'url' => RouterPivot::getUrlByUrn($urn)
+                'url' => RouterPivot::getUrlByUrn($urn),
             ];
         }
     }
@@ -37,15 +39,29 @@ foreach ($events as $event) {
     $eventsData[] = CommonItem::createFromOffer($event);
 }
 
+$categoryName = $category->name;
+$translator = OpenAi::create();
+if ($locale !== 'fr' && ($language = LanguageEnum::tryFrom($locale))) {
+    $categoryName = $translator->translate($category->name, $language);
+    foreach ($eventsData as $offer) {
+        $offer->name = $translator->translate($offer->name, $language);
+        if ($offer->excerpt) {
+            $offer->excerpt = $translator->translate($offer->excerpt, $language);
+        }
+    }
+
+    foreach ($filters as $filter) {
+        $filter['name'] = $translator->translate($filter['name'], $language);
+    }
+}
+
 Twig::renderPage(
     '@Visit/agenda.html.twig',
     [
         'events' => $events,
         'eventsJson' => json_encode($eventsData, JSON_THROW_ON_ERROR),
-        'category' => $category,
-        'name' => $category->name,
+        'name' => $categoryName,
         'nameBack' => '',
-        'categoryName' => $category->name,
         'image' => $image,
         'filters' => $filters,
         'parentCategoryUrl' => get_category_link($category),

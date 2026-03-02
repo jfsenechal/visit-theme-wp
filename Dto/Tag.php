@@ -6,12 +6,12 @@ namespace VisitMarche\ThemeWp\Dto;
 
 use VisitMarche\ThemeWp\Inc\RouterPivot;
 
-readonly class Tag
+class Tag
 {
     public function __construct(
         public string $name,
-        public string|int $value,
-        public ?string $url = null,
+        readonly public string|int $value,
+        readonly public ?string $url = null,
     ) {
     }
 
