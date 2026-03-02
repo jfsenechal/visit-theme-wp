@@ -25,7 +25,7 @@ if ($category->parent > 0) {
 $wpRepository = new WpRepository();
 
 try {
-    $offers = $wpRepository->findArticlesAndOffersByWpCategory($category->cat_ID, true);
+    $offers = $wpRepository->findArticlesAndOffersByWpCategory($category->term_id, true);
 } catch (\Exception $e) {
     $offers = [];
 }

@@ -24,6 +24,9 @@ class CommonItem
      * @var array|null[]|string[]
      */
     public array $dates = [];
+    /**
+     * @var array{year: ?string, month: ?string, day: ?string}
+     */
     public array $nextDateParts = [];
     public bool $hasMultipleDates = false;
 

@@ -5,7 +5,6 @@ namespace VisitMarche\ThemeWp;
 use AcMarche\PivotAi\Enums\ContentLevel;
 use AcMarche\PivotAi\Enums\TypeOffreEnum;
 use VisitMarche\ThemeWp\Dto\CommonItem;
-use VisitMarche\ThemeWp\Dto\Tag;
 use VisitMarche\ThemeWp\Enums\LanguageEnum;
 use VisitMarche\ThemeWp\Inc\RouterPivot;
 use VisitMarche\ThemeWp\Lib\LocaleHelper;
@@ -46,15 +45,6 @@ $locale = LocaleHelper::getSelectedLanguage();
 $name = $offer->name();
 $description = $offer->getDescription();
 
-$language = LanguageEnum::tryFrom($locale);
-$translator = OpenAi::create();
-if ($offer->typeOffre->idTypeOffre === TypeOffreEnum::EVENT->value) {
-    $name = $translator->translate($name, $language);
-}
-if ($description) {
-    $description = $translator->translate($description, $language);
-}
-
 if (!$currentCategory = get_category_by_slug(get_query_var('category_name'))) {
     $currentCategory = get_category(1);
 }
@@ -68,6 +58,14 @@ $events = array_slice($events, 0, 3);
 $tags = CommonItem::populateTagsForOffer($offer);
 
 if ($locale !== 'fr' && ($language = LanguageEnum::tryFrom($locale))) {
+    $language = LanguageEnum::tryFrom($locale);
+    $translator = OpenAi::create();
+    if ($offer->typeOffre->idTypeOffre === TypeOffreEnum::EVENT->value) {
+        $name = $translator->translate($name, $language);
+    }
+    if ($description) {
+        $description = $translator->translate($description, $language);
+    }
     foreach ($events as $event) {
         $event->nom = $translator->translate($event->nom, $language);
     }
@@ -76,6 +74,7 @@ if ($locale !== 'fr' && ($language = LanguageEnum::tryFrom($locale))) {
     }
     $returnName = $translator->translate($returnName, $language);
 }
+
 $latitude = $offer->latitude();
 $longitude = $offer->longitude();
 if ($latitude && $longitude) {
