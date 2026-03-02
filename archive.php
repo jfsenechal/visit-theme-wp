@@ -79,7 +79,7 @@ Twig::renderPage(
         'filters' => $children,
         'offersJson' => $offersJson,
         'parentCategoryId' => $category->cat_ID,
-        'parentCategoryUrl' => LanguageRouter::prefixUrl(get_category_link($category)),
+        'parentCategoryUrl' => get_category_link($category),
         'countArticles' => count($offers),
     ]
 );

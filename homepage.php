@@ -35,7 +35,6 @@ $language = LanguageEnum::tryFrom($locale);
 
 foreach ($wpRepository->findArticlesByCategory($inspirationCat->term_id) as $post) {
     $item = CommonItem::createFromPost($post);
-    $item->name = $translator->translate($item->name, $language);
     $inspirations[$item->id] = $item;
 }
 
@@ -44,17 +43,21 @@ $urlInspiration = get_category_link($inspirationCat);
 
 $events = $pivotRepository->loadEvents(skip: true);
 $events = array_slice($events, 0, 4);
-$sortLink = false;
-if (current_user_can('edit_post', 2)) {
-    $sortLink = SortLink::linkSortArticles(2);
-}
 
 $inspirations = array_slice($inspirations, 0, 4);
 $icons = $menu->getIcons($locale);
 
-$intro = $translator->translate($intro, $language);
-foreach ($ideas as $idea) {
-    $idea->name = $translator->translate($idea->name, $language);
+if ($locale !== 'fr' && ($language = LanguageEnum::tryFrom($locale))) {
+    $intro = $translator->translate($intro, $language);
+    foreach ($ideas as $idea) {
+        $idea->name = $translator->translate($idea->name, $language);
+    }
+    foreach ($events as $offer) {
+        $offer->nom = $translator->translate($offer->nom, $language);
+    }
+    foreach ($inspirations as $inspiration) {
+        $inspiration->name = $translator->translate($inspiration->name, $language);
+    }
 }
 
 $imgs = [
@@ -69,6 +72,11 @@ $imgs = [
 ];
 $img = array_rand($imgs);
 $bgImg = $imgs[$img];
+
+$sortLink = false;
+if (current_user_can('edit_post', 2)) {
+    $sortLink = SortLink::linkSortArticles(2);
+}
 
 Twig::renderPage(
     '@Visit/homepage.html.twig',
