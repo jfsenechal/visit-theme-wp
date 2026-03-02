@@ -38,14 +38,14 @@ if ($locale !== 'fr' && ($language = LanguageEnum::tryFrom($locale))) {
     $categoryName = $translator->translate($categoryName, $language);
     $returnName = $returnName ? $translator->translate($returnName, $language) : null;
     $excerpt = $translator->translate($category->description, $language);
-    foreach ($items as $offer) {
-        if ($offer->type === CommonItemTypeEnum::POST->value) {
-            $offer->name = $translator->translate($offer->name, $language);
+    foreach ($items as $item) {
+        if ($item->type === CommonItemTypeEnum::POST) {
+            $item->name = $translator->translate($item->name, $language);
         }
-        if ($offer->excerpt) {
-            $offer->excerpt = $translator->translate($offer->excerpt, $language);
+        if ($item->excerpt) {
+            $item->excerpt = $translator->translate($item->excerpt, $language);
         }
-        foreach ($offer->tags as $tag) {
+        foreach ($item->tags as $tag) {
             $tag->name = $translator->translate($tag->name, $language);
         }
     }
