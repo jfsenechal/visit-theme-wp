@@ -37,7 +37,7 @@
             {% set currentPath = lang_current_path() %}
             {% for lang in ['fr', 'en', 'nl', 'de'] %}
                 <li>
-                    <a href="/{{ lang }}{% if currentPath %}/{{ currentPath }}{% endif %}"
+                    <a href="/{{ lang }}/{% if currentPath %}{{ currentPath }}/{% endif %}"
                        class="block px-4 py-2.5 text-sm {{ locale == lang ? 'text-cta-dark font-semibold' : 'text-gray-700' }} hover:bg-gray-100 focus-visible:bg-gray-100 focus-visible:outline-none">
                         {{ lang|upper }}
                     </a>
