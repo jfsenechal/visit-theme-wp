@@ -35,7 +35,7 @@
                             group-hover:bg-cta-light
                             transition-colors duration-300">
                     <span class="text-3xl sm:text-4xl font-bold leading-none">
-                        {% if event.getClosestUpcomingDate and event.dates|length > 1 %}
+                        {% if event.getClosestUpcomingDate and event.hasMultipleDates %}
                             >
                         {% endif %}
                         {{ event.getNextDateParts["day"] }}

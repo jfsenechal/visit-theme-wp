@@ -81,7 +81,7 @@ class CommonItem
             }
             $item->dates = array_map(fn($d) => $d->startDate?->format('Y-m-d'), $offer->dates);
             $item->nextDateParts = $offer->getNextDateParts();
-            $item->hasMultipleDates = count($offer->dates ?? []) > 1;
+            $item->hasMultipleDates = $offer->hasMultipleDates();
 
             return $item;
         }
