@@ -115,7 +115,11 @@ class WpRepository
             }
         }
 
-        usort($items, fn(CommonItem $a, CommonItem $b) => strcasecmp($a->name, $b->name));
+        usort($items, function (CommonItem $a, CommonItem $b) {
+            $order = $a->type->sortOrder() <=> $b->type->sortOrder();
+
+            return $order !== 0 ? $order : strcasecmp($a->name, $b->name);
+        });
 
         return $items;
     }
