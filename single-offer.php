@@ -58,7 +58,6 @@ $events = array_slice($events, 0, 3);
 $tags = CommonItem::populateTagsForOffer($offer);
 
 if ($locale !== 'fr' && ($language = LanguageEnum::tryFrom($locale))) {
-    $language = LanguageEnum::tryFrom($locale);
     $translator = OpenAi::create();
     if ($offer->typeOffre->idTypeOffre === TypeOffreEnum::EVENT->value) {
         $name = $translator->translate($name, $language);
