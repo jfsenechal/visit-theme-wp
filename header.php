@@ -4,8 +4,8 @@ namespace VisitMarche\ThemeWp;
 
 use VisitMarche\ThemeWp\Lib\CookieHelper;
 use VisitMarche\ThemeWp\Lib\LocaleHelper;
-use VisitMarche\ThemeWp\Lib\Menu;
 use VisitMarche\ThemeWp\Lib\Twig;
+use VisitMarche\ThemeWp\Repository\MenuRepository;
 
 $locale = LocaleHelper::getSelectedLanguage();
 ?>
@@ -18,7 +18,8 @@ $locale = LocaleHelper::getSelectedLanguage();
         <link rel="icon" type="image/png" href="<?php echo get_template_directory_uri() ?>/assets/images/favicon.png"/>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap">
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap">
         <?php wp_head(); ?>
     </head>
 
@@ -26,16 +27,16 @@ $locale = LocaleHelper::getSelectedLanguage();
     <?php
 wp_body_open();
 
-$menu = new Menu();
+$menu = new MenuRepository();
 $items = $menu->getMenuTop($locale);
 $icons = $menu->getIcons($locale);
 Twig::renderPage(
-    '@Visit/header/_header.html.twig',
-    [
-        'locale' => $locale,
-        'items' => $items,
-        'icons' => $icons,
-        'hasNotAcceptCookie' => !CookieHelper::isAuthorizedByName(CookieHelper::$essential),
-    ]
+        '@Visit/header/_header.html.twig',
+        [
+                'locale' => $locale,
+                'items' => $items,
+                'icons' => $icons,
+                'hasNotAcceptCookie' => !CookieHelper::isAuthorizedByName(CookieHelper::$essential),
+        ]
 );
 

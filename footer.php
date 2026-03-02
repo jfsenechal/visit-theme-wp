@@ -3,10 +3,10 @@
 namespace VisitMarche\ThemeWp;
 
 use VisitMarche\ThemeWp\Lib\LocaleHelper;
-use VisitMarche\ThemeWp\Lib\Menu;
 use VisitMarche\ThemeWp\Lib\Twig;
+use VisitMarche\ThemeWp\Repository\MenuRepository;
 
-$menu = new Menu();
+$menu = new MenuRepository();
 $locale = LocaleHelper::getSelectedLanguage();
 $items = $menu->getMenuTop($locale);
 $icones = $menu->getIcons($locale);

@@ -6,10 +6,10 @@ use VisitMarche\ThemeWp\Dto\CommonItem;
 use VisitMarche\ThemeWp\Enums\LanguageEnum;
 use VisitMarche\ThemeWp\Inc\Theme;
 use VisitMarche\ThemeWp\Lib\LocaleHelper;
-use VisitMarche\ThemeWp\Lib\Menu;
 use VisitMarche\ThemeWp\Lib\OpenAi;
 use VisitMarche\ThemeWp\Lib\Sort\SortLink;
 use VisitMarche\ThemeWp\Lib\Twig;
+use VisitMarche\ThemeWp\Repository\MenuRepository;
 use VisitMarche\ThemeWp\Repository\PivotRepository;
 use VisitMarche\ThemeWp\Repository\WpRepository;
 
@@ -17,7 +17,7 @@ get_header();
 
 $wpRepository = new WpRepository();
 $pivotRepository = new PivotRepository();
-$menu = new Menu();
+$menu = new MenuRepository();
 
 $intro = $wpRepository->getIntro();
 try {
