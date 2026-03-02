@@ -37,7 +37,7 @@ $excerpt = $category->description;
 
 if ($locale !== 'fr' && ($language = LanguageEnum::tryFrom($locale))) {
     $categoryName = $translator->translate($categoryName, $language);
-    $returnName = $translator->translate($returnName, $language);
+    $returnName = $returnName ? $translator->translate($returnName, $language) : null;
     $excerpt = $translator->translate($category->description, $language);
     foreach ($offers as $offer) {
         if ($offer->excerpt) {
