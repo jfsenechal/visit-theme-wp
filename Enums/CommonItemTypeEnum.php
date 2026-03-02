@@ -9,4 +9,5 @@ enum CommonItemTypeEnum: string
     case POST = 'post';
     case OFFER = 'offer';
     case CATEGORY = 'category';
+    case MENU_ITEM = 'menu_item';
 }

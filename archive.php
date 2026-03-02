@@ -39,7 +39,7 @@ if ($locale !== 'fr' && ($language = LanguageEnum::tryFrom($locale))) {
     $returnName = $returnName ? $translator->translate($returnName, $language) : null;
     $excerpt = $translator->translate($category->description, $language);
     foreach ($items as $offer) {
-        if ($offer->type === CommonItemTypeEnum::POST) {
+        if ($offer->type === CommonItemTypeEnum::POST->value) {
             $offer->name = $translator->translate($offer->name, $language);
         }
         if ($offer->excerpt) {

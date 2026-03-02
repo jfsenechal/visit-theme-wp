@@ -4,6 +4,7 @@ namespace VisitMarche\ThemeWp\Repository;
 
 
 use VisitMarche\ThemeWp\Dto\CommonItem;
+use VisitMarche\ThemeWp\Enums\CommonItemTypeEnum;
 use VisitMarche\ThemeWp\Enums\IconeEnum;
 use VisitMarche\ThemeWp\Enums\LanguageEnum;
 use VisitMarche\ThemeWp\Lib\OpenAi;
@@ -84,7 +85,7 @@ class MenuRepository
         // Custom link or other type
         $item = new CommonItem(
             id: (string)$menuItem->ID,
-            type: 'menu_item',
+            type: CommonItemTypeEnum::MENU_ITEM,
             name: $menuItem->title,
             image: CommonItem::PLACEHOLDER_IMAGE,
         );
