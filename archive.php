@@ -2,10 +2,9 @@
 
 namespace VisitMarche\TheWo;
 
+use VisitMarche\ThemeWp\Enums\CommonItemTypeEnum;
 use VisitMarche\ThemeWp\Enums\LanguageEnum;
 use VisitMarche\ThemeWp\Inc\CategoryMetaData;
-use VisitMarche\ThemeWp\Inc\LanguageRouter;
-use VisitMarche\ThemeWp\Inc\RouterPivot;
 use VisitMarche\ThemeWp\Lib\LocaleHelper;
 use VisitMarche\ThemeWp\Lib\OpenAi;
 use VisitMarche\ThemeWp\Lib\Twig;
@@ -25,9 +24,9 @@ if ($category->parent > 0) {
 $wpRepository = new WpRepository();
 
 try {
-    $offers = $wpRepository->findArticlesAndOffersByWpCategory($category->term_id, true);
+    $items = $wpRepository->findArticlesAndOffersByWpCategory($category->term_id, true);
 } catch (\Exception $e) {
-    $offers = [];
+    $items = [];
 }
 
 $locale = LocaleHelper::getSelectedLanguage();
@@ -39,7 +38,10 @@ if ($locale !== 'fr' && ($language = LanguageEnum::tryFrom($locale))) {
     $categoryName = $translator->translate($categoryName, $language);
     $returnName = $returnName ? $translator->translate($returnName, $language) : null;
     $excerpt = $translator->translate($category->description, $language);
-    foreach ($offers as $offer) {
+    foreach ($items as $offer) {
+        if ($offer->type === CommonItemTypeEnum::POST) {
+            $offer->name = $translator->translate($offer->name, $language);
+        }
         if ($offer->excerpt) {
             $offer->excerpt = $translator->translate($offer->excerpt, $language);
         }
@@ -50,9 +52,9 @@ if ($locale !== 'fr' && ($language = LanguageEnum::tryFrom($locale))) {
 }
 
 try {
-    $offersJson = json_encode(array_map(fn($item) => $item->toArray(), $offers), JSON_THROW_ON_ERROR);
+    $itemsJson = json_encode(array_map(fn($item) => $item->toArray(), $items), JSON_THROW_ON_ERROR);
 } catch (\JsonException $e) {
-    $offersJson = null;
+    $itemsJson = null;
 }
 
 $children = $wpRepository->getChildrenOfCategory($cat_ID);
@@ -77,10 +79,10 @@ Twig::renderPage(
         'color' => $color,
         'children' => $children,
         'filters' => $children,
-        'offersJson' => $offersJson,
+        'offersJson' => $itemsJson,
         'parentCategoryId' => $category->cat_ID,
         'parentCategoryUrl' => get_category_link($category),
-        'countArticles' => count($offers),
+        'countArticles' => count($items),
     ]
 );
 get_footer();

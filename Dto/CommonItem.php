@@ -6,6 +6,7 @@ namespace VisitMarche\ThemeWp\Dto;
 
 use AcMarche\PivotAi\Entity\Pivot\Offer;
 use AcMarche\PivotAi\Enums\TypeOffreEnum;
+use VisitMarche\ThemeWp\Enums\CommonItemTypeEnum;
 use VisitMarche\ThemeWp\Inc\CategoryMetaData;
 use VisitMarche\ThemeWp\Inc\RouterPivot;
 
@@ -32,7 +33,7 @@ class CommonItem
 
     public function __construct(
         public string $id,
-        public string $type,
+        public CommonItemTypeEnum $type,
         public string $name,
         public string $image,
         public ?string $excerpt = null,
@@ -43,7 +44,7 @@ class CommonItem
     {
         $item = new CommonItem(
             id: (string)$post->ID,
-            type: 'post',
+            type: CommonItemTypeEnum::POST,
             name: $post->post_title,
             image: self::getPostThumbnail($post->ID),
             excerpt: $post->post_excerpt
@@ -66,7 +67,7 @@ class CommonItem
 
         $item = new CommonItem(
             id: $offer->codeCgt ?? '',
-            type: 'offer',
+            type: CommonItemTypeEnum::OFFER,
             name: $offer->nom ?? '',
             image: $image?->url ?? get_template_directory_uri().self::PLACEHOLDER_IMAGE,
             excerpt: $offer->getShortDescription() ?? '',
@@ -98,7 +99,7 @@ class CommonItem
     {
         $item = new CommonItem(
             id: (string)$category->term_id,
-            type: 'category',
+            type: CommonItemTypeEnum::CATEGORY,
             name: $category->name,
             image: CategoryMetaData::getImage($category),
             excerpt: $category->description
@@ -118,7 +119,7 @@ class CommonItem
     {
         return [
             'id' => $this->id,
-            'type' => $this->type,
+            'type' => $this->type->value,
             'name' => $this->name,
             'image' => $this->image,
             'icon' => $this->icon,
