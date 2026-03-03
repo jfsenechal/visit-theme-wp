@@ -4023,6 +4023,11 @@
       color: var(--color-gray-300);
     }
   }
+  .\[\&_a\]\:underline {
+    & a {
+      text-decoration-line: underline;
+    }
+  }
   .\[\&_a\:hover\]\:text-white {
     & a:hover {
       color: var(--color-white);

@@ -37,7 +37,9 @@ $excerpt = $category->description;
 if ($locale !== 'fr' && ($language = LanguageEnum::tryFrom($locale))) {
     $categoryName = $translator->translate($categoryName, $language);
     $returnName = $returnName ? $translator->translate($returnName, $language) : null;
-    $excerpt = $translator->translate($category->description, $language);
+    if ($excerpt) {
+        $excerpt = $translator->translate($category->description, $language);
+    }
     foreach ($items as $item) {
         if ($item->type === CommonItemTypeEnum::POST) {
             $item->name = $translator->translate($item->name, $language);
@@ -65,7 +67,9 @@ $image = CategoryMetaData::getImage($category);
 $video = CategoryMetaData::getVideo($category);
 $icon = CategoryMetaData::getIcon($category);
 $color = CategoryMetaData::getColor($category);
-
+if ($excerpt) {
+  $excerpt=   make_clickable($excerpt);
+}
 Twig::renderPage(
     '@Visit/category.html.twig',
     [
