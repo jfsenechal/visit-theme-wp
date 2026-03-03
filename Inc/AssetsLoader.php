@@ -11,7 +11,9 @@ class AssetsLoader
 
     public function __construct()
     {
-        add_action('wp_enqueue_scripts', [$this,'remove_unnecessary_core_styles'], 9999);
+        //Renvoyer la valeur « true » charge les ressources de base du bloc uniquement lorsqu’elles sont affichées.
+       // add_filter('should_load_separate_core_block_assets', '__return_true');
+        add_action('wp_enqueue_scripts', [$this, 'remove_unnecessary_core_styles'], 9999);
         add_action('wp_enqueue_scripts', fn() => $this->mainAssets());
         add_filter('script_loader_tag', [$this, 'add_defer_attribute'], 10, 2);
     }
@@ -92,6 +94,10 @@ class AssetsLoader
         // Remove Duotone SVG filters (Large inline SVG definitions for image effects)
         remove_action('wp_body_open', 'wp_global_styles_render_svg_filters');
 
+        // Charge le CSS de base des blocs Gutenberg (indispensable pour la structure)
+        //wp_enqueue_style('wp-block-library');
+        // OPTIONNEL : Supprime le CSS inline de Global Styles (duotone, etc.) si vous n'en voulez pas
+        // wp_dequeue_style( 'global-styles' );
         // DO NOT remove 'wp-block-library' (Needed for basic block structure/layouts)
         // DO NOT remove 'global-styles' (Needed for colors, typography, and layout settings)
     }

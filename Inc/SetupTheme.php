@@ -6,11 +6,11 @@ use VisitMarche\ThemeWp\Repository\TranslationRepository;
 
 class SetupTheme
 {
- public function __construct()
+    public function __construct()
     {
-        add_action('after_setup_theme', fn () => $this->setup());
-        add_action('after_switch_theme', fn () => TranslationRepository::createTable());
-        add_action('admin_init', fn () => $this->maybeCreateTranslationTable());
+        add_action('after_setup_theme', fn() => $this->setup());
+        add_action('after_switch_theme', fn() => TranslationRepository::createTable());
+        add_action('admin_init', fn() => $this->maybeCreateTranslationTable());
     }
 
     private function maybeCreateTranslationTable(): void
@@ -53,7 +53,7 @@ class SetupTheme
         // This theme uses wp_nav_menu() in one location.
         register_nav_menus(
             [
-               'menu-top' => esc_html__('Menu top', 'marchebe'),
+                'menu-top' => esc_html__('Menu top', 'marchebe'),
             ]
         );
 
@@ -79,6 +79,8 @@ class SetupTheme
         add_theme_support('customize-selective-refresh-widgets');
 
         // Add support for Block Styles.
+        // Charge les styles par défaut du coeur de WP pour les blocs (couleurs, espacements)
+        // À n'utiliser que si vous voulez le look "standard" de WP en base
         add_theme_support('wp-block-styles');
 
         // Add support for full and wide align images.
