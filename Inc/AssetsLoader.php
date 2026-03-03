@@ -12,7 +12,7 @@ class AssetsLoader
     public function __construct()
     {
         //Renvoyer la valeur « true » charge les ressources de base du bloc uniquement lorsqu’elles sont affichées.
-       // add_filter('should_load_separate_core_block_assets', '__return_true');
+        add_filter("should_load_separate_core_block_assets", "__return_true");
         add_action('wp_enqueue_scripts', [$this, 'remove_unnecessary_core_styles'], 9999);
         add_action('wp_enqueue_scripts', fn() => $this->mainAssets());
         add_filter('script_loader_tag', [$this, 'add_defer_attribute'], 10, 2);
