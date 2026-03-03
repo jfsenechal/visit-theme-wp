@@ -12,6 +12,7 @@ use VisitMarche\ThemeWp\Inc\CategoryMetaData;
 use VisitMarche\ThemeWp\Inc\LanguageRouter;
 use VisitMarche\ThemeWp\Inc\OpenGraph;
 use VisitMarche\ThemeWp\Inc\RouterPivot;
+use VisitMarche\ThemeWp\Inc\SecurityConfig;
 use VisitMarche\ThemeWp\Inc\Seo;
 use VisitMarche\ThemeWp\Inc\SetupTheme;
 use VisitMarche\ThemeWp\Lib\Frankenphp;
@@ -42,7 +43,7 @@ new AssetsLoader();
 /**
  * Un peu de sécurité
  */
-//new SecurityConfig();
+new SecurityConfig();
 /**
  * Détection de la langue via le préfixe URL
  */
