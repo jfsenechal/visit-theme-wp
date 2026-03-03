@@ -2,6 +2,9 @@
 @import "tailwindcss";
 @import './npx.css';
 
+@import "../../../../../wp-includes/blocks/list/style.min.css";
+@import "../../../../../wp-includes/blocks/media-text/style.min.css";
+
 @plugin "@tailwindcss/forms";
 @plugin "@tailwindcss/typography";
 
